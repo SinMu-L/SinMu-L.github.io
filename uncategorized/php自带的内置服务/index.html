@@ -30,23 +30,30 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"sinmu-l.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta property="og:type" content="website">
-<meta property="og:title" content="夕目的博客">
-<meta property="og:url" content="https://sinmu-l.github.io/archives/2021/index.html">
+<meta name="description" content="最近研究读取文件内容的时候遇到这么一个命令，让我对php刮目相看php -S localhost:8000 .&#x2F;index.php 我还好奇，为什么这个命令可以生效，以为我记得php需要依赖第三方服务来运行web服务 但是好奇心的驱使下我还是运行了一下，果然给了我一个web服务，我只需要访问 http:&#x2F;&#x2F;localhost:8000 就能以web服务的形式访问这个index.php 文件 我就好">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php自带的内置服务">
+<meta property="og:url" content="https://sinmu-l.github.io/uncategorized/php%E8%87%AA%E5%B8%A6%E7%9A%84%E5%86%85%E7%BD%AE%E6%9C%8D%E5%8A%A1/index.html">
 <meta property="og:site_name" content="夕目的博客">
+<meta property="og:description" content="最近研究读取文件内容的时候遇到这么一个命令，让我对php刮目相看php -S localhost:8000 .&#x2F;index.php 我还好奇，为什么这个命令可以生效，以为我记得php需要依赖第三方服务来运行web服务 但是好奇心的驱使下我还是运行了一下，果然给了我一个web服务，我只需要访问 http:&#x2F;&#x2F;localhost:8000 就能以web服务的形式访问这个index.php 文件 我就好">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sinmu-l.github.io/source/images/-S%E5%8F%82%E6%95%B0.png">
+<meta property="og:image" content="https://sinmu-l.github.io/source/images/%E8%9B%AE%E8%88%92%E6%9C%8D%E7%9A%84%E5%91%BD%E4%BB%A4.jpg">
+<meta property="article:published_time" content="2021-11-01T08:43:58.000Z">
+<meta property="article:modified_time" content="2021-11-01T08:57:35.079Z">
 <meta property="article:author" content="sinmu">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sinmu-l.github.io/source/images/-S%E5%8F%82%E6%95%B0.png">
 
 
-<link rel="canonical" href="https://sinmu-l.github.io/archives/2021/">
+<link rel="canonical" href="https://sinmu-l.github.io/uncategorized/php%E8%87%AA%E5%B8%A6%E7%9A%84%E5%86%85%E7%BD%AE%E6%9C%8D%E5%8A%A1/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"archives/2021/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://sinmu-l.github.io/uncategorized/php%E8%87%AA%E5%B8%A6%E7%9A%84%E5%86%85%E7%BD%AE%E6%9C%8D%E5%8A%A1/","path":"uncategorized/php自带的内置服务/","title":"php自带的内置服务"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | 夕目的博客</title>
+<title>php自带的内置服务 | 夕目的博客</title>
   
 
 
@@ -159,129 +166,103 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 5 篇日志。 继续努力。</span>
-      </div>
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://sinmu-l.github.io/uncategorized/php%E8%87%AA%E5%B8%A6%E7%9A%84%E5%86%85%E7%BD%AE%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/39164106?v=4">
+      <meta itemprop="name" content="sinmu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夕目的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          php自带的内置服务
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+
+      <time title="创建时间：2021-11-01 16:43:58 / 修改时间：16:57:35" itemprop="dateCreated datePublished" datetime="2021-11-01T16:43:58+08:00">2021-11-01</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>最近研究读取文件内容的时候遇到这么一个命令，让我对php刮目相看<br><code>php -S localhost:8000 ./index.php</code></p>
+<p>我还好奇，为什么这个命令可以生效，以为我记得php需要依赖第三方服务来运行web服务</p>
+<p>但是好奇心的驱使下我还是运行了一下，果然给了我一个web服务，我只需要访问 <code>http://localhost:8000</code> 就能以web服务的形式访问这个<code>index.php</code> 文件</p>
+<p>我就好奇这些命令在哪里可以寻找到相关的说明。</p>
+<p>我第一时间就想到了官方手册，但是我直接搜索 php -S没有查询到我想要的。</p>
+<p>我突然想到这个居然是cli命令，那么说不定可以用 <code>-h</code>参数来查看</p>
+<p>然后我直接在cmd里面运行 <code>php -h</code>，嘿，果然找到了这个命令</p>
+<p><img src="/source/images/-S%E5%8F%82%E6%95%B0.png"></p>
+<p>我仔细看了一下这些介绍，我认为对我帮助比较大的命令也放在下面了<br><img src="/source/images/%E8%9B%AE%E8%88%92%E6%9C%8D%E7%9A%84%E5%91%BD%E4%BB%A4.jpg"></p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-11-01T16:43:58+08:00"
-              content="2021-11-01">
-          11-01
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/uncategorized/php%E8%87%AA%E5%B8%A6%E7%9A%84%E5%86%85%E7%BD%AE%E6%9C%8D%E5%8A%A1/" itemprop="url">
-            <span itemprop="name">php自带的内置服务</span>
-          </a>
-      </div>
+    <footer class="post-footer">
 
-      
-    </header>
+        <div>
+          
+            <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+          
+        </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/uncategorized/Hexo-next%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A1%B5%E8%AE%BE%E7%BD%AE/" rel="prev" title="Hexo next自定义主页设置">
+                  <i class="fa fa-chevron-left"></i> Hexo next自定义主页设置
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-11-01T10:51:27+08:00"
-              content="2021-11-01">
-          11-01
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/uncategorized/Hexo-next%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A1%B5%E8%AE%BE%E7%BD%AE/" itemprop="url">
-            <span itemprop="name">Hexo next自定义主页设置</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-11-01T10:21:13+08:00"
-              content="2021-11-01">
-          11-01
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/hexo/hexo-next-%E8%AE%BF%E9%97%AEcategories%E6%88%96tags%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AFCannot-GET-tags-%E6%88%96%E6%98%AFCannot-GET-categories/" itemprop="url">
-            <span itemprop="name">hexo next 访问categories或tags的时候返回的是Cannot GET /tags/ 或是Cannot GET /categories/</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-10-29T18:10:06+08:00"
-              content="2021-10-29">
-          10-29
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/php/%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/" itemprop="url">
-            <span itemprop="name">常用函数</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-10-28T17:09:52+08:00"
-              content="2021-10-28">
-          10-28
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/uncategorized/hello-world/" itemprop="url">
-            <span itemprop="name">Hello World</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
 
 </div>
   </main>
