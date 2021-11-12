@@ -37,34 +37,20 @@
 ]]></content>
   </entry>
   <entry>
-    <title>hexo next 访问categories或tags的时候返回的是Cannot GET /tags/ 或是Cannot GET /categories/</title>
-    <url>/hexo/hexo-next-%E8%AE%BF%E9%97%AEcategories%E6%88%96tags%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AFCannot-GET-tags-%E6%88%96%E6%98%AFCannot-GET-categories/</url>
-    <content><![CDATA[<p>我在搭建hexo的时候，点击右侧的菜单栏里的categories的时候，返回的信息是 Cannot GET /categories/</p>
-<p>我尝试了网络上的很多的方法<br>说是需要将主题配置文件（就是next的配置文件）的categories 要将“||”前的空格删除不然会导致菜单没法显示，但是尝试无效。</p>
-<p>解决办法如下：</p>
-<ol>
-<li>添加一个新页面 <code>hexo new page &quot;tags&quot;</code></li>
-<li>这上述命令会在 :博客路径/source/下生成一个 <code>tags</code> 的文件夹,打开文件夹下的 <code>index.md</code>,修改内容为<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">tags</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-11-01 10:11:39</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">tags</span> </span><br><span class="line"><span class="attr">layout:</span> <span class="string">tags</span> <span class="comment"># 这个可以选择性的添加</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure></li>
-<li>同理，<code>categories </code>也是同样的操作，<ol>
-<li><code>hexo new page &quot;categories&quot;</code></li>
-<li>修改 文件 <code>:博客路径/source/categories/index.md</code></li>
-<li>内容如下 <pre><code class="yml">  title: categories
-date: 2021-11-01 10:14:08
-type: categories
-layout: categories
-</code></pre>
-</li>
-</ol>
-</li>
-</ol>
+    <title>mysql5.7自带解密功能中文出现乱码</title>
+    <url>/uncategorized/mysql5-7%E8%87%AA%E5%B8%A6%E8%A7%A3%E5%AF%86%E5%8A%9F%E8%83%BD%E4%B8%AD%E6%96%87%E5%87%BA%E7%8E%B0%E4%B9%B1%E7%A0%81/</url>
+    <content><![CDATA[<p>今天研究mysql的解密的时候发现数据入库之后可以自己加密，网上搜索了一下，数据库加密方式有<a href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/encryption-functions.html">这些</a>。</p>
+<p>这里面主要时说明 <code>AES_DECRYPT()</code> 和 <code>AES_ENCRYPT()</code>两个函数的用法</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">AES_DECRYPT(str, key_str) <span class="comment">-- 使用 AES 解密</span></span><br><span class="line">AES_ENCRYPT(str, key_str) <span class="comment">-- 使用 AES 加密</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- AES_ENCRYPT()使用密钥字符串key_str *对字符串str进行加密，并返回包含加密输出的二进制字符串。 </span></span><br><span class="line"><span class="comment">-- AES_DECRYPT()使用密钥字符串_key_str 解密加密的字符串 crypt_str *并返回原始的纯文本字符串。如果任何一个函数参数均为NULL，则函数返回NULL。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>假设我需要对下面这句话进行一个加密</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">中国人不骗中国人</span><br></pre></td></tr></table></figure>
+<p>那么他的sql语句就是 <code>SELECT hex(AES_ENCRYPT(&#39;中国人不骗中国人&#39;,&#39;sinmu&#39;));</code>。<br>    1. 这里的 <code>sinmu</code> 就是我写的key_str,也就是我们代码中的密钥。<br>    2. <code>AES_ENCRYPT()</code> 就是mysql自带的加密函数<br>    3. <code>hex()</code> 是将结果转为16进制</p>
+<p>如果想要解密的话，建议使用这个sql语句：<code>SELECT cast(AES_DECRYPT(unhex(&#39;916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D&#39;),&#39;sinmu&#39;) AS CHAR);</code>。<br>    1. 同样的 <code>sinmu</code> 为密钥<br>    2. <code>916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D</code> 这个长字符串是由上面加密得到的，他是一个16进制的结果，所以我们需要用 <code>unhex()</code> 来转为字符<br>    3. <code>AES_DECRYPT</code> 是数据库自带的解密函数<br>    4. 最外层的 <code>case() </code>函数将任何类型的值转换为具有指定类型的值。目标类型可以是以下类型之一：<code>BINARY</code>，<code>CHAR</code>，<code>DATE</code>，<code>DATETIME</code>，<code>TIME</code>，<code>DECIMAL</code>，<code>SIGNED</code>，<code>UNSIGNED</code>。其语法是 <code>cast(&#39;1&#39; as UNSIGNED)</code></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> hex(AES_ENCRYPT(<span class="string">&#x27;中国人不骗中国人&#x27;</span>,<span class="string">&#x27;sinmu&#x27;</span>));</span><br><span class="line"><span class="comment">-- 916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">cast</span>(AES_DECRYPT(unhex(<span class="string">&#x27;916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D&#x27;</span>),<span class="string">&#x27;sinmu&#x27;</span>) <span class="keyword">AS</span> <span class="type">CHAR</span>);</span><br><span class="line"><span class="comment">-- 中国人不骗中国人</span></span><br></pre></td></tr></table></figure>
 ]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>Cannot GET /tags/</tag>
-        <tag>Cannot GET /categories/</tag>
+        <tag>mysql</tag>
+        <tag>mysql自带解密功能</tag>
       </tags>
   </entry>
   <entry>
@@ -98,20 +84,34 @@ layout: categories
       </tags>
   </entry>
   <entry>
-    <title>mysql5.7自带解密功能中文出现乱码</title>
-    <url>/uncategorized/mysql5-7%E8%87%AA%E5%B8%A6%E8%A7%A3%E5%AF%86%E5%8A%9F%E8%83%BD%E4%B8%AD%E6%96%87%E5%87%BA%E7%8E%B0%E4%B9%B1%E7%A0%81/</url>
-    <content><![CDATA[<p>今天研究mysql的解密的时候发现数据入库之后可以自己加密，网上搜索了一下，数据库加密方式有<a href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/encryption-functions.html">这些</a>。</p>
-<p>这里面主要时说明 <code>AES_DECRYPT()</code> 和 <code>AES_ENCRYPT()</code>两个函数的用法</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">AES_DECRYPT(str, key_str) <span class="comment">-- 使用 AES 解密</span></span><br><span class="line">AES_ENCRYPT(str, key_str) <span class="comment">-- 使用 AES 加密</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- AES_ENCRYPT()使用密钥字符串key_str *对字符串str进行加密，并返回包含加密输出的二进制字符串。 </span></span><br><span class="line"><span class="comment">-- AES_DECRYPT()使用密钥字符串_key_str 解密加密的字符串 crypt_str *并返回原始的纯文本字符串。如果任何一个函数参数均为NULL，则函数返回NULL。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>假设我需要对下面这句话进行一个加密</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">中国人不骗中国人</span><br></pre></td></tr></table></figure>
-<p>那么他的sql语句就是 <code>SELECT hex(AES_ENCRYPT(&#39;中国人不骗中国人&#39;,&#39;sinmu&#39;));</code>。<br>    1. 这里的 <code>sinmu</code> 就是我写的key_str,也就是我们代码中的密钥。<br>    2. <code>AES_ENCRYPT()</code> 就是mysql自带的加密函数<br>    3. <code>hex()</code> 是将结果转为16进制</p>
-<p>如果想要解密的话，建议使用这个sql语句：<code>SELECT cast(AES_DECRYPT(unhex(&#39;916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D&#39;),&#39;sinmu&#39;) AS CHAR);</code>。<br>    1. 同样的 <code>sinmu</code> 为密钥<br>    2. <code>916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D</code> 这个长字符串是由上面加密得到的，他是一个16进制的结果，所以我们需要用 <code>unhex()</code> 来转为字符<br>    3. <code>AES_DECRYPT</code> 是数据库自带的解密函数<br>    4. 最外层的 <code>case() </code>函数将任何类型的值转换为具有指定类型的值。目标类型可以是以下类型之一：<code>BINARY</code>，<code>CHAR</code>，<code>DATE</code>，<code>DATETIME</code>，<code>TIME</code>，<code>DECIMAL</code>，<code>SIGNED</code>，<code>UNSIGNED</code>。其语法是 <code>cast(&#39;1&#39; as UNSIGNED)</code></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> hex(AES_ENCRYPT(<span class="string">&#x27;中国人不骗中国人&#x27;</span>,<span class="string">&#x27;sinmu&#x27;</span>));</span><br><span class="line"><span class="comment">-- 916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">cast</span>(AES_DECRYPT(unhex(<span class="string">&#x27;916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D&#x27;</span>),<span class="string">&#x27;sinmu&#x27;</span>) <span class="keyword">AS</span> <span class="type">CHAR</span>);</span><br><span class="line"><span class="comment">-- 中国人不骗中国人</span></span><br></pre></td></tr></table></figure>
+    <title>hexo next 访问categories或tags的时候返回的是Cannot GET /tags/ 或是Cannot GET /categories/</title>
+    <url>/hexo/hexo-next-%E8%AE%BF%E9%97%AEcategories%E6%88%96tags%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E7%9A%84%E6%98%AFCannot-GET-tags-%E6%88%96%E6%98%AFCannot-GET-categories/</url>
+    <content><![CDATA[<p>我在搭建hexo的时候，点击右侧的菜单栏里的categories的时候，返回的信息是 Cannot GET /categories/</p>
+<p>我尝试了网络上的很多的方法<br>说是需要将主题配置文件（就是next的配置文件）的categories 要将“||”前的空格删除不然会导致菜单没法显示，但是尝试无效。</p>
+<p>解决办法如下：</p>
+<ol>
+<li>添加一个新页面 <code>hexo new page &quot;tags&quot;</code></li>
+<li>这上述命令会在 :博客路径/source/下生成一个 <code>tags</code> 的文件夹,打开文件夹下的 <code>index.md</code>,修改内容为<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">tags</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-11-01 10:11:39</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">tags</span> </span><br><span class="line"><span class="attr">layout:</span> <span class="string">tags</span> <span class="comment"># 这个可以选择性的添加</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure></li>
+<li>同理，<code>categories </code>也是同样的操作，<ol>
+<li><code>hexo new page &quot;categories&quot;</code></li>
+<li>修改 文件 <code>:博客路径/source/categories/index.md</code></li>
+<li>内容如下 <pre><code class="yml">  title: categories
+date: 2021-11-01 10:14:08
+type: categories
+layout: categories
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
 ]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
       <tags>
-        <tag>mysql</tag>
-        <tag>mysql自带解密功能</tag>
+        <tag>hexo</tag>
+        <tag>Cannot GET /tags/</tag>
+        <tag>Cannot GET /categories/</tag>
       </tags>
   </entry>
   <entry>
