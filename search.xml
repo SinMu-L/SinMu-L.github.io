@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hello World</title>
+    <url>/uncategorized/366f255d365a/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Hexo next自定义主页设置</title>
     <url>/hexo/b2148e4e92ef/</url>
     <content><![CDATA[<p>我发现网络上大部分此类的个人博客，首页（<a href="http://xxxx.github.io)/">http://xxxx.github.io）</a> 或者home点进去都是文章详情或者文字列表，而我则希望主页进去以及点击home之后。显示的内容是对自己的介绍，而不是我的博文列表。</p>
@@ -20,24 +38,6 @@
         <tag>hexo next</tag>
         <tag>hexo</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/uncategorized/366f255d365a/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>hexo next 访问categories或tags的时候返回的是Cannot GET /tags/ 或是Cannot GET /categories/</title>
@@ -71,32 +71,6 @@ layout: categories
       </tags>
   </entry>
   <entry>
-    <title>next8设置首页背景图片</title>
-    <url>/hexo/dac2b4f96412/</url>
-    <content><![CDATA[<p>为了设置这个背景图片，花了我好久时间。版本问题还是比较难受的，所有我打算把版本声明一下，避免小伙伴看到我这篇文章也是个坑货</p>
-<p>环境：<br>hexo next 8.8</p>
-<p>由于默认的背景是纯白色，我想设置为自己喜欢的图片作为背景。</p>
-<p>进入 next 下的 source/css 目录，找得到 <code>main.styl</code> 这个文件，直接在最下方添加样式即可。这里有个坑，如果你直接把样式加入的话，会导致整个博客的样式被你自定义的样式覆盖掉，因此最好这样做：</p>
-<ol>
-<li><p>进入博客首页，打开开发者工具，定位到整个页面。<br><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/1.png"></p>
-</li>
-<li><p>复制样式<br><img src="//source/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/2.png"></p>
-</li>
-<li><p>将这个样式粘贴到<code>main.styl</code>下，也就是这个路径<code>博客路径/themes/next/source/css/main.styl</code>，内容如下</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="comment">/* 这里写你的图片路径，图片要放在 博客路径/themes/next/source/images 下 */</span></span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">/images/background.jpg</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">var</span>(--text-color);</span><br><span class="line">    <span class="attribute">font-family</span>: Lato,<span class="string">&#x27;PingFang SC&#x27;</span>,<span class="string">&#x27;Microsoft YaHei&#x27;</span>,sans-serif;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">2</span>;</span><br><span class="line">    <span class="attribute">min-height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">transition</span>: padding .<span class="number">2s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">background-attachment</span>: fixed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/3.png"></p>
-</li>
-</ol>
-<p>按照上述操作就可以设置首页的背景图片了</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>mysql5.7自带解密功能中文出现乱码</title>
     <url>/mysql/4ebdefb6b408/</url>
     <content><![CDATA[<p>今天研究mysql的解密的时候发现数据入库之后可以自己加密，网上搜索了一下，数据库加密方式有<a href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/encryption-functions.html">这些</a>。</p>
@@ -115,6 +89,32 @@ layout: categories
       <tags>
         <tag>mysql</tag>
         <tag>mysql自带解密功能</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next8设置首页背景图片</title>
+    <url>/hexo/dac2b4f96412/</url>
+    <content><![CDATA[<p>为了设置这个背景图片，花了我好久时间。版本问题还是比较难受的，所有我打算把版本声明一下，避免小伙伴看到我这篇文章也是个坑货</p>
+<p>环境：<br>hexo next 8.8</p>
+<p>由于默认的背景是纯白色，我想设置为自己喜欢的图片作为背景。</p>
+<p>进入 next 下的 source/css 目录，找得到 <code>main.styl</code> 这个文件，直接在最下方添加样式即可。这里有个坑，如果你直接把样式加入的话，会导致整个博客的样式被你自定义的样式覆盖掉，因此最好这样做：</p>
+<ol>
+<li><p>进入博客首页，打开开发者工具，定位到整个页面。<br><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/1.png"></p>
+</li>
+<li><p>复制样式<br><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/2.png"></p>
+</li>
+<li><p>将这个样式粘贴到<code>main.styl</code>下，也就是这个路径<code>博客路径/themes/next/source/css/main.styl</code>，内容如下</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="comment">/* 这里写你的图片路径，图片要放在 博客路径/themes/next/source/images 下 */</span></span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">/images/background.jpg</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">var</span>(--text-color);</span><br><span class="line">    <span class="attribute">font-family</span>: Lato,<span class="string">&#x27;PingFang SC&#x27;</span>,<span class="string">&#x27;Microsoft YaHei&#x27;</span>,sans-serif;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">2</span>;</span><br><span class="line">    <span class="attribute">min-height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">transition</span>: padding .<span class="number">2s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">background-attachment</span>: fixed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/3.png"></p>
+</li>
+</ol>
+<p>按照上述操作就可以设置首页的背景图片了</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -154,6 +154,21 @@ layout: categories
       </tags>
   </entry>
   <entry>
+    <title>常用函数</title>
+    <url>/php/9b98c5ce80bf/</url>
+    <content><![CDATA[<p>PHP实现</p>
+<h3 id="获取网址相关"><a href="#获取网址相关" class="headerlink" title="获取网址相关"></a>获取网址相关</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#测试网址:     http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取域名或主机地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#localhost</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网页地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#/blog/testurl.php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网址参数 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&quot;QUERY_STRING&quot;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取用户代理 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//获取完整的url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_URI&#x27;</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&#x27;?&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>];</span><br><span class="line"><span class="comment">#http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//包含端口号的完整url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="string">&#x27;:&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&quot;SERVER_PORT&quot;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="comment">#http://localhost:80/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//只取路径</span></span><br><span class="line"><span class="variable">$url</span>=<span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="keyword">echo</span> dirname(<span class="variable">$url</span>);</span><br><span class="line"><span class="comment">#http://localhost/blog</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="stripos-搜索字符串再另一个字符串中的位置"><a href="#stripos-搜索字符串再另一个字符串中的位置" class="headerlink" title="stripos 搜索字符串再另一个字符串中的位置"></a>stripos 搜索字符串再另一个字符串中的位置</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * stripos(string,find,start)</span></span><br><span class="line"><span class="comment"> *      string	必需。规定被搜索的字符串。</span></span><br><span class="line"><span class="comment"> *      find	必需。规定要查找的字符。</span></span><br><span class="line"><span class="comment"> *      start	可选。规定开始搜索的位置。</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+        <tag>获取网址</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php自带的内置服务</title>
     <url>/php/6b1bebde1d85/</url>
     <content><![CDATA[<p>最近研究读取文件内容的时候遇到这么一个命令，让我对php刮目相看<br><code>php -S localhost:8000 ./index.php</code></p>
@@ -171,21 +186,6 @@ layout: categories
       </categories>
       <tags>
         <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用函数</title>
-    <url>/php/9b98c5ce80bf/</url>
-    <content><![CDATA[<p>PHP实现</p>
-<h3 id="获取网址相关"><a href="#获取网址相关" class="headerlink" title="获取网址相关"></a>获取网址相关</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#测试网址:     http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取域名或主机地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#localhost</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网页地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#/blog/testurl.php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网址参数 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&quot;QUERY_STRING&quot;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取用户代理 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//获取完整的url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_URI&#x27;</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&#x27;?&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>];</span><br><span class="line"><span class="comment">#http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//包含端口号的完整url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="string">&#x27;:&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&quot;SERVER_PORT&quot;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="comment">#http://localhost:80/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//只取路径</span></span><br><span class="line"><span class="variable">$url</span>=<span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="keyword">echo</span> dirname(<span class="variable">$url</span>);</span><br><span class="line"><span class="comment">#http://localhost/blog</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="stripos-搜索字符串再另一个字符串中的位置"><a href="#stripos-搜索字符串再另一个字符串中的位置" class="headerlink" title="stripos 搜索字符串再另一个字符串中的位置"></a>stripos 搜索字符串再另一个字符串中的位置</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * stripos(string,find,start)</span></span><br><span class="line"><span class="comment"> *      string	必需。规定被搜索的字符串。</span></span><br><span class="line"><span class="comment"> *      find	必需。规定要查找的字符。</span></span><br><span class="line"><span class="comment"> *      start	可选。规定开始搜索的位置。</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-        <tag>获取网址</tag>
       </tags>
   </entry>
 </search>
