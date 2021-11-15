@@ -22,6 +22,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/uncategorized/366f255d365a/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</title>
     <url>/Laravel/67d7c6442fdf/</url>
     <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
@@ -39,24 +57,6 @@
         <tag>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</tag>
         <tag>Laravel8 执行命令 php artisan migrate 报错</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/uncategorized/366f255d365a/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>mysql5.7自带解密功能中文出现乱码</title>
@@ -77,32 +77,6 @@
       <tags>
         <tag>mysql</tag>
         <tag>mysql自带解密功能</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>next8设置首页背景图片</title>
-    <url>/hexo/dac2b4f96412/</url>
-    <content><![CDATA[<p>为了设置这个背景图片，花了我好久时间。版本问题还是比较难受的，所有我打算把版本声明一下，避免小伙伴看到我这篇文章也是个坑货</p>
-<p>环境：<br>hexo next 8.8</p>
-<p>由于默认的背景是纯白色，我想设置为自己喜欢的图片作为背景。</p>
-<p>进入 next 下的 source/css 目录，找得到 <code>main.styl</code> 这个文件，直接在最下方添加样式即可。这里有个坑，如果你直接把样式加入的话，会导致整个博客的样式被你自定义的样式覆盖掉，因此最好这样做：</p>
-<ol>
-<li><p>进入博客首页，打开开发者工具，定位到整个页面。<br><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/1.png"></p>
-</li>
-<li><p>复制样式<br><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/2.png"></p>
-</li>
-<li><p>将这个样式粘贴到<code>main.styl</code>下，也就是这个路径<code>博客路径/themes/next/source/css/main.styl</code>，内容如下</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="comment">/* 这里写你的图片路径，图片要放在 博客路径/themes/next/source/images 下 */</span></span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">/images/background.jpg</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">var</span>(--text-color);</span><br><span class="line">    <span class="attribute">font-family</span>: Lato,<span class="string">&#x27;PingFang SC&#x27;</span>,<span class="string">&#x27;Microsoft YaHei&#x27;</span>,sans-serif;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">2</span>;</span><br><span class="line">    <span class="attribute">min-height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">transition</span>: padding .<span class="number">2s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">background-attachment</span>: fixed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/3.png"></p>
-</li>
-</ol>
-<p>按照上述操作就可以设置首页的背景图片了</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -134,6 +108,32 @@ layout: categories
         <tag>hexo</tag>
         <tag>Cannot GET /tags/</tag>
         <tag>Cannot GET /categories/</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>next8设置首页背景图片</title>
+    <url>/hexo/dac2b4f96412/</url>
+    <content><![CDATA[<p>为了设置这个背景图片，花了我好久时间。版本问题还是比较难受的，所有我打算把版本声明一下，避免小伙伴看到我这篇文章也是个坑货</p>
+<p>环境：<br>hexo next 8.8</p>
+<p>由于默认的背景是纯白色，我想设置为自己喜欢的图片作为背景。</p>
+<p>进入 next 下的 source/css 目录，找得到 <code>main.styl</code> 这个文件，直接在最下方添加样式即可。这里有个坑，如果你直接把样式加入的话，会导致整个博客的样式被你自定义的样式覆盖掉，因此最好这样做：</p>
+<ol>
+<li><p>进入博客首页，打开开发者工具，定位到整个页面。<br><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/1.png"></p>
+</li>
+<li><p>复制样式<br><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/2.png"></p>
+</li>
+<li><p>将这个样式粘贴到<code>main.styl</code>下，也就是这个路径<code>博客路径/themes/next/source/css/main.styl</code>，内容如下</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="comment">/* 这里写你的图片路径，图片要放在 博客路径/themes/next/source/images 下 */</span></span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(<span class="string">/images/background.jpg</span>);</span><br><span class="line">    <span class="attribute">color</span>: <span class="built_in">var</span>(--text-color);</span><br><span class="line">    <span class="attribute">font-family</span>: Lato,<span class="string">&#x27;PingFang SC&#x27;</span>,<span class="string">&#x27;Microsoft YaHei&#x27;</span>,sans-serif;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">2</span>;</span><br><span class="line">    <span class="attribute">min-height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">transition</span>: padding .<span class="number">2s</span> ease-in-out;</span><br><span class="line">    <span class="attribute">background-attachment</span>: fixed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/next8%E8%AE%BE%E7%BD%AE%E9%A6%96%E9%A1%B5%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87/3.png"></p>
+</li>
+</ol>
+<p>按照上述操作就可以设置首页的背景图片了</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
