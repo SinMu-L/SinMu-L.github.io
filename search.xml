@@ -1,46 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hexo next自定义主页设置</title>
-    <url>/hexo/b2148e4e92ef/</url>
-    <content><![CDATA[<p>我发现网络上大部分此类的个人博客，首页（<a href="http://xxxx.github.io)/">http://xxxx.github.io）</a> 或者home点进去都是文章详情或者文字列表，而我则希望主页进去以及点击home之后。显示的内容是对自己的介绍，而不是我的博文列表。</p>
-<p>先访问hexo的配置文件 <code>/_config.yml</code>，搜索’index_generator’,修改如下</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">index_generator:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">&#x27;/home/&#x27;</span> <span class="comment"># 这里我将首页指向了 home这个路径</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">order_by:</span> <span class="string">-date</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>但是我选择实际上没有这个路径，因为 <a href="http://xxxx.github.io/xxx">http://xxxx.github.io/xxx</a> 实际上访问的路径我也不知道是那个文件，当时我只要在新建一个page，保持和tags在同一个目录，那么一定可以访问到。</p>
-<p>执行命令 <code>hexo new page &quot;home&quot; </code>,然后到/source下面就可以看到一个home文件夹，下面只有一个index.md。<br>将 front matter 修改</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">home</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-11-01 10:43:19</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">home</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">index.html</span> <span class="comment"># 经过测试，这个选项是必须加上的</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="meta"></span></span><br></pre></td></tr></table></figure>
-
-<p>感谢大佬的文章，<a href="https://zhuanlan.zhihu.com/p/138500516">思路源</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo next</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</title>
-    <url>/Laravel/67d7c6442fdf/</url>
-    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
-<li>Laravel8</li>
-<li>Vagrant 2.2.18</li>
-</ul>
-<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>我在 vagrant环境下执行 <code>php artisan migrate</code>后报错，报错信息如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Illuminate\Database\QueryException</span><br><span class="line"></span><br><span class="line"> SQLSTATE[42S01]: Base table or view already exists: </span><br><span class="line"> 1050 Table &#x27;statuses&#x27; already exists (SQL: create table `statuses` (`id` int unsigned not null auto_increment primary key, `content` text not null, </span><br><span class="line"> `user_id` int not null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate &#x27;utf8mb4_unicode_ci&#x27;)</span><br></pre></td></tr></table></figure>
-<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>提示我这个数据库已经存在了，我不得通过 <code>php artisan migrate:fresh</code> 让我的数据库重新来一遍，这种情况很头疼，因为这个命令会将我数据库原有的数据全部清除掉，至少我暂时没有找到保留原数据的情况下进行迁移。</p>
-]]></content>
-      <categories>
-        <category>Laravel</category>
-      </categories>
-      <tags>
-        <tag>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</tag>
-        <tag>Laravel8 执行命令 php artisan migrate 报错</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/uncategorized/366f255d365a/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -87,6 +47,46 @@ layout: categories
         <tag>hexo</tag>
         <tag>Cannot GET /tags/</tag>
         <tag>Cannot GET /categories/</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</title>
+    <url>/Laravel/67d7c6442fdf/</url>
+    <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
+<li>Laravel8</li>
+<li>Vagrant 2.2.18</li>
+</ul>
+<h2 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h2><p>我在 vagrant环境下执行 <code>php artisan migrate</code>后报错，报错信息如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Illuminate\Database\QueryException</span><br><span class="line"></span><br><span class="line"> SQLSTATE[42S01]: Base table or view already exists: </span><br><span class="line"> 1050 Table &#x27;statuses&#x27; already exists (SQL: create table `statuses` (`id` int unsigned not null auto_increment primary key, `content` text not null, </span><br><span class="line"> `user_id` int not null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate &#x27;utf8mb4_unicode_ci&#x27;)</span><br></pre></td></tr></table></figure>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>提示我这个数据库已经存在了，我不得通过 <code>php artisan migrate:fresh</code> 让我的数据库重新来一遍，这种情况很头疼，因为这个命令会将我数据库原有的数据全部清除掉，至少我暂时没有找到保留原数据的情况下进行迁移。</p>
+]]></content>
+      <categories>
+        <category>Laravel</category>
+      </categories>
+      <tags>
+        <tag>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</tag>
+        <tag>Laravel8 执行命令 php artisan migrate 报错</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo next自定义主页设置</title>
+    <url>/hexo/b2148e4e92ef/</url>
+    <content><![CDATA[<p>我发现网络上大部分此类的个人博客，首页（<a href="http://xxxx.github.io)/">http://xxxx.github.io）</a> 或者home点进去都是文章详情或者文字列表，而我则希望主页进去以及点击home之后。显示的内容是对自己的介绍，而不是我的博文列表。</p>
+<p>先访问hexo的配置文件 <code>/_config.yml</code>，搜索’index_generator’,修改如下</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">index_generator:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">&#x27;/home/&#x27;</span> <span class="comment"># 这里我将首页指向了 home这个路径</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">order_by:</span> <span class="string">-date</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>但是我选择实际上没有这个路径，因为 <a href="http://xxxx.github.io/xxx">http://xxxx.github.io/xxx</a> 实际上访问的路径我也不知道是那个文件，当时我只要在新建一个page，保持和tags在同一个目录，那么一定可以访问到。</p>
+<p>执行命令 <code>hexo new page &quot;home&quot; </code>,然后到/source下面就可以看到一个home文件夹，下面只有一个index.md。<br>将 front matter 修改</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">home</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-11-01 10:43:19</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">home</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">index.html</span> <span class="comment"># 经过测试，这个选项是必须加上的</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="meta"></span></span><br></pre></td></tr></table></figure>
+
+<p>感谢大佬的文章，<a href="https://zhuanlan.zhihu.com/p/138500516">思路源</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>hexo next</tag>
       </tags>
   </entry>
   <entry>
@@ -137,20 +137,6 @@ layout: categories
       </tags>
   </entry>
   <entry>
-    <title>php artisan migrate     Illuminate\Database\QueryException</title>
-    <url>/Laravel/8fc673575a6d/</url>
-    <content><![CDATA[<p>Laravel8<br>mysql8</p>
-<p>在做数据库迁移的时候，执行命令 <code>php artisan migrate </code></p>
-<p>我以为是在本地执行，结果一直报上面这个错误。我就很奇怪，结果发现需要在Homestead虚拟机里面执行，我吐了</p>
-]]></content>
-      <categories>
-        <category>Laravel</category>
-      </categories>
-      <tags>
-        <tag>Laravel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>phpstudy8.1.3设置localhost nginx 显示目录结构</title>
     <url>/phpstudy/cda39ddaa3d7/</url>
     <content><![CDATA[<p>我最近由于某些原因需要将 localhost 下的目录结构显示出来，但是我用的集成环境 phpstudy8.1.3 ，使用的服务是 nginx ，访问 localhost 的时候就给我提示这个</p>
@@ -170,6 +156,35 @@ layout: categories
         <tag>phpstudy8.1.3</tag>
         <tag>nginx</tag>
         <tag>显示目录结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用函数</title>
+    <url>/php/9b98c5ce80bf/</url>
+    <content><![CDATA[<p>PHP实现</p>
+<h3 id="获取网址相关"><a href="#获取网址相关" class="headerlink" title="获取网址相关"></a>获取网址相关</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#测试网址:     http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取域名或主机地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#localhost</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网页地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#/blog/testurl.php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网址参数 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&quot;QUERY_STRING&quot;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取用户代理 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//获取完整的url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_URI&#x27;</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&#x27;?&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>];</span><br><span class="line"><span class="comment">#http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//包含端口号的完整url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="string">&#x27;:&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&quot;SERVER_PORT&quot;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="comment">#http://localhost:80/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//只取路径</span></span><br><span class="line"><span class="variable">$url</span>=<span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="keyword">echo</span> dirname(<span class="variable">$url</span>);</span><br><span class="line"><span class="comment">#http://localhost/blog</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="stripos-搜索字符串再另一个字符串中的位置"><a href="#stripos-搜索字符串再另一个字符串中的位置" class="headerlink" title="stripos 搜索字符串再另一个字符串中的位置"></a>stripos 搜索字符串再另一个字符串中的位置</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * stripos(string,find,start)</span></span><br><span class="line"><span class="comment"> *      string	必需。规定被搜索的字符串。</span></span><br><span class="line"><span class="comment"> *      find	必需。规定要查找的字符。</span></span><br><span class="line"><span class="comment"> *      start	可选。规定开始搜索的位置。</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+        <tag>获取网址</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php artisan migrate     Illuminate\Database\QueryException</title>
+    <url>/Laravel/8fc673575a6d/</url>
+    <content><![CDATA[<p>Laravel8<br>mysql8</p>
+<p>在做数据库迁移的时候，执行命令 <code>php artisan migrate </code></p>
+<p>我以为是在本地执行，结果一直报上面这个错误。我就很奇怪，结果发现需要在Homestead虚拟机里面执行，我吐了</p>
+]]></content>
+      <categories>
+        <category>Laravel</category>
+      </categories>
+      <tags>
+        <tag>Laravel</tag>
       </tags>
   </entry>
   <entry>
@@ -230,21 +245,6 @@ layout: categories
       <tags>
         <tag>mysql</tag>
         <tag>truncate</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常用函数</title>
-    <url>/php/9b98c5ce80bf/</url>
-    <content><![CDATA[<p>PHP实现</p>
-<h3 id="获取网址相关"><a href="#获取网址相关" class="headerlink" title="获取网址相关"></a>获取网址相关</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#测试网址:     http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取域名或主机地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#localhost</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网页地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#/blog/testurl.php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网址参数 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&quot;QUERY_STRING&quot;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取用户代理 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//获取完整的url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_URI&#x27;</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&#x27;?&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>];</span><br><span class="line"><span class="comment">#http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//包含端口号的完整url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="string">&#x27;:&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&quot;SERVER_PORT&quot;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="comment">#http://localhost:80/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//只取路径</span></span><br><span class="line"><span class="variable">$url</span>=<span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="keyword">echo</span> dirname(<span class="variable">$url</span>);</span><br><span class="line"><span class="comment">#http://localhost/blog</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="stripos-搜索字符串再另一个字符串中的位置"><a href="#stripos-搜索字符串再另一个字符串中的位置" class="headerlink" title="stripos 搜索字符串再另一个字符串中的位置"></a>stripos 搜索字符串再另一个字符串中的位置</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * stripos(string,find,start)</span></span><br><span class="line"><span class="comment"> *      string	必需。规定被搜索的字符串。</span></span><br><span class="line"><span class="comment"> *      find	必需。规定要查找的字符。</span></span><br><span class="line"><span class="comment"> *      start	可选。规定开始搜索的位置。</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-        <tag>获取网址</tag>
       </tags>
   </entry>
 </search>
