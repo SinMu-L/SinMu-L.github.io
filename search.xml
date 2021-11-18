@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hexo next自定义主页设置</title>
+    <url>/hexo/b2148e4e92ef/</url>
+    <content><![CDATA[<p>我发现网络上大部分此类的个人博客，首页（<a href="http://xxxx.github.io)/">http://xxxx.github.io）</a> 或者home点进去都是文章详情或者文字列表，而我则希望主页进去以及点击home之后。显示的内容是对自己的介绍，而不是我的博文列表。</p>
+<p>先访问hexo的配置文件 <code>/_config.yml</code>，搜索’index_generator’,修改如下</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">index_generator:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">&#x27;/home/&#x27;</span> <span class="comment"># 这里我将首页指向了 home这个路径</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">order_by:</span> <span class="string">-date</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>但是我选择实际上没有这个路径，因为 <a href="http://xxxx.github.io/xxx">http://xxxx.github.io/xxx</a> 实际上访问的路径我也不知道是那个文件，当时我只要在新建一个page，保持和tags在同一个目录，那么一定可以访问到。</p>
+<p>执行命令 <code>hexo new page &quot;home&quot; </code>,然后到/source下面就可以看到一个home文件夹，下面只有一个index.md。<br>将 front matter 修改</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">home</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-11-01 10:43:19</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">home</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">index.html</span> <span class="comment"># 经过测试，这个选项是必须加上的</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="meta"></span></span><br></pre></td></tr></table></figure>
+
+<p>感谢大佬的文章，<a href="https://zhuanlan.zhihu.com/p/138500516">思路源</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo next</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mysql5.7自带解密功能中文出现乱码</title>
+    <url>/mysql/4ebdefb6b408/</url>
+    <content><![CDATA[<p>今天研究mysql的解密的时候发现数据入库之后可以自己加密，网上搜索了一下，数据库加密方式有<a href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/encryption-functions.html">这些</a>。</p>
+<p>这里面主要是说明 <code>AES_DECRYPT()</code> 和 <code>AES_ENCRYPT()</code>两个函数的用法</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">AES_DECRYPT(str, key_str) <span class="comment">-- 使用 AES 解密</span></span><br><span class="line">AES_ENCRYPT(str, key_str) <span class="comment">-- 使用 AES 加密</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- AES_ENCRYPT()使用密钥字符串key_str *对字符串str进行加密，并返回包含加密输出的二进制字符串。 </span></span><br><span class="line"><span class="comment">-- AES_DECRYPT()使用密钥字符串_key_str 解密加密的字符串 crypt_str *并返回原始的纯文本字符串。如果任何一个函数参数均为NULL，则函数返回NULL。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>假设我需要对下面这句话进行一个加密</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">中国人不骗中国人</span><br></pre></td></tr></table></figure>
+<p>那么他的sql语句就是 <code>SELECT hex(AES_ENCRYPT(&#39;中国人不骗中国人&#39;,&#39;sinmu&#39;));</code>。<br>    1. 这里的 <code>sinmu</code> 就是我写的key_str,也就是我们代码中的密钥。<br>    2. <code>AES_ENCRYPT()</code> 就是mysql自带的加密函数<br>    3. <code>hex()</code> 是将结果转为16进制</p>
+<p>如果想要解密的话，建议使用这个sql语句：<code>SELECT cast(AES_DECRYPT(unhex(&#39;916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D&#39;),&#39;sinmu&#39;) AS CHAR);</code>。<br>    1. 同样的 <code>sinmu</code> 为密钥<br>    2. <code>916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D</code> 这个长字符串是由上面加密得到的，他是一个16进制的结果，所以我们需要用 <code>unhex()</code> 来转为字符<br>    3. <code>AES_DECRYPT</code> 是数据库自带的解密函数<br>    4. 最外层的 <code>case() </code>函数将任何类型的值转换为具有指定类型的值。目标类型可以是以下类型之一：<code>BINARY</code>，<code>CHAR</code>，<code>DATE</code>，<code>DATETIME</code>，<code>TIME</code>，<code>DECIMAL</code>，<code>SIGNED</code>，<code>UNSIGNED</code>。其语法是 <code>cast(&#39;1&#39; as UNSIGNED)</code></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> hex(AES_ENCRYPT(<span class="string">&#x27;中国人不骗中国人&#x27;</span>,<span class="string">&#x27;sinmu&#x27;</span>));</span><br><span class="line"><span class="comment">-- 916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">cast</span>(AES_DECRYPT(unhex(<span class="string">&#x27;916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D&#x27;</span>),<span class="string">&#x27;sinmu&#x27;</span>) <span class="keyword">AS</span> <span class="type">CHAR</span>);</span><br><span class="line"><span class="comment">-- 中国人不骗中国人</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>mysql自带解密功能</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</title>
     <url>/Laravel/67d7c6442fdf/</url>
     <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
@@ -38,27 +80,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Hexo next自定义主页设置</title>
-    <url>/hexo/b2148e4e92ef/</url>
-    <content><![CDATA[<p>我发现网络上大部分此类的个人博客，首页（<a href="http://xxxx.github.io)/">http://xxxx.github.io）</a> 或者home点进去都是文章详情或者文字列表，而我则希望主页进去以及点击home之后。显示的内容是对自己的介绍，而不是我的博文列表。</p>
-<p>先访问hexo的配置文件 <code>/_config.yml</code>，搜索’index_generator’,修改如下</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">index_generator:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">&#x27;/home/&#x27;</span> <span class="comment"># 这里我将首页指向了 home这个路径</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">order_by:</span> <span class="string">-date</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>但是我选择实际上没有这个路径，因为 <a href="http://xxxx.github.io/xxx">http://xxxx.github.io/xxx</a> 实际上访问的路径我也不知道是那个文件，当时我只要在新建一个page，保持和tags在同一个目录，那么一定可以访问到。</p>
-<p>执行命令 <code>hexo new page &quot;home&quot; </code>,然后到/source下面就可以看到一个home文件夹，下面只有一个index.md。<br>将 front matter 修改</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">home</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-11-01 10:43:19</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">home</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">index.html</span> <span class="comment"># 经过测试，这个选项是必须加上的</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="meta"></span></span><br></pre></td></tr></table></figure>
-
-<p>感谢大佬的文章，<a href="https://zhuanlan.zhihu.com/p/138500516">思路源</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo next</tag>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next 访问categories或tags的时候返回的是Cannot GET /tags/ 或是Cannot GET /categories/</title>
     <url>/hexo/19097c26aa9c/</url>
     <content><![CDATA[<p>我在搭建hexo的时候，点击右侧的菜单栏里的categories的时候，返回的信息是 Cannot GET /categories/</p>
@@ -90,41 +111,6 @@ layout: categories
       </tags>
   </entry>
   <entry>
-    <title>mysql5.7自带解密功能中文出现乱码</title>
-    <url>/mysql/4ebdefb6b408/</url>
-    <content><![CDATA[<p>今天研究mysql的解密的时候发现数据入库之后可以自己加密，网上搜索了一下，数据库加密方式有<a href="https://www.docs4dev.com/docs/zh/mysql/5.7/reference/encryption-functions.html">这些</a>。</p>
-<p>这里面主要是说明 <code>AES_DECRYPT()</code> 和 <code>AES_ENCRYPT()</code>两个函数的用法</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">AES_DECRYPT(str, key_str) <span class="comment">-- 使用 AES 解密</span></span><br><span class="line">AES_ENCRYPT(str, key_str) <span class="comment">-- 使用 AES 加密</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- AES_ENCRYPT()使用密钥字符串key_str *对字符串str进行加密，并返回包含加密输出的二进制字符串。 </span></span><br><span class="line"><span class="comment">-- AES_DECRYPT()使用密钥字符串_key_str 解密加密的字符串 crypt_str *并返回原始的纯文本字符串。如果任何一个函数参数均为NULL，则函数返回NULL。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>假设我需要对下面这句话进行一个加密</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">中国人不骗中国人</span><br></pre></td></tr></table></figure>
-<p>那么他的sql语句就是 <code>SELECT hex(AES_ENCRYPT(&#39;中国人不骗中国人&#39;,&#39;sinmu&#39;));</code>。<br>    1. 这里的 <code>sinmu</code> 就是我写的key_str,也就是我们代码中的密钥。<br>    2. <code>AES_ENCRYPT()</code> 就是mysql自带的加密函数<br>    3. <code>hex()</code> 是将结果转为16进制</p>
-<p>如果想要解密的话，建议使用这个sql语句：<code>SELECT cast(AES_DECRYPT(unhex(&#39;916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D&#39;),&#39;sinmu&#39;) AS CHAR);</code>。<br>    1. 同样的 <code>sinmu</code> 为密钥<br>    2. <code>916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D</code> 这个长字符串是由上面加密得到的，他是一个16进制的结果，所以我们需要用 <code>unhex()</code> 来转为字符<br>    3. <code>AES_DECRYPT</code> 是数据库自带的解密函数<br>    4. 最外层的 <code>case() </code>函数将任何类型的值转换为具有指定类型的值。目标类型可以是以下类型之一：<code>BINARY</code>，<code>CHAR</code>，<code>DATE</code>，<code>DATETIME</code>，<code>TIME</code>，<code>DECIMAL</code>，<code>SIGNED</code>，<code>UNSIGNED</code>。其语法是 <code>cast(&#39;1&#39; as UNSIGNED)</code></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> hex(AES_ENCRYPT(<span class="string">&#x27;中国人不骗中国人&#x27;</span>,<span class="string">&#x27;sinmu&#x27;</span>));</span><br><span class="line"><span class="comment">-- 916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">cast</span>(AES_DECRYPT(unhex(<span class="string">&#x27;916B95B090DD381D4618729A9D080547764C508AC2DD0C2DBE237464ACE3CB7D&#x27;</span>),<span class="string">&#x27;sinmu&#x27;</span>) <span class="keyword">AS</span> <span class="type">CHAR</span>);</span><br><span class="line"><span class="comment">-- 中国人不骗中国人</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>mysql自带解密功能</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php artisan migrate     Illuminate\Database\QueryException</title>
-    <url>/Laravel/8fc673575a6d/</url>
-    <content><![CDATA[<p>Laravel8<br>mysql8</p>
-<p>在做数据库迁移的时候，执行命令 <code>php artisan migrate </code></p>
-<p>我以为是在本地执行，结果一直报上面这个错误。我就很奇怪，结果发现需要在Homestead虚拟机里面执行，我吐了</p>
-]]></content>
-      <categories>
-        <category>Laravel</category>
-      </categories>
-      <tags>
-        <tag>Laravel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>next8设置首页背景图片</title>
     <url>/hexo/dac2b4f96412/</url>
     <content><![CDATA[<p>为了设置这个背景图片，花了我好久时间。版本问题还是比较难受的，所有我打算把版本声明一下，避免小伙伴看到我这篇文章也是个坑货</p>
@@ -148,6 +134,20 @@ layout: categories
       </categories>
       <tags>
         <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php artisan migrate     Illuminate\Database\QueryException</title>
+    <url>/Laravel/8fc673575a6d/</url>
+    <content><![CDATA[<p>Laravel8<br>mysql8</p>
+<p>在做数据库迁移的时候，执行命令 <code>php artisan migrate </code></p>
+<p>我以为是在本地执行，结果一直报上面这个错误。我就很奇怪，结果发现需要在Homestead虚拟机里面执行，我吐了</p>
+]]></content>
+      <categories>
+        <category>Laravel</category>
+      </categories>
+      <tags>
+        <tag>Laravel</tag>
       </tags>
   </entry>
   <entry>
