@@ -41,6 +41,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/uncategorized/366f255d365a/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>hexo next 访问categories或tags的时候返回的是Cannot GET /tags/ 或是Cannot GET /categories/</title>
     <url>/hexo/19097c26aa9c/</url>
     <content><![CDATA[<p>我在搭建hexo的时候，点击右侧的菜单栏里的categories的时候，返回的信息是 Cannot GET /categories/</p>
@@ -70,24 +88,6 @@ layout: categories
         <tag>Cannot GET /tags/</tag>
         <tag>Cannot GET /categories/</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/uncategorized/366f255d365a/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>mysql5.7自带解密功能中文出现乱码</title>
@@ -151,26 +151,6 @@ layout: categories
       </tags>
   </entry>
   <entry>
-    <title>php自带的内置服务</title>
-    <url>/php/6b1bebde1d85/</url>
-    <content><![CDATA[<p>最近研究读取文件内容的时候遇到这么一个命令，让我对php刮目相看<br><code>php -S localhost:8000 ./index.php</code></p>
-<p>我还好奇，为什么这个命令可以生效，以为我记得php需要依赖第三方服务来运行web服务</p>
-<p>但是好奇心的驱使下我还是运行了一下，果然给了我一个web服务，我只需要访问 <code>http://localhost:8000</code> 就能以web服务的形式访问这个<code>index.php</code> 文件</p>
-<p>我就好奇这些命令在哪里可以寻找到相关的说明。</p>
-<p>我第一时间就想到了官方手册，但是我直接搜索 php -S没有查询到我想要的。</p>
-<p>我突然想到这个居然是cli命令，那么说不定可以用 <code>-h</code>参数来查看</p>
-<p>然后我直接在cmd里面运行 <code>php -h</code>，嘿，果然找到了这个命令</p>
-<p><img src="/images/-S%E5%8F%82%E6%95%B0.png"></p>
-<p>我仔细看了一下这些介绍，我认为对我帮助比较大的命令也放在下面了<br><img src="/images/%E8%9B%AE%E8%88%92%E6%9C%8D%E7%9A%84%E5%91%BD%E4%BB%A4.jpg"></p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>phpstudy8.1.3设置localhost nginx 显示目录结构</title>
     <url>/phpstudy/cda39ddaa3d7/</url>
     <content><![CDATA[<p>我最近由于某些原因需要将 localhost 下的目录结构显示出来，但是我用的集成环境 phpstudy8.1.3 ，使用的服务是 nginx ，访问 localhost 的时候就给我提示这个</p>
@@ -190,6 +170,26 @@ layout: categories
         <tag>phpstudy8.1.3</tag>
         <tag>nginx</tag>
         <tag>显示目录结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php自带的内置服务</title>
+    <url>/php/6b1bebde1d85/</url>
+    <content><![CDATA[<p>最近研究读取文件内容的时候遇到这么一个命令，让我对php刮目相看<br><code>php -S localhost:8000 ./index.php</code></p>
+<p>我还好奇，为什么这个命令可以生效，以为我记得php需要依赖第三方服务来运行web服务</p>
+<p>但是好奇心的驱使下我还是运行了一下，果然给了我一个web服务，我只需要访问 <code>http://localhost:8000</code> 就能以web服务的形式访问这个<code>index.php</code> 文件</p>
+<p>我就好奇这些命令在哪里可以寻找到相关的说明。</p>
+<p>我第一时间就想到了官方手册，但是我直接搜索 php -S没有查询到我想要的。</p>
+<p>我突然想到这个居然是cli命令，那么说不定可以用 <code>-h</code>参数来查看</p>
+<p>然后我直接在cmd里面运行 <code>php -h</code>，嘿，果然找到了这个命令</p>
+<p><img src="/images/-S%E5%8F%82%E6%95%B0.png"></p>
+<p>我仔细看了一下这些介绍，我认为对我帮助比较大的命令也放在下面了<br><img src="/images/%E8%9B%AE%E8%88%92%E6%9C%8D%E7%9A%84%E5%91%BD%E4%BB%A4.jpg"></p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
       </tags>
   </entry>
   <entry>
