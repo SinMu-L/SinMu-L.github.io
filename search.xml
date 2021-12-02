@@ -22,6 +22,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Hello World</title>
+    <url>/uncategorized/366f255d365a/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</title>
     <url>/Laravel/67d7c6442fdf/</url>
     <content><![CDATA[<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><ul>
@@ -39,24 +57,6 @@
         <tag>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</tag>
         <tag>Laravel8 执行命令 php artisan migrate 报错</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/uncategorized/366f255d365a/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>hexo next 访问categories或tags的时候返回的是Cannot GET /tags/ 或是Cannot GET /categories/</title>
@@ -193,46 +193,6 @@ layout: categories
       </tags>
   </entry>
   <entry>
-    <title>如何快速的删除mysql的百万数据</title>
-    <url>/mysql/1efacf151fbd/</url>
-    <content><![CDATA[<p>一夜过去我插入了3白多万条脏数据到了数据库，里面有4百多条正常的数据。</p>
-<p>我第一想法是 <code>delete from table where id&gt;400</code>,后来发现是我天真了，后面会分析一下delete进行了那些操作。</p>
-<p>可是遇到上述情况我应该怎么处理呢？，我对那 400 条数据进行备份，然后直接使用 <code>truncate table table_name</code> 进行删除，</p>
-<span id="more"></span>
-
-<h2 id="delete-操作"><a href="#delete-操作" class="headerlink" title="delete 操作"></a>delete 操作</h2><h3 id="MySQL-delete-都做了哪些操作？"><a href="#MySQL-delete-都做了哪些操作？" class="headerlink" title="MySQL delete 都做了哪些操作？"></a>MySQL delete 都做了哪些操作？</h3><ol>
-<li>根据where条件对删除表进行索引/全表扫描，检查是否符合where条件，该阶段会对扫描中所有行进行加锁。该阶段是最大的资源消耗隐患，若表的数据量大且delete操作无法有效利用索引减少扫描数据量，该步骤对于数据库带来的锁争用、cpu/io资源的消耗都是巨大的</li>
-<li>对不能够被where条件匹配的行施加的锁会在条件检查后予以释放，InnoDB仅锁定需要删除的行。这可以有效地降低锁争用，但是我们仍需要关注的一点是，一次性删除大批量的数据，该操作将会产生巨大的binlog事务日志，这对于MySQL自身以及主从架构中的从库都是不友好的，可能带来叫的复制延迟。</li>
-</ol>
-<h3 id="如何优化delete操作？"><a href="#如何优化delete操作？" class="headerlink" title="如何优化delete操作？"></a>如何优化delete操作？</h3><ul>
-<li>delete全表删除操作需要谨慎，可考虑使用truncate操作</li>
-<li>delete … where … 中，where过滤条件尽量保证可有效利用索引减少数据扫描量，避免全表扫描</li>
-<li>对于大批量数据删除且where条件无索引的情况，delete操作可额外增加自增长主键或者含索引的时间字段，进行分批删除操作，每次删除少量数据，分多批次执行。</li>
-<li>对于保留近期数据删除历史数据的经典场景，可创建同结构的xxx_tmp表并通过insert xxx_tmp select …操作将需要的数据保留至tmp表中、然后通过rename操作将当前业务表xxx替换为xxx_bak表，xxx_tmp表替换为当前业务表名xxx，后续手动删除无用的大表xxx_bak</li>
-</ul>
-<h2 id="Truncate-操作"><a href="#Truncate-操作" class="headerlink" title="Truncate 操作"></a>Truncate 操作</h2><pre><code>从逻辑意义上来讲，truncate操作就是删除表中所有记录行，但是又与delete from table_name wehre 1=1这种操作不一样。MySQL为了提高删除整张表数据的性能，truncate操作其本质上其实是先drop table然后在re-create table。也真因如此，truncate操作是一个不可回滚的DDL操作。
-</code></pre>
-<h3 id="MySQL-truncate-都做了哪些操作？"><a href="#MySQL-truncate-都做了哪些操作？" class="headerlink" title="MySQL truncate 都做了哪些操作？"></a>MySQL truncate 都做了哪些操作？</h3><ol>
-<li>truncate操作实际上分为drop、re-create两步</li>
-<li>drop操作的第一个阶段，是对Buffer pool页面进行清除的过程，将表相关的数据页从flush链中删除，而不需要做flush操作。该步骤的瓶颈点主要在于flush队列的删除操作必须持有对应buffer pool instance的锁并进行遍历搜索，如果buffer pool instance比较大且flush链中需要删除的数据页很多，该操作会导致其他事务在获取buffer pool instance的锁时被阻塞，从而影响数据库的性能</li>
-<li>drop操作的第二个阶段，是删除ibd磁盘文件的过程。删除数据库物理文件越大I/O资源消耗越大，删除操作耗时越久</li>
-<li>re-create操作阶段，只要删除表的.frm文件完好无损，在drop table之后就可以按照原表结构信息进行重建，重建后表的auto_increment值会被重置</li>
-</ol>
-<h3 id="如何优化truncate操作带来的资源消耗"><a href="#如何优化truncate操作带来的资源消耗" class="headerlink" title="如何优化truncate操作带来的资源消耗"></a>如何优化truncate操作带来的资源消耗</h3><ol>
-<li>对于truncate操作中的drop表第一阶段，当分配给MySQL实例的innodb_buffer_pool_size超过1GB时，合理的设置innodb_buffer_pool_instances参数，提高并发的同时也变相的减少扫描buffer pool instance时锁资源占用耗时</li>
-<li>对于truncate操作中的drop表第二阶段，在删除对应表之前，先对改表的.ibd文件创建一个硬连接，加快MySQL层面的drop操作执行效率，减少对数据库层面的性能损耗。后续手动对操作系统层面我们做的硬连接进行清理</li>
-</ol>
-<p>参考：<br><a href="https://www.its404.com/article/weixin_37692493/115283520">MySQL如何优雅的做大表删除？_三思的博客-程序员ITS404</a></p>
-]]></content>
-      <categories>
-        <category>mysql</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>truncate</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>分析写作懒惰</title>
     <url>/%E5%9B%9E%E9%A1%BE/1b309f062cc9/</url>
     <content><![CDATA[<p>最近一段时间想把写作捡起来，整理从毕业到现在的收获，却发现无从写起。所以在这里想要做一个对这一行为的分析</p>
@@ -305,6 +265,46 @@ layout: categories
       <tags>
         <tag>php</tag>
         <tag>获取网址</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何快速的删除mysql的百万数据</title>
+    <url>/mysql/1efacf151fbd/</url>
+    <content><![CDATA[<p>一夜过去我插入了3白多万条脏数据到了数据库，里面有4百多条正常的数据。</p>
+<p>我第一想法是 <code>delete from table where id&gt;400</code>,后来发现是我天真了，后面会分析一下delete进行了那些操作。</p>
+<p>可是遇到上述情况我应该怎么处理呢？，我对那 400 条数据进行备份，然后直接使用 <code>truncate table table_name</code> 进行删除，</p>
+<span id="more"></span>
+
+<h2 id="delete-操作"><a href="#delete-操作" class="headerlink" title="delete 操作"></a>delete 操作</h2><h3 id="MySQL-delete-都做了哪些操作？"><a href="#MySQL-delete-都做了哪些操作？" class="headerlink" title="MySQL delete 都做了哪些操作？"></a>MySQL delete 都做了哪些操作？</h3><ol>
+<li>根据where条件对删除表进行索引/全表扫描，检查是否符合where条件，该阶段会对扫描中所有行进行加锁。该阶段是最大的资源消耗隐患，若表的数据量大且delete操作无法有效利用索引减少扫描数据量，该步骤对于数据库带来的锁争用、cpu/io资源的消耗都是巨大的</li>
+<li>对不能够被where条件匹配的行施加的锁会在条件检查后予以释放，InnoDB仅锁定需要删除的行。这可以有效地降低锁争用，但是我们仍需要关注的一点是，一次性删除大批量的数据，该操作将会产生巨大的binlog事务日志，这对于MySQL自身以及主从架构中的从库都是不友好的，可能带来叫的复制延迟。</li>
+</ol>
+<h3 id="如何优化delete操作？"><a href="#如何优化delete操作？" class="headerlink" title="如何优化delete操作？"></a>如何优化delete操作？</h3><ul>
+<li>delete全表删除操作需要谨慎，可考虑使用truncate操作</li>
+<li>delete … where … 中，where过滤条件尽量保证可有效利用索引减少数据扫描量，避免全表扫描</li>
+<li>对于大批量数据删除且where条件无索引的情况，delete操作可额外增加自增长主键或者含索引的时间字段，进行分批删除操作，每次删除少量数据，分多批次执行。</li>
+<li>对于保留近期数据删除历史数据的经典场景，可创建同结构的xxx_tmp表并通过insert xxx_tmp select …操作将需要的数据保留至tmp表中、然后通过rename操作将当前业务表xxx替换为xxx_bak表，xxx_tmp表替换为当前业务表名xxx，后续手动删除无用的大表xxx_bak</li>
+</ul>
+<h2 id="Truncate-操作"><a href="#Truncate-操作" class="headerlink" title="Truncate 操作"></a>Truncate 操作</h2><pre><code>从逻辑意义上来讲，truncate操作就是删除表中所有记录行，但是又与delete from table_name wehre 1=1这种操作不一样。MySQL为了提高删除整张表数据的性能，truncate操作其本质上其实是先drop table然后在re-create table。也真因如此，truncate操作是一个不可回滚的DDL操作。
+</code></pre>
+<h3 id="MySQL-truncate-都做了哪些操作？"><a href="#MySQL-truncate-都做了哪些操作？" class="headerlink" title="MySQL truncate 都做了哪些操作？"></a>MySQL truncate 都做了哪些操作？</h3><ol>
+<li>truncate操作实际上分为drop、re-create两步</li>
+<li>drop操作的第一个阶段，是对Buffer pool页面进行清除的过程，将表相关的数据页从flush链中删除，而不需要做flush操作。该步骤的瓶颈点主要在于flush队列的删除操作必须持有对应buffer pool instance的锁并进行遍历搜索，如果buffer pool instance比较大且flush链中需要删除的数据页很多，该操作会导致其他事务在获取buffer pool instance的锁时被阻塞，从而影响数据库的性能</li>
+<li>drop操作的第二个阶段，是删除ibd磁盘文件的过程。删除数据库物理文件越大I/O资源消耗越大，删除操作耗时越久</li>
+<li>re-create操作阶段，只要删除表的.frm文件完好无损，在drop table之后就可以按照原表结构信息进行重建，重建后表的auto_increment值会被重置</li>
+</ol>
+<h3 id="如何优化truncate操作带来的资源消耗"><a href="#如何优化truncate操作带来的资源消耗" class="headerlink" title="如何优化truncate操作带来的资源消耗"></a>如何优化truncate操作带来的资源消耗</h3><ol>
+<li>对于truncate操作中的drop表第一阶段，当分配给MySQL实例的innodb_buffer_pool_size超过1GB时，合理的设置innodb_buffer_pool_instances参数，提高并发的同时也变相的减少扫描buffer pool instance时锁资源占用耗时</li>
+<li>对于truncate操作中的drop表第二阶段，在删除对应表之前，先对改表的.ibd文件创建一个硬连接，加快MySQL层面的drop操作执行效率，减少对数据库层面的性能损耗。后续手动对操作系统层面我们做的硬连接进行清理</li>
+</ol>
+<p>参考：<br><a href="https://www.its404.com/article/weixin_37692493/115283520">MySQL如何优雅的做大表删除？_三思的博客-程序员ITS404</a></p>
+]]></content>
+      <categories>
+        <category>mysql</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>truncate</tag>
       </tags>
   </entry>
 </search>
