@@ -22,22 +22,20 @@
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/uncategorized/366f255d365a/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+    <title>Linux基础命令</title>
+    <url>/Linux/11d7d2cc4472/</url>
+    <content><![CDATA[<h2 id="ln-命令"><a href="#ln-命令" class="headerlink" title="ln 命令"></a>ln 命令</h2><p>Linux ln（英文全拼：link files），它的功能是为<strong>某一个文件在另外一个位置建立一个同步的链接</strong>。</p>
+<p>当我们需要在不同的目录，用到相同的文件时，我们不需要在每一个需要的目录下都放一个必须相同的文件，我们只要在某个固定的目录，放上该文件，然后在 其它的目录下用ln命令链接（link）它就可以，<strong>不必重复的占用磁盘空间</strong>。</p>
+<span id="more"></span>
+<p><img src="https://img-blog.csdnimg.cn/034074ee1079475699014fe71d668395.png"></p>
+<p><img src="https://img-blog.csdnimg.cn/63f3974ae9934270bdd69c48ffff7ac2.png"></p>
 ]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
   </entry>
   <entry>
     <title>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</title>
@@ -57,6 +55,24 @@
         <tag>SQLSTATE[42S01]:Base table or view already exists:1050 Table statuses already exists</tag>
         <tag>Laravel8 执行命令 php artisan migrate 报错</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/uncategorized/366f255d365a/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>hexo next 访问categories或tags的时候返回的是Cannot GET /tags/ 或是Cannot GET /categories/</title>
@@ -137,6 +153,50 @@ layout: categories
       </tags>
   </entry>
   <entry>
+    <title>nginx基础配置</title>
+    <url>/nginx/2f199c2690e3/</url>
+    <content><![CDATA[<h2 id="nginx-常用命令"><a href="#nginx-常用命令" class="headerlink" title="nginx 常用命令"></a>nginx 常用命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nginx -t  #检查nginx配置文件是否配置正确   successful表示配置可用</span><br><span class="line">nginx -s reload #重新加载配置文件使配置生效</span><br><span class="line">nginx -s stop #停止nginx</span><br><span class="line">nginx -V # 查看配置信息</span><br><span class="line">service nginx stop     # 停止nginx服务</span><br><span class="line">service nginx start    # 启动nginx服务</span><br><span class="line">service nginx restart  # 重启nginx服务</span><br></pre></td></tr></table></figure>
+
+<p>最简单的静态页面配置</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">    # 监听的端口</span><br><span class="line">    listen 8888;</span><br><span class="line">    # 解析的路径</span><br><span class="line">    root /home/sinmu/www/test;</span><br><span class="line">    # 域名</span><br><span class="line">    server_name 127.0.0.1;</span><br><span class="line"></span><br><span class="line">    # 在当前根目录下自动解析 index 和 test.html</span><br><span class="line">    location / &#123;</span><br><span class="line">            index test.html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>使用 nginx 的默认配置的时候，它的日志文件一般在 <code>/var/log/nginx/error.log</code>,可以通过 tail 命令来监控日志</p>
+<hr>
+<h3 id="限流配置"><a href="#限流配置" class="headerlink" title="限流配置"></a>限流配置</h3><ul>
+<li>按连接数限速，并发数（ngx_http_limit_conn_module）</li>
+<li>按请求速率限速，按照 IP 限制单位时间内的请求数（ngx_http_limit_req_module） <ul>
+<li>该ngx_http_limit_req_module模块用于限制每个定义键的请求处理速率，特别是来自单个 IP 地址的请求的处理速率。限制是使用“漏桶”方法完成的。</li>
+</ul>
+</li>
+</ul>
+<p>主要分为两步</p>
+<ol>
+<li>创建规则， <code>limit_req_zone $binary_remote_addr zone=mylimit:10m rate=1r/s;</code><ul>
+<li>创建规则需要在 http 模块里创建</li>
+</ul>
+</li>
+<li>使用规则，<code>limit_req zone=mylimit burst=1 nodelay;</code><ul>
+<li>使用规则需要在 server 模块里面去使用</li>
+<li>burst=1  ，如果没有这句的时候，他会严格按照上 <code>请求速率为1个请求每秒</code> 来处理请求。</li>
+<li>当你设置了之后，可以面对突发情况，可以有个缓存，缓存一个请求。</li>
+<li>突发浏览的时候不会直接拒绝，而是保留一个缓存空间的。<blockquote>
+<p><a href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html">关于delay的介绍</a></p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建规则限制请求速率 limit_req ，以某一个key限制这个请求速率为1个请求每秒，这个key就是当前用户的IP，申请的空间是10M，</span></span><br><span class="line">limit_req_zone $binary_remote_addr zone=mylimit:10m rate=1r/s;</span><br><span class="line">server&#123;</span><br><span class="line">    # 监听的端口</span><br><span class="line">    listen 8888;</span><br><span class="line">    # 解析的路径</span><br><span class="line">    root /home/sinmu/www/test;</span><br><span class="line">    # 域名</span><br><span class="line">    server_name 127.0.0.1;</span><br><span class="line"></span><br><span class="line">    # 在当前根目录下自动解析 index 和 test.html</span><br><span class="line">    location / &#123;</span><br><span class="line">        # limit_req zone=mylimit 应用这个规则，</span><br><span class="line">        limit_req zone=mylimit burst=1 nodelay;</span><br><span class="line">        index test.html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>nginx 配置</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php artisan migrate     Illuminate\Database\QueryException</title>
     <url>/Laravel/8fc673575a6d/</url>
     <content><![CDATA[<p>Laravel8<br>mysql8</p>
@@ -167,8 +227,8 @@ layout: categories
         <category>phpstudy</category>
       </categories>
       <tags>
-        <tag>phpstudy8.1.3</tag>
         <tag>nginx</tag>
+        <tag>phpstudy8.1.3</tag>
         <tag>显示目录结构</tag>
       </tags>
   </entry>
@@ -253,21 +313,6 @@ layout: categories
       </categories>
   </entry>
   <entry>
-    <title>常用函数</title>
-    <url>/php/9b98c5ce80bf/</url>
-    <content><![CDATA[<p>PHP实现</p>
-<h3 id="获取网址相关"><a href="#获取网址相关" class="headerlink" title="获取网址相关"></a>获取网址相关</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#测试网址:     http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取域名或主机地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#localhost</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网页地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#/blog/testurl.php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网址参数 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&quot;QUERY_STRING&quot;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取用户代理 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//获取完整的url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_URI&#x27;</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&#x27;?&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>];</span><br><span class="line"><span class="comment">#http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//包含端口号的完整url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="string">&#x27;:&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&quot;SERVER_PORT&quot;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="comment">#http://localhost:80/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//只取路径</span></span><br><span class="line"><span class="variable">$url</span>=<span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="keyword">echo</span> dirname(<span class="variable">$url</span>);</span><br><span class="line"><span class="comment">#http://localhost/blog</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="stripos-搜索字符串再另一个字符串中的位置"><a href="#stripos-搜索字符串再另一个字符串中的位置" class="headerlink" title="stripos 搜索字符串再另一个字符串中的位置"></a>stripos 搜索字符串再另一个字符串中的位置</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * stripos(string,find,start)</span></span><br><span class="line"><span class="comment"> *      string	必需。规定被搜索的字符串。</span></span><br><span class="line"><span class="comment"> *      find	必需。规定要查找的字符。</span></span><br><span class="line"><span class="comment"> *      start	可选。规定开始搜索的位置。</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-        <tag>获取网址</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何快速的删除mysql的百万数据</title>
     <url>/mysql/1efacf151fbd/</url>
     <content><![CDATA[<p>一夜过去我插入了3白多万条脏数据到了数据库，里面有4百多条正常的数据。</p>
@@ -305,6 +350,35 @@ layout: categories
       <tags>
         <tag>mysql</tag>
         <tag>truncate</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>接口压测工具</title>
+    <url>/%E6%8E%A5%E5%8F%A3%E5%8E%8B%E6%B5%8B%E5%B7%A5%E5%85%B7/418c67930164/</url>
+    <content><![CDATA[<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></span><br><span class="line">sudo apt install apache2-utils</span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看 ab 压测工具的版本信息</span></span><br><span class="line">ab -V</span><br><span class="line"><span class="meta">#</span><span class="bash"> ab 使用方法, n 代表请求，c 代表同一时间发起的请求数量（并发）</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 网址后面一定一定要跟个路径，根域名的话直接跟一个 / 即可</span></span><br><span class="line">ab -n100 -c10 http://www.baidu.com/</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>请求结果如下,其中主要看这个参数 <code>Requests per second:</code>,它的结果代表这个请求的并发量。此功能可以用来预估API的并发瓶颈</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">This is ApacheBench, Version 2.3 &lt;$Revision: 1843412 $&gt;</span><br><span class="line">Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><br><span class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</span><br><span class="line"></span><br><span class="line">Benchmarking www.baidu.com (be patient).....done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Server Software:        BWS/1.1</span><br><span class="line">Server Hostname:        www.baidu.com</span><br><span class="line">Server Port:            80</span><br><span class="line"></span><br><span class="line">Document Path:          /</span><br><span class="line">Document Length:        328517 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      10</span><br><span class="line">Time taken for tests:   7.946 seconds</span><br><span class="line">Complete requests:      100</span><br><span class="line">Failed requests:        93</span><br><span class="line">   (Connect: 0, Receive: 0, Length: 93, Exceptions: 0)</span><br><span class="line">Total transferred:      32962974 bytes</span><br><span class="line">HTML transferred:       32842434 bytes</span><br><span class="line">Requests per second:    12.59 [#/sec] (mean)</span><br><span class="line">Time per request:       794.579 [ms] (mean)</span><br><span class="line">Time per request:       79.458 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          4051.25 [Kbytes/sec] received</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line"></span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">Connect:       10  114  63.4    113     365</span><br><span class="line">Processing:   225  654 220.4    589    1244</span><br><span class="line">Waiting:       20  103  50.9     97     313</span><br><span class="line"></span><br><span class="line">server&#123;</span><br><span class="line">Total:        384  768 210.1    713    1387</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%    713</span><br><span class="line">  66%    773</span><br><span class="line">  75%    862</span><br><span class="line">  80%    941</span><br><span class="line">  90%   1097</span><br><span class="line">  95%   1248</span><br><span class="line">  98%   1295</span><br><span class="line">  99%   1387</span><br><span class="line"> 100%   1387 (longest request)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>接口压测工具</category>
+      </categories>
+      <tags>
+        <tag>接口压测工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常用函数</title>
+    <url>/php/9b98c5ce80bf/</url>
+    <content><![CDATA[<p>PHP实现</p>
+<h3 id="获取网址相关"><a href="#获取网址相关" class="headerlink" title="获取网址相关"></a>获取网址相关</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#测试网址:     http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取域名或主机地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#localhost</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网页地址 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#/blog/testurl.php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取网址参数 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&quot;QUERY_STRING&quot;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; <span class="comment">#id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取用户代理 </span></span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_REFERER&#x27;</span>].<span class="string">&quot;&lt;br&gt;&quot;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//获取完整的url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;REQUEST_URI&#x27;</span>];</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_HOST&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&#x27;PHP_SELF&#x27;</span>].<span class="string">&#x27;?&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;QUERY_STRING&#x27;</span>];</span><br><span class="line"><span class="comment">#http://localhost/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//包含端口号的完整url</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="string">&#x27;:&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&quot;SERVER_PORT&quot;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="comment">#http://localhost:80/blog/testurl.php?id=5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//只取路径</span></span><br><span class="line"><span class="variable">$url</span>=<span class="string">&#x27;http://&#x27;</span>.<span class="variable">$_SERVER</span>[<span class="string">&#x27;SERVER_NAME&#x27;</span>].<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_URI&quot;</span>]; </span><br><span class="line"><span class="keyword">echo</span> dirname(<span class="variable">$url</span>);</span><br><span class="line"><span class="comment">#http://localhost/blog</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="stripos-搜索字符串再另一个字符串中的位置"><a href="#stripos-搜索字符串再另一个字符串中的位置" class="headerlink" title="stripos 搜索字符串再另一个字符串中的位置"></a>stripos 搜索字符串再另一个字符串中的位置</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * stripos(string,find,start)</span></span><br><span class="line"><span class="comment"> *      string	必需。规定被搜索的字符串。</span></span><br><span class="line"><span class="comment"> *      find	必需。规定要查找的字符。</span></span><br><span class="line"><span class="comment"> *      start	可选。规定开始搜索的位置。</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+        <tag>获取网址</tag>
       </tags>
   </entry>
 </search>
