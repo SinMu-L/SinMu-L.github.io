@@ -26,18 +26,20 @@ def function_b(stop_event):
 
 def handle_exit(signum, frame):
     logger.info("\n收到中断信号，正在准备退出程序...")
-    stop_event.set()
+    stop_event_a.set()
+    stop_event_b.set()
 
 if __name__ == "__main__":
     # 创建停止信号
-    stop_event = multiprocessing.Event()
+    stop_event_a = multiprocessing.Event()
+    stop_event_b = multiprocessing.Event()
 
     # 注册信号处理器
     signal.signal(signal.SIGINT, handle_exit)
 
     # 创建进程
-    process_a = multiprocessing.Process(target=function_a, args=(stop_event,))
-    process_b = multiprocessing.Process(target=function_b, args=(stop_event,))
+    process_a = multiprocessing.Process(target=function_a, args=(stop_event_a ,))
+    process_b = multiprocessing.Process(target=function_b, args=(stop_event_b ,))
 
     # 启动进程
     process_a.start()
@@ -51,7 +53,8 @@ if __name__ == "__main__":
         logger.info("程序手动中断")
     finally:
         # 设置停止信号并等待子进程退出
-        stop_event.set()
+        stop_event_a.set()
+        stop_event_b.set()
         process_a.join()
         process_b.join()
         logger.info("已清理所有子进程并退出程序。")

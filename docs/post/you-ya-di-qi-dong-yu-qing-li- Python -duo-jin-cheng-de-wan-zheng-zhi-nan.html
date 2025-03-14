@@ -110,18 +110,20 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <span class="pl-k">def</span> <span class="pl-en">handle_exit</span>(<span class="pl-s1">signum</span>, <span class="pl-s1">frame</span>):
     <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"<span class="pl-cce">\n</span>收到中断信号，正在准备退出程序..."</span>)
-    <span class="pl-s1">stop_event</span>.<span class="pl-c1">set</span>()
+    <span class="pl-s1">stop_event_a</span>.<span class="pl-c1">set</span>()
+    <span class="pl-s1">stop_event_b</span>.<span class="pl-c1">set</span>()
 
 <span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
     <span class="pl-c"># 创建停止信号</span>
-    <span class="pl-s1">stop_event</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Event</span>()
+    <span class="pl-s1">stop_event_a</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Event</span>()
+    <span class="pl-s1">stop_event_b</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Event</span>()
 
     <span class="pl-c"># 注册信号处理器</span>
     <span class="pl-s1">signal</span>.<span class="pl-c1">signal</span>(<span class="pl-s1">signal</span>.<span class="pl-c1">SIGINT</span>, <span class="pl-s1">handle_exit</span>)
 
     <span class="pl-c"># 创建进程</span>
-    <span class="pl-s1">process_a</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Process</span>(<span class="pl-s1">target</span><span class="pl-c1">=</span><span class="pl-s1">function_a</span>, <span class="pl-s1">args</span><span class="pl-c1">=</span>(<span class="pl-s1">stop_event</span>,))
-    <span class="pl-s1">process_b</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Process</span>(<span class="pl-s1">target</span><span class="pl-c1">=</span><span class="pl-s1">function_b</span>, <span class="pl-s1">args</span><span class="pl-c1">=</span>(<span class="pl-s1">stop_event</span>,))
+    <span class="pl-s1">process_a</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Process</span>(<span class="pl-s1">target</span><span class="pl-c1">=</span><span class="pl-s1">function_a</span>, <span class="pl-s1">args</span><span class="pl-c1">=</span>(<span class="pl-s1">stop_event_a</span> ,))
+    <span class="pl-s1">process_b</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Process</span>(<span class="pl-s1">target</span><span class="pl-c1">=</span><span class="pl-s1">function_b</span>, <span class="pl-s1">args</span><span class="pl-c1">=</span>(<span class="pl-s1">stop_event_b</span> ,))
 
     <span class="pl-c"># 启动进程</span>
     <span class="pl-s1">process_a</span>.<span class="pl-c1">start</span>()
@@ -135,7 +137,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"程序手动中断"</span>)
     <span class="pl-k">finally</span>:
         <span class="pl-c"># 设置停止信号并等待子进程退出</span>
-        <span class="pl-s1">stop_event</span>.<span class="pl-c1">set</span>()
+        <span class="pl-s1">stop_event_a</span>.<span class="pl-c1">set</span>()
+        <span class="pl-s1">stop_event_b</span>.<span class="pl-c1">set</span>()
         <span class="pl-s1">process_a</span>.<span class="pl-c1">join</span>()
         <span class="pl-s1">process_b</span>.<span class="pl-c1">join</span>()
         <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"已清理所有子进程并退出程序。"</span>)</pre></div></div>
