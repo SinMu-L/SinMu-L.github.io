@@ -10,14 +10,18 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="这个错误折磨了我很久，目前也没有解决。">
+<meta name="description" content="![Image](https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a)
+
+这个错误折磨了我很久，目前也没有解决。">
 <meta property="og:title" content="pyinstaller打包提示 No module found ‘azure’">
-<meta property="og:description" content="这个错误折磨了我很久，目前也没有解决。">
+<meta property="og:description" content="![Image](https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a)
+
+这个错误折磨了我很久，目前也没有解决。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://SinMu-L.github.io/post/pyinstaller-da-bao-ti-shi-%20No%20module%20found%20%E2%80%98azure%E2%80%99.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
 <title>pyinstaller打包提示 No module found ‘azure’</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -83,7 +87,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>这个错误折磨了我很久，目前也没有解决。</p>
+<div class="markdown-body" id="postBody"><p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a"><img src="https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a" alt="Image" style="max-width: 100%;"></a></p>
+<p>这个错误折磨了我很久，目前也没有解决。</p>
 <p>AI给到的建一个是将 <code class="notranslate">main.spec</code> 文件中的<code class="notranslate">hiddenimports=[ 'azure.storage.blob', 'azure.identity'],</code> 改为 <code class="notranslate">hiddenimports=['azure', 'azure.storage', 'azure.storage.blob', 'azure.identity'],</code></p>
 <pre class="notranslate"><code class="notranslate">a = Analysis(
     ['sync2cloud.py'],
@@ -99,7 +104,90 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     optimize=0,
 )
 </code></pre>
-<p>重试后看看效果</p></div>
+<h2>我尝试过的方案</h2>
+<ol>
+<li>【无效，同样的报错】使用 pyinstaller --onefile --hidden-import=azure --hidden-import=azure.storage --hidden-import=azure.storage.blob --hidden-import=azure.identity --hidden-import=azure.core sync2cloud.py</li>
+<li>【无效，同样的报错】.spec文件中添加hiddenimports=['azure', 'azure.storage', 'azure.storage.blob', 'azure.identity', 'azure.core'],</li>
+<li>【无效，同样的报错】.spec文件中添加hiddenimports=[ 'azure-storage-blob', 'azure-identity'],</li>
+</ol>
+<p>之前使用的是 gemini pro 2.5 preview，更换成claude 3.7 sonnet 效果斐然，下面记录下解决的步骤</p>
+<h2>解决步骤</h2>
+<p>我先是提供了这么一段提示词，作为system prompt</p>
+<pre class="notranslate"><code class="notranslate">环境：windows
+
+确认当前 Python 路径：D:\sinmu\code\python_code\chat_mcp_sync\venv\Scripts\python.exe
+
+python -c "import sys; print(sys.executable)" 的执行结果是：D:\sinmu\code\python_code\chat_mcp_sync\venv\Scripts\python.exe
+
+我确定我激活了虚拟环境
+
+我现在准备用pyinstaller 打包 D:\sinmu\code\python_code\chat_mcp_sync\sync2cloud.py 文件。
+
+总是未成功，你根据我的问题给出一些建议和你的思考
+</code></pre>
+<p>然后给出了一些建议，说是修改 spec 文件，提到了指定 azure 依赖的路径</p>
+<p>据此我就检查了下使用的python编译器的路径，发现默认使用的是系统python编译器路径，没有使用虚拟环境中的路径</p>
+<pre class="notranslate"><code class="notranslate">497 INFO: PyInstaller: 6.11.1, contrib hooks: 2024.11
+498 INFO: Python: 3.12.1
+527 INFO: Platform: Windows-10-10.0.19045-SP0
+527 INFO: Python environment: C:\Users\xxx\AppData\Local\Programs\Python\Python312
+使用的 site-packages 路径: C:\Users\xxx\AppData\Local\Programs\Python\Python312\Lib\site-packages
+</code></pre>
+<p>重新激活虚拟环境。并使用<code class="notranslate"> python -c "import sys; print(sys.executable)"</code> 来确保 python编译器的路径</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">$ python -c <span class="pl-s"><span class="pl-pds">"</span>import sys; print(sys.executable)<span class="pl-pds">"</span></span>
+D:<span class="pl-cce">\s</span>inmu<span class="pl-cce">\c</span>ode<span class="pl-cce">\p</span>ython_code<span class="pl-cce">\c</span>hat_mcp_sync<span class="pl-cce">\v</span>env<span class="pl-cce">\S</span>cripts<span class="pl-cce">\p</span>ython.exe</pre></div>
+<p>然后重新执行<code class="notranslate">pyinstaller sync2cloud.spec</code> 就解决了 【No module found ‘azure’】问题</p>
+<hr>
+<p>spec文件放到最后</p>
+<pre class="notranslate"><code class="notranslate"># -*- mode: python ; coding: utf-8 -*-
+import site
+import os
+import sys
+
+
+# 获取当前虚拟环境的 site-packages 目录
+site_packages = next((p for p in sys.path if p.endswith('site-packages')), None)
+print(f"使用的 site-packages 路径: {site_packages}")
+
+a = Analysis(
+    ['sync2cloud.py'],
+    pathex=[],
+    binaries=[],
+    datas=[(os.path.join(site_packages, 'azure'), 'azure')],
+    hiddenimports=['azure', 'azure.storage', 'azure.storage.blob', 'azure.identity', 'azure.core', 
+                  'azure.storage.blob._shared', 'azure.storage.blob._generated',
+                  'azure.identity._internal', 'msrest', 'msrestazure'],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    noarchive=False,
+    optimize=0,
+)
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,       # 包含二进制文件
+    a.zipfiles,       # 包含压缩文件
+    a.datas,          # 包含数据文件
+    [],
+    name='sync2cloud',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=True,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
+
+
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
