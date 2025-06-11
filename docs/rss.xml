@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>极目</title><link>https://SinMu-L.github.io</link><description>无他，唯手熟尔。</description><copyright>极目</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>me.png</url><title>avatar</title><link>https://SinMu-L.github.io</link></image><lastBuildDate>Mon, 26 May 2025 12:52:20 +0000</lastBuildDate><managingEditor>极目</managingEditor><ttl>60</ttl><webMaster>极目</webMaster><item><title>pyinstaller打包提示 No module found ‘azure’</title><link>https://SinMu-L.github.io/post/pyinstaller-da-bao-ti-shi-%20No%20module%20found%20%E2%80%98azure%E2%80%99.html</link><description>![Image](https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>极目</title><link>https://SinMu-L.github.io</link><description>无他，唯手熟尔。</description><copyright>极目</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>me.png</url><title>avatar</title><link>https://SinMu-L.github.io</link></image><lastBuildDate>Wed, 11 Jun 2025 01:34:38 +0000</lastBuildDate><managingEditor>极目</managingEditor><ttl>60</ttl><webMaster>极目</webMaster><item><title>Python仅导出使用的依赖</title><link>https://SinMu-L.github.io/post/Python-jin-dao-chu-shi-yong-de-yi-lai.html</link><description>代码仓库：https://github.com/bndr/pipreqs
+
+命令：
+```shell
+pip install pipreqs
+```
+
+如果不需要 Jupyter Notebook 的支持，可以安装 pipreqs，但不需要依赖任何依赖项。</description><guid isPermaLink="true">https://SinMu-L.github.io/post/Python-jin-dao-chu-shi-yong-de-yi-lai.html</guid><pubDate>Wed, 11 Jun 2025 01:34:07 +0000</pubDate></item><item><title>pyinstaller打包提示 No module found ‘azure’</title><link>https://SinMu-L.github.io/post/pyinstaller-da-bao-ti-shi-%20No%20module%20found%20%E2%80%98azure%E2%80%99.html</link><description>![Image](https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a)
 
 这个错误折磨了我很久，目前也没有解决。</description><guid isPermaLink="true">https://SinMu-L.github.io/post/pyinstaller-da-bao-ti-shi-%20No%20module%20found%20%E2%80%98azure%E2%80%99.html</guid><pubDate>Mon, 26 May 2025 09:58:06 +0000</pubDate></item><item><title>优雅地启动与清理 Python 多进程的完整指南</title><link>https://SinMu-L.github.io/post/you-ya-di-qi-dong-yu-qing-li-%20Python%20-duo-jin-cheng-de-wan-zheng-zhi-nan.html</link><description>## 背景
 
