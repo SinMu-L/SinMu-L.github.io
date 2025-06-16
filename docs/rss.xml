@@ -1,5 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>极目</title><link>https://SinMu-L.github.io</link><description>无他，唯手熟尔。</description><copyright>极目</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>me.png</url><title>avatar</title><link>https://SinMu-L.github.io</link></image><lastBuildDate>Wed, 11 Jun 2025 01:34:38 +0000</lastBuildDate><managingEditor>极目</managingEditor><ttl>60</ttl><webMaster>极目</webMaster><item><title>Python仅导出使用的依赖</title><link>https://SinMu-L.github.io/post/Python-jin-dao-chu-shi-yong-de-yi-lai.html</link><description>代码仓库：https://github.com/bndr/pipreqs
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>极目</title><link>https://SinMu-L.github.io</link><description>无他，唯手熟尔。</description><copyright>极目</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>me.png</url><title>avatar</title><link>https://SinMu-L.github.io</link></image><lastBuildDate>Mon, 16 Jun 2025 07:01:30 +0000</lastBuildDate><managingEditor>极目</managingEditor><ttl>60</ttl><webMaster>极目</webMaster><item><title>解决vscode报错【BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script) 】</title><link>https://SinMu-L.github.io/post/jie-jue-vscode-bao-cuo-%E3%80%90BadInstallScriptResult%20%E2%94%82%20Error-%20BadInstallScriptResult%20%28Got%20bad%20result%20from%20install%20script%29%20%E3%80%91.html</link><description>环境：windows 10
+
+
+
+问题：VSCode 连接远程服务器文件夹的时候提示下面的错误
+&gt; BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script)       
+
+
+吐槽：上周五还好好的，这周一就不行了，不知道啥原因
+
+找到了这个解决方案：
+
+原因： 注册表中 `HKEY_CURRENT_USER\Software\Microsoft\Command Processor\AutoRun` 的默认值是空白，而非是某个环境变量或者0
+
+![Image](https://github.com/user-attachments/assets/6eb953c1-58c0-4b23-b5b5-519f333ba9df)
+
+
+答案来源：https://github.com/microsoft/vscode-remote-release/issues/6527。</description><guid isPermaLink="true">https://SinMu-L.github.io/post/jie-jue-vscode-bao-cuo-%E3%80%90BadInstallScriptResult%20%E2%94%82%20Error-%20BadInstallScriptResult%20%28Got%20bad%20result%20from%20install%20script%29%20%E3%80%91.html</guid><pubDate>Mon, 16 Jun 2025 07:01:05 +0000</pubDate></item><item><title>Python仅导出使用的依赖</title><link>https://SinMu-L.github.io/post/Python-jin-dao-chu-shi-yong-de-yi-lai.html</link><description>代码仓库：https://github.com/bndr/pipreqs
 
 命令：
 ```shell
