@@ -1,5 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>极目</title><link>https://SinMu-L.github.io</link><description>无他，唯手熟尔。</description><copyright>极目</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>me.png</url><title>avatar</title><link>https://SinMu-L.github.io</link></image><lastBuildDate>Mon, 16 Jun 2025 07:01:30 +0000</lastBuildDate><managingEditor>极目</managingEditor><ttl>60</ttl><webMaster>极目</webMaster><item><title>解决vscode报错【BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script) 】</title><link>https://SinMu-L.github.io/post/jie-jue-vscode-bao-cuo-%E3%80%90BadInstallScriptResult%20%E2%94%82%20Error-%20BadInstallScriptResult%20%28Got%20bad%20result%20from%20install%20script%29%20%E3%80%91.html</link><description>环境：windows 10
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>极目</title><link>https://SinMu-L.github.io</link><description>无他，唯手熟尔。</description><copyright>极目</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>me.png</url><title>avatar</title><link>https://SinMu-L.github.io</link></image><lastBuildDate>Tue, 26 Aug 2025 09:54:05 +0000</lastBuildDate><managingEditor>极目</managingEditor><ttl>60</ttl><webMaster>极目</webMaster><item><title>playwright录制+回放</title><link>https://SinMu-L.github.io/post/playwright-lu-zhi-%2B-hui-fang.html</link><description>## 背景
+需要模拟一个网站上用户的操作，并且希望记录下来用户的点击步骤和html、css、js、api等
+
+
+## 调研
+
+playwright 存在 [codegen](https://playwright.dev/python/docs/codegen) 功能和 [trace viewer](https://playwright.dev/python/docs/trace-viewer-intro) 功能
+&gt; codegen功能：类似屏幕录制功能，会按照你在屏幕上的动作，自动转为可执行的python代码
+
+&gt; trace viewer功能：Playwright Trace Viewer 是一个 GUI 工具，可让您探索测试的记录的 Playwright 跟踪，这意味着您可以前后移动测试的每个操作，并直观地查看每个操作期间发生的情况。</description><guid isPermaLink="true">https://SinMu-L.github.io/post/playwright-lu-zhi-%2B-hui-fang.html</guid><pubDate>Tue, 26 Aug 2025 09:53:36 +0000</pubDate></item><item><title>解决vscode报错【BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script) 】</title><link>https://SinMu-L.github.io/post/jie-jue-vscode-bao-cuo-%E3%80%90BadInstallScriptResult%20%E2%94%82%20Error-%20BadInstallScriptResult%20%28Got%20bad%20result%20from%20install%20script%29%20%E3%80%91.html</link><description>环境：windows 10
 
 
 
