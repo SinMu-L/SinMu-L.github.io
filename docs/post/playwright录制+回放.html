@@ -10,15 +10,31 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="
-随着 AI Coding 工具越来越成熟，前端开发的工作方式也正在发生变化。">
-<meta property="og:title" content="ui-ux-pro-max-skill 网页设计风格、排版配色细节神器">
-<meta property="og:description" content="
-随着 AI Coding 工具越来越成熟，前端开发的工作方式也正在发生变化。">
+<meta name="description" content="## 背景
+需要模拟一个网站上用户的操作，并且希望记录下来用户的点击步骤和html、css、js、api等
+
+
+## 调研
+
+playwright 存在 [codegen](https://playwright.dev/python/docs/codegen) 功能和 [trace viewer](https://playwright.dev/python/docs/trace-viewer-intro) 功能
+> codegen功能：类似屏幕录制功能，会按照你在屏幕上的动作，自动转为可执行的python代码
+
+> trace viewer功能：Playwright Trace Viewer 是一个 GUI 工具，可让您探索测试的记录的 Playwright 跟踪，这意味着您可以前后移动测试的每个操作，并直观地查看每个操作期间发生的情况。">
+<meta property="og:title" content="playwright录制+回放">
+<meta property="og:description" content="## 背景
+需要模拟一个网站上用户的操作，并且希望记录下来用户的点击步骤和html、css、js、api等
+
+
+## 调研
+
+playwright 存在 [codegen](https://playwright.dev/python/docs/codegen) 功能和 [trace viewer](https://playwright.dev/python/docs/trace-viewer-intro) 功能
+> codegen功能：类似屏幕录制功能，会按照你在屏幕上的动作，自动转为可执行的python代码
+
+> trace viewer功能：Playwright Trace Viewer 是一个 GUI 工具，可让您探索测试的记录的 Playwright 跟踪，这意味着您可以前后移动测试的每个操作，并直观地查看每个操作期间发生的情况。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://SinMu-L.github.io/post/ui-ux-pro-max-skill%20-wang-ye-she-ji-feng-ge-%E3%80%81-pai-ban-pei-se-xi-jie-shen-qi.html">
+<meta property="og:url" content="https://SinMu-L.github.io/post/playwright%E5%BD%95%E5%88%B6%2B%E5%9B%9E%E6%94%BE.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
-<title>ui-ux-pro-max-skill 网页设计风格、排版配色细节神器</title>
+<title>playwright录制+回放</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
@@ -61,7 +77,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">ui-ux-pro-max-skill 网页设计风格、排版配色细节神器</h1>
+<h1 class="postTitle">playwright录制+回放</h1>
 <div class="title-right">
     <a href="https://SinMu-L.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -69,7 +85,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/12" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/8" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -85,97 +101,98 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>随着 AI Coding 工具越来越成熟，前端开发的工作方式也正在发生变化。<br>
-如果你希望自己的项目在 <strong>UI、UX、交互设计、组件规范、视觉层次</strong> 等方面更加现代化，那么可以尝试一下：</p>
-<p><a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill">ui-ux-pro-max-skill</a></p>
-<p>这个项目主要用于增强 AI 编程助手在前端 UI/UX 方向上的能力，让 AI 更懂现代设计语言，从而生成质量更高、更符合产品感的前端代码。</p>
-<hr>
-<h1>为什么值得使用？</h1>
-<p>很多 AI Coding 工具虽然能写代码，但在以下方面往往表现一般：</p>
-<ul>
-<li>UI 缺少层次感</li>
-<li>组件风格不统一</li>
-<li>交互体验偏“工程化”</li>
-<li>缺少现代 SaaS 产品的设计感</li>
-<li>页面视觉比较“朴素”</li>
-</ul>
-<p>而 <code class="notranslate">ui-ux-pro-max-skill</code> 的目标，就是让 AI：</p>
-<ul>
-<li>更懂现代 UI 设计</li>
-<li>更懂组件布局与视觉节奏</li>
-<li>更懂产品级 UX</li>
-<li>更懂 Tailwind / Design System 风格</li>
-<li>更容易生成高级感前端页面</li>
-</ul>
-<p>尤其适合：</p>
-<ul>
-<li>SaaS 后台</li>
-<li>AI 产品</li>
-<li>Dashboard</li>
-<li>Landing Page</li>
-<li>现代 Web App</li>
-<li>移动端 H5</li>
-</ul>
-<hr>
-<h1>安装方式</h1>
-<p>首先，全局安装 CLI：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">npm install -g uipro-cli</pre></div>
-<p>安装完成后，可以根据你正在使用的 AI 编程工具进行初始化。</p>
-<hr>
-<h1>支持的 AI 编程助手</h1>
-<h2>Claude Code</h2>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uipro init --ai claude</pre></div>
-<h2>Cursor</h2>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uipro init --ai cursor</pre></div>
-<h2>Windsurf</h2>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uipro init --ai windsurf</pre></div>
-<h2>GitHub Copilot</h2>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uipro init --ai copilot</pre></div>
-<h2>Gemini CLI</h2>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uipro init --ai gemini</pre></div>
-<h2>Codex CLI</h2>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uipro init --ai codex</pre></div>
-<hr>
-<h1>更多支持的平台</h1>
-<p>项目目前还支持：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uipro init --ai antigravity
-uipro init --ai kiro
-uipro init --ai qoder
-uipro init --ai roocode
-uipro init --ai trae
-uipro init --ai opencode
-uipro init --ai <span class="pl-k">continue</span>
-uipro init --ai codebuddy</pre></div>
-<p>如果你希望一次性安装所有助手配置：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">uipro init --ai all</pre></div>
-<hr>
-<h1>使用后的效果</h1>
-<p>接入后，AI 在生成前端页面时，通常会有明显变化：</p>
-<ul>
-<li>页面布局更合理</li>
-<li>UI 更现代</li>
-<li>配色更统一</li>
-<li>更符合真实产品风格</li>
-<li>组件细节更完整</li>
-<li>更接近设计稿质量</li>
-</ul>
-<p>尤其在 Tailwind CSS、React、Next.js 技术栈中，效果会更加明显。</p>
-<hr>
-<h1>适合哪些开发者？</h1>
-<p>这个项目尤其适合：</p>
-<ul>
-<li>独立开发者</li>
-<li>AI 产品开发者</li>
-<li>前端工程师</li>
-<li>全栈开发者</li>
-<li>正在做 SaaS 产品的人</li>
-</ul>
-<p>如果你已经习惯使用 Cursor、Claude Code、Copilot 等 AI 工具，那么它能进一步提升 AI 输出质量。</p>
-<hr>
-<h1>项目地址</h1>
-<p>GitHub：</p>
-<p>[<a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill?utm_source=chatgpt.com">ui-ux-pro-max-skill Github 仓库</a>](<a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill?utm_source=chatgpt.com">https://github.com/nextlevelbuilder/ui-ux-pro-max-skill?utm_source=chatgpt.com</a>)</p>
-<p>如果你正在尝试 AI + 前端开发工作流，这个项目值得体验一下。</p></div>
+<div class="markdown-body" id="postBody"><h2>背景</h2>
+<p>需要模拟一个网站上用户的操作，并且希望记录下来用户的点击步骤和html、css、js、api等</p>
+<h2>调研</h2>
+<p>playwright 存在 <a href="https://playwright.dev/python/docs/codegen" rel="nofollow">codegen</a> 功能和 <a href="https://playwright.dev/python/docs/trace-viewer-intro" rel="nofollow">trace viewer</a> 功能</p>
+<blockquote>
+<p>codegen功能：类似屏幕录制功能，会按照你在屏幕上的动作，自动转为可执行的python代码</p>
+</blockquote>
+<blockquote>
+<p>trace viewer功能：Playwright Trace Viewer 是一个 GUI 工具，可让您探索测试的记录的 Playwright 跟踪，这意味着您可以前后移动测试的每个操作，并直观地查看每个操作期间发生的情况。</p>
+</blockquote>
+<blockquote>
+<p>这里是的介绍： <a href="https://playwright.dev/python/docs/trace-viewer#introduction" rel="nofollow">https://playwright.dev/python/docs/trace-viewer#introduction</a></p>
+</blockquote>
+<h2>思路</h2>
+<p>无论是  <a href="https://playwright.dev/python/docs/codegen" rel="nofollow">codegen</a>  还是 <a href="https://playwright.dev/python/docs/trace-viewer-intro" rel="nofollow">trace viewer</a> 他们都有两种调用方式</p>
+<ol>
+<li>命令行</li>
+<li>代码调用</li>
+</ol>
+<p>这里主要介绍用代码的方式实现结合</p>
+<p>首先官方没有将两个合并的步骤，但是 <a href="https://playwright.dev/python/docs/codegen" rel="nofollow">codegen</a> 支持自定义功能。<a href="https://playwright.dev/python/docs/codegen#record-using-custom-setup" rel="nofollow">异步代码</a>如下</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">asyncio</span>
+<span class="pl-k">from</span> <span class="pl-s1">playwright</span>.<span class="pl-s1">async_api</span> <span class="pl-k">import</span> <span class="pl-s1">async_playwright</span>
+
+<span class="pl-k">async</span> <span class="pl-k">def</span> <span class="pl-en">main</span>():
+    <span class="pl-k">async</span> <span class="pl-k">with</span> <span class="pl-en">async_playwright</span>() <span class="pl-k">as</span> <span class="pl-s1">p</span>:
+        <span class="pl-c"># Make sure to run headed.</span>
+        <span class="pl-s1">browser</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">p</span>.<span class="pl-c1">chromium</span>.<span class="pl-c1">launch</span>(<span class="pl-s1">headless</span><span class="pl-c1">=</span><span class="pl-c1">False</span>)
+
+        <span class="pl-c"># Setup context however you like.</span>
+        <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">browser</span>.<span class="pl-c1">new_context</span>() <span class="pl-c"># Pass any options</span>
+        <span class="pl-k">await</span> <span class="pl-s1">context</span>.<span class="pl-c1">route</span>(<span class="pl-s">'**/*'</span>, <span class="pl-k">lambda</span> <span class="pl-s1">route</span>: <span class="pl-s1">route</span>.<span class="pl-c1">continue_</span>())
+
+        <span class="pl-c"># Pause the page, and start recording manually.</span>
+        <span class="pl-s1">page</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">context</span>.<span class="pl-c1">new_page</span>()
+        <span class="pl-k">await</span> <span class="pl-s1">page</span>.<span class="pl-c1">pause</span>()
+
+<span class="pl-s1">asyncio</span>.<span class="pl-c1">run</span>(<span class="pl-en">main</span>())</pre></div>
+<p>和AI对话后得知可以同时进行，只是不能用命令行的形式操作。 整体代码如下</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">from</span> <span class="pl-s1">playwright</span>.<span class="pl-s1">sync_api</span> <span class="pl-k">import</span> <span class="pl-s1">sync_playwright</span>
+
+<span class="pl-k">def</span> <span class="pl-en">run_codegen_with_tracing</span>():
+    <span class="pl-s">"""</span>
+<span class="pl-s">    启动一个类似 Codegen 的会话，并同时记录 Trace。</span>
+<span class="pl-s">    """</span>
+    <span class="pl-k">with</span> <span class="pl-en">sync_playwright</span>() <span class="pl-k">as</span> <span class="pl-s1">p</span>:
+        <span class="pl-c"># 你可以指定浏览器，例如 p.firefox 或 p.webkit</span>
+        <span class="pl-s1">browser</span> <span class="pl-c1">=</span> <span class="pl-s1">p</span>.<span class="pl-c1">chromium</span>.<span class="pl-c1">launch</span>(<span class="pl-s1">headless</span><span class="pl-c1">=</span><span class="pl-c1">False</span>)
+        <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-s1">browser</span>.<span class="pl-c1">new_context</span>()
+
+        <span class="pl-c"># --- 核心步骤 1: 在所有操作开始前，启动 Tracing ---</span>
+        <span class="pl-en">print</span>(<span class="pl-s">"🚀 Tracing 已启动... 将在会话结束后保存。"</span>)
+        <span class="pl-s1">context</span>.<span class="pl-c1">tracing</span>.<span class="pl-c1">start</span>(
+            <span class="pl-s1">name</span><span class="pl-c1">=</span><span class="pl-s">"codegen-trace"</span>,  <span class="pl-c"># Trace 文件名的前缀</span>
+            <span class="pl-s1">screenshots</span><span class="pl-c1">=</span><span class="pl-c1">True</span>,     <span class="pl-c"># 捕获截图</span>
+            <span class="pl-s1">snapshots</span><span class="pl-c1">=</span><span class="pl-c1">True</span>,       <span class="pl-c"># 捕获 DOM 快照 (非常重要!)</span>
+            <span class="pl-s1">sources</span><span class="pl-c1">=</span><span class="pl-c1">True</span>          <span class="pl-c"># 包含源代码</span>
+        )
+
+        <span class="pl-c"># 创建一个新页面作为起点</span>
+        <span class="pl-s1">page</span> <span class="pl-c1">=</span> <span class="pl-s1">context</span>.<span class="pl-c1">new_page</span>()
+
+        <span class="pl-k">try</span>:
+            <span class="pl-c"># --- 核心步骤 2: 启动 Playwright Inspector (Codegen 的核心) ---</span>
+            <span class="pl-en">print</span>(<span class="pl-s">"▶️ 启动 Playwright Inspector (Codegen)..."</span>)
+            <span class="pl-en">print</span>(<span class="pl-s">"👉 请在弹出的浏览器窗口中进行操作，Inspector 会为你生成代码。"</span>)
+            <span class="pl-en">print</span>(<span class="pl-s">"🛑 操作完成后，请直接关闭【浏览器窗口】或【Inspector 窗口】来结束录制。"</span>)
+
+            <span class="pl-c"># page.pause() 会暂停脚本，并打开 Inspector 工具。</span>
+            <span class="pl-c"># 这就是 codegen 的魔法所在！</span>
+            <span class="pl-s1">page</span>.<span class="pl-c1">pause</span>()
+            
+            <span class="pl-c"># 当用户关闭浏览器或 Inspector 时，pause() 会结束，代码会继续向下执行。</span>
+
+        <span class="pl-k">finally</span>:
+            <span class="pl-c"># --- 核心步骤 3: 在会话结束后，停止并保存 Trace 文件 ---</span>
+            <span class="pl-en">print</span>(<span class="pl-s">"<span class="pl-cce">\n</span>💾 会话结束，正在保存 Trace 文件..."</span>)
+            <span class="pl-s1">trace_path</span> <span class="pl-c1">=</span> <span class="pl-s">"my_codegen_session.zip"</span>
+            <span class="pl-s1">context</span>.<span class="pl-c1">tracing</span>.<span class="pl-c1">stop</span>(<span class="pl-s1">path</span><span class="pl-c1">=</span><span class="pl-s1">trace_path</span>)
+
+            <span class="pl-en">print</span>(<span class="pl-s">f"✅ Trace 文件已成功保存到: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">trace_path</span><span class="pl-kos">}</span></span>"</span>)
+            <span class="pl-en">print</span>(<span class="pl-s">f"👉 你可以使用命令 'playwright show-trace <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">trace_path</span><span class="pl-kos">}</span></span>' 来查看它。"</span>)
+
+            <span class="pl-c"># 清理资源</span>
+            <span class="pl-s1">context</span>.<span class="pl-c1">close</span>()
+            <span class="pl-s1">browser</span>.<span class="pl-c1">close</span>()
+
+
+<span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
+    <span class="pl-en">run_codegen_with_tracing</span>()</pre></div>
+<h2>补充</h2>
+<p>playwright官网没有提到 trace 的代码功能。具体的代码参考：<a href="https://github.com/microsoft/playwright-python/blob/3cbe13e58a4a20b4b3aaa1afbdc69747a7c37933/playwright/sync_api/_generated.py#L12729">https://github.com/microsoft/playwright-python/blob/3cbe13e58a4a20b4b3aaa1afbdc69747a7c37933/playwright/sync_api/_generated.py#L12729</a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
