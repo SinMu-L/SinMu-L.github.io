@@ -10,17 +10,17 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="## 背景
+<meta name="description" content="![Image](https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a)
 
-我希望一个脚本新增数据到数据表中，再启动另一个脚本更新数据表的字段，但是每次启动两个脚本太麻烦了，我就想能不能一个启动一个脚本同时执行两个任务。">
-<meta property="og:title" content="优雅地启动与清理 Python 多进程的完整指南">
-<meta property="og:description" content="## 背景
+这个错误折磨了我很久，目前也没有解决。">
+<meta property="og:title" content="pyinstaller打包提示 No module found ‘azure’">
+<meta property="og:description" content="![Image](https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a)
 
-我希望一个脚本新增数据到数据表中，再启动另一个脚本更新数据表的字段，但是每次启动两个脚本太麻烦了，我就想能不能一个启动一个脚本同时执行两个任务。">
+这个错误折磨了我很久，目前也没有解决。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://SinMu-L.github.io/post/%E4%BC%98%E9%9B%85%E5%9C%B0%E5%90%AF%E5%8A%A8%E4%B8%8E%E6%B8%85%E7%90%86-Python-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97.html">
+<meta property="og:url" content="https://SinMu-L.github.io/post/pyinstaller-da-bao-ti-shi-%20No%20module%20found%20%E2%80%98azure%E2%80%99.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
-<title>优雅地启动与清理 Python 多进程的完整指南</title>
+<title>pyinstaller打包提示 No module found ‘azure’</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
@@ -63,7 +63,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">优雅地启动与清理 Python 多进程的完整指南</h1>
+<h1 class="postTitle">pyinstaller打包提示 No module found ‘azure’</h1>
 <div class="title-right">
     <a href="https://SinMu-L.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -71,7 +71,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/1" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/5" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -87,61 +87,107 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h2>背景</h2>
-<p>我希望一个脚本新增数据到数据表中，再启动另一个脚本更新数据表的字段，但是每次启动两个脚本太麻烦了，我就想能不能一个启动一个脚本同时执行两个任务。</p>
-<p>通过AI的帮助，写了下面的启动和清理多进程的代码块。感觉后续还会用到，做下记录。</p>
-<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">multiprocessing</span>
-<span class="pl-k">import</span> <span class="pl-s1">time</span>
-<span class="pl-k">from</span> <span class="pl-s1">loguru</span> <span class="pl-k">import</span> <span class="pl-s1">logger</span>
-<span class="pl-k">import</span> <span class="pl-s1">signal</span>
+<div class="markdown-body" id="postBody"><p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a"><img src="https://github.com/user-attachments/assets/bc63f526-06d3-409c-95ae-952c5e69887a" alt="Image" style="max-width: 100%;"></a></p>
+<p>这个错误折磨了我很久，目前也没有解决。</p>
+<p>AI给到的建一个是将 <code class="notranslate">main.spec</code> 文件中的<code class="notranslate">hiddenimports=[ 'azure.storage.blob', 'azure.identity'],</code> 改为 <code class="notranslate">hiddenimports=['azure', 'azure.storage', 'azure.storage.blob', 'azure.identity'],</code></p>
+<pre class="notranslate"><code class="notranslate">a = Analysis(
+    ['sync2cloud.py'],
+    pathex=[],
+    binaries=[],
+    datas=[],
+    hiddenimports=['azure', 'azure.storage', 'azure.storage.blob', 'azure.identity'],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    noarchive=False,
+    optimize=0,
+)
+</code></pre>
+<h2>我尝试过的方案</h2>
+<ol>
+<li>【无效，同样的报错】使用 pyinstaller --onefile --hidden-import=azure --hidden-import=azure.storage --hidden-import=azure.storage.blob --hidden-import=azure.identity --hidden-import=azure.core sync2cloud.py</li>
+<li>【无效，同样的报错】.spec文件中添加hiddenimports=['azure', 'azure.storage', 'azure.storage.blob', 'azure.identity', 'azure.core'],</li>
+<li>【无效，同样的报错】.spec文件中添加hiddenimports=[ 'azure-storage-blob', 'azure-identity'],</li>
+</ol>
+<p>之前使用的是 gemini pro 2.5 preview，更换成claude 3.7 sonnet 效果斐然，下面记录下解决的步骤</p>
+<h2>解决步骤</h2>
+<p>我先是提供了这么一段提示词，作为system prompt</p>
+<pre class="notranslate"><code class="notranslate">环境：windows
 
-<span class="pl-c"># 子进程任务</span>
-<span class="pl-k">def</span> <span class="pl-en">function_a</span>(<span class="pl-s1">stop_event</span>):
-    <span class="pl-k">while</span> <span class="pl-c1">not</span> <span class="pl-s1">stop_event</span>.<span class="pl-c1">is_set</span>():
-        <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"正在新增数据到数据库..."</span>)
-        <span class="pl-s1">time</span>.<span class="pl-c1">sleep</span>(<span class="pl-c1">2</span>)
-    <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"function_a 已停止"</span>)
+确认当前 Python 路径：D:\sinmu\code\python_code\chat_mcp_sync\venv\Scripts\python.exe
 
-<span class="pl-k">def</span> <span class="pl-en">function_b</span>(<span class="pl-s1">stop_event</span>):
-    <span class="pl-k">while</span> <span class="pl-c1">not</span> <span class="pl-s1">stop_event</span>.<span class="pl-c1">is_set</span>():
-        <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"正在更新数据库字段..."</span>)
-        <span class="pl-s1">time</span>.<span class="pl-c1">sleep</span>(<span class="pl-c1">3</span>)
-    <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"function_b 已停止"</span>)
+python -c "import sys; print(sys.executable)" 的执行结果是：D:\sinmu\code\python_code\chat_mcp_sync\venv\Scripts\python.exe
 
-<span class="pl-k">def</span> <span class="pl-en">handle_exit</span>(<span class="pl-s1">signum</span>, <span class="pl-s1">frame</span>):
-    <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"<span class="pl-cce">\n</span>收到中断信号，正在准备退出程序..."</span>)
-    <span class="pl-s1">stop_event_a</span>.<span class="pl-c1">set</span>()
-    <span class="pl-s1">stop_event_b</span>.<span class="pl-c1">set</span>()
+我确定我激活了虚拟环境
 
-<span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
-    <span class="pl-c"># 创建停止信号</span>
-    <span class="pl-s1">stop_event_a</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Event</span>()
-    <span class="pl-s1">stop_event_b</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Event</span>()
+我现在准备用pyinstaller 打包 D:\sinmu\code\python_code\chat_mcp_sync\sync2cloud.py 文件。
 
-    <span class="pl-c"># 注册信号处理器</span>
-    <span class="pl-s1">signal</span>.<span class="pl-c1">signal</span>(<span class="pl-s1">signal</span>.<span class="pl-c1">SIGINT</span>, <span class="pl-s1">handle_exit</span>)
+总是未成功，你根据我的问题给出一些建议和你的思考
+</code></pre>
+<p>然后给出了一些建议，说是修改 spec 文件，提到了指定 azure 依赖的路径</p>
+<p>据此我就检查了下使用的python编译器的路径，发现默认使用的是系统python编译器路径，没有使用虚拟环境中的路径</p>
+<pre class="notranslate"><code class="notranslate">497 INFO: PyInstaller: 6.11.1, contrib hooks: 2024.11
+498 INFO: Python: 3.12.1
+527 INFO: Platform: Windows-10-10.0.19045-SP0
+527 INFO: Python environment: C:\Users\xxx\AppData\Local\Programs\Python\Python312
+使用的 site-packages 路径: C:\Users\xxx\AppData\Local\Programs\Python\Python312\Lib\site-packages
+</code></pre>
+<p>重新激活虚拟环境。并使用<code class="notranslate"> python -c "import sys; print(sys.executable)"</code> 来确保 python编译器的路径</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">$ python -c <span class="pl-s"><span class="pl-pds">"</span>import sys; print(sys.executable)<span class="pl-pds">"</span></span>
+D:<span class="pl-cce">\s</span>inmu<span class="pl-cce">\c</span>ode<span class="pl-cce">\p</span>ython_code<span class="pl-cce">\c</span>hat_mcp_sync<span class="pl-cce">\v</span>env<span class="pl-cce">\S</span>cripts<span class="pl-cce">\p</span>ython.exe</pre></div>
+<p>然后重新执行<code class="notranslate">pyinstaller sync2cloud.spec</code> 就解决了 【No module found ‘azure’】问题</p>
+<hr>
+<p>spec文件放到最后</p>
+<pre class="notranslate"><code class="notranslate"># -*- mode: python ; coding: utf-8 -*-
+import site
+import os
+import sys
 
-    <span class="pl-c"># 创建进程</span>
-    <span class="pl-s1">process_a</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Process</span>(<span class="pl-s1">target</span><span class="pl-c1">=</span><span class="pl-s1">function_a</span>, <span class="pl-s1">args</span><span class="pl-c1">=</span>(<span class="pl-s1">stop_event_a</span> ,))
-    <span class="pl-s1">process_b</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Process</span>(<span class="pl-s1">target</span><span class="pl-c1">=</span><span class="pl-s1">function_b</span>, <span class="pl-s1">args</span><span class="pl-c1">=</span>(<span class="pl-s1">stop_event_b</span> ,))
 
-    <span class="pl-c"># 启动进程</span>
-    <span class="pl-s1">process_a</span>.<span class="pl-c1">start</span>()
-    <span class="pl-s1">process_b</span>.<span class="pl-c1">start</span>()
+# 获取当前虚拟环境的 site-packages 目录
+site_packages = next((p for p in sys.path if p.endswith('site-packages')), None)
+print(f"使用的 site-packages 路径: {site_packages}")
 
-    <span class="pl-k">try</span>:
-        <span class="pl-c"># 主进程保持运行</span>
-        <span class="pl-s1">process_a</span>.<span class="pl-c1">join</span>()
-        <span class="pl-s1">process_b</span>.<span class="pl-c1">join</span>()
-    <span class="pl-k">except</span> <span class="pl-v">KeyboardInterrupt</span>:
-        <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"程序手动中断"</span>)
-    <span class="pl-k">finally</span>:
-        <span class="pl-c"># 设置停止信号并等待子进程退出</span>
-        <span class="pl-s1">stop_event_a</span>.<span class="pl-c1">set</span>()
-        <span class="pl-s1">stop_event_b</span>.<span class="pl-c1">set</span>()
-        <span class="pl-s1">process_a</span>.<span class="pl-c1">join</span>()
-        <span class="pl-s1">process_b</span>.<span class="pl-c1">join</span>()
-        <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"已清理所有子进程并退出程序。"</span>)</pre></div></div>
+a = Analysis(
+    ['sync2cloud.py'],
+    pathex=[],
+    binaries=[],
+    datas=[(os.path.join(site_packages, 'azure'), 'azure')],
+    hiddenimports=['azure', 'azure.storage', 'azure.storage.blob', 'azure.identity', 'azure.core', 
+                  'azure.storage.blob._shared', 'azure.storage.blob._generated',
+                  'azure.identity._internal', 'msrest', 'msrestazure'],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    noarchive=False,
+    optimize=0,
+)
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,       # 包含二进制文件
+    a.zipfiles,       # 包含压缩文件
+    a.datas,          # 包含数据文件
+    [],
+    name='sync2cloud',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=True,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
+
+
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -200,11 +246,7 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-cmButton=document.getElementById("cmButton");
-    span=document.createElement("span");
-    span.setAttribute("class","Counter");
-    span.innerHTML="1";
-    cmButton.appendChild(span);
+
 
 
 function openComments(){

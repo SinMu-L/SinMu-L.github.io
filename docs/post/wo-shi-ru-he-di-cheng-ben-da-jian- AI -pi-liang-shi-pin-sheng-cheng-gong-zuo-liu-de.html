@@ -10,47 +10,13 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="环境：windows 10
-
-
-
-问题：VSCode 连接远程服务器文件夹的时候提示下面的错误
-> BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script)       
-
-
-吐槽：上周五还好好的，这周一就不行了，不知道啥原因
-
-找到了这个解决方案：
-
-原因： 注册表中 `HKEY_CURRENT_USER\Software\Microsoft\Command Processor\AutoRun` 的默认值是空白，而非是某个环境变量或者0
-
-![Image](https://github.com/user-attachments/assets/6eb953c1-58c0-4b23-b5b5-519f333ba9df)
-
-
-答案来源：https://github.com/microsoft/vscode-remote-release/issues/6527。">
-<meta property="og:title" content="解决vscode报错【BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script) 】">
-<meta property="og:description" content="环境：windows 10
-
-
-
-问题：VSCode 连接远程服务器文件夹的时候提示下面的错误
-> BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script)       
-
-
-吐槽：上周五还好好的，这周一就不行了，不知道啥原因
-
-找到了这个解决方案：
-
-原因： 注册表中 `HKEY_CURRENT_USER\Software\Microsoft\Command Processor\AutoRun` 的默认值是空白，而非是某个环境变量或者0
-
-![Image](https://github.com/user-attachments/assets/6eb953c1-58c0-4b23-b5b5-519f333ba9df)
-
-
-答案来源：https://github.com/microsoft/vscode-remote-release/issues/6527。">
+<meta name="description" content="最近在尝试做一个“文本生成视频”的工作流。">
+<meta property="og:title" content="我是如何低成本搭建 AI 批量视频生成工作流的">
+<meta property="og:description" content="最近在尝试做一个“文本生成视频”的工作流。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://SinMu-L.github.io/post/%E8%A7%A3%E5%86%B3vscode%E6%8A%A5%E9%94%99%E3%80%90BadInstallScriptResult-%E2%94%82-Error--BadInstallScriptResult-%28Got-bad-result-from-install-script%29-%E3%80%91.html">
+<meta property="og:url" content="https://SinMu-L.github.io/post/wo-shi-ru-he-di-cheng-ben-da-jian-%20AI%20-pi-liang-shi-pin-sheng-cheng-gong-zuo-liu-de.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
-<title>解决vscode报错【BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script) 】</title>
+<title>我是如何低成本搭建 AI 批量视频生成工作流的</title>
 
 
 
@@ -83,7 +49,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">解决vscode报错【BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script) 】</h1>
+<h1 class="postTitle">我是如何低成本搭建 AI 批量视频生成工作流的</h1>
 <div class="title-right">
     <a href="https://SinMu-L.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -91,7 +57,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/7" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/11" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -107,16 +73,269 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>环境：windows 10</p>
-<p>问题：VSCode 连接远程服务器文件夹的时候提示下面的错误</p>
+<div class="markdown-body" id="postBody"><p>最近在尝试做一个“文本生成视频”的工作流。</p>
+<p>核心目标很简单：</p>
 <blockquote>
-<p>BadInstallScriptResult │ Error: BadInstallScriptResult (Got bad result from install script)</p>
+<p>输入一段文本，自动生成适合账号矩阵发布的视频内容。</p>
 </blockquote>
-<p>吐槽：上周五还好好的，这周一就不行了，不知道啥原因</p>
-<p>找到了这个解决方案：</p>
-<p>原因： 注册表中 <code class="notranslate">HKEY_CURRENT_USER\Software\Microsoft\Command Processor\AutoRun</code> 的默认值是空白，而非是某个环境变量或者0</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/6eb953c1-58c0-4b23-b5b5-519f333ba9df"><img src="https://github.com/user-attachments/assets/6eb953c1-58c0-4b23-b5b5-519f333ba9df" alt="Image" style="max-width: 100%;"></a></p>
-<p>答案来源：<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="1187461023" data-permission-text="Title is private" data-url="https://github.com/microsoft/vscode-remote-release/issues/6527" data-hovercard-type="issue" data-hovercard-url="/microsoft/vscode-remote-release/issues/6527/hovercard" href="https://github.com/microsoft/vscode-remote-release/issues/6527">microsoft/vscode-remote-release#6527</a></p></div>
+<p>最终效果类似：</p>
+<ul>
+<li>幻灯片式镜头切换</li>
+<li>图片动态化</li>
+<li>简单转场</li>
+<li>AI 配音</li>
+<li>自动拼接成长视频</li>
+</ul>
+<p>本质上，是一个低成本的 AI 短视频生产流水线。</p>
+<hr>
+<h1>第一版：全自动 n8n 工作流</h1>
+<p>一开始，我尝试做的是“全自动方案”。</p>
+<p>整体流程如下：</p>
+<ol>
+<li>上传一张图片</li>
+<li>通过 n8n 自动生成多个脚本</li>
+<li>使用脚本调用 OpenRouter 的 Video API</li>
+<li>批量生成多个视频片段</li>
+<li>最后通过 FFmpeg 拼接成长视频</li>
+</ol>
+<p>理论上，这是一套完全自动化的内容生成链路。</p>
+<p>但实际运行后，我很快发现几个问题：</p>
+<ul>
+<li>视频模型调用成本太高</li>
+<li>输出质量不稳定</li>
+<li>对新手不友好</li>
+<li>Prompt 很难精准控制</li>
+<li>场景一致性非常差</li>
+</ul>
+<p>最终，我放弃了“完全自动化”的方向，转而采用“半手动工作流”。</p>
+<p>原因也很简单：</p>
+<blockquote>
+<p>AI 视频生成这件事，目前最大的成本不是算力，而是“可控性”。</p>
+</blockquote>
+<hr>
+<h1>纯手动方案踩过的坑</h1>
+<h2>1. AI 味太重</h2>
+<p>这是最明显的问题。</p>
+<p>早期生成的视频会有一种非常明显的“AI 感”：</p>
+<ul>
+<li>镜头逻辑混乱</li>
+<li>场景缺少真实感</li>
+<li>画面像 PPT</li>
+<li>人物动作不自然</li>
+</ul>
+<p>后来我发现：</p>
+<blockquote>
+<p>Prompt 不能只描述内容，还要描述镜头语言。</p>
+</blockquote>
+<p>例如：</p>
+<ul>
+<li>运镜方式</li>
+<li>镜头焦段</li>
+<li>场景布局</li>
+<li>光线</li>
+<li>情绪</li>
+<li>旁白节奏</li>
+</ul>
+<p>这些细节会明显降低 AI 感。</p>
+<hr>
+<h2>2. 字幕合并问题</h2>
+<p>最开始，我尝试用 FFmpeg 自动合并字幕。</p>
+<p>但后面发现：</p>
+<ul>
+<li>字幕时间轴很难精准对齐</li>
+<li>AI 配音节奏不稳定</li>
+<li>不同平台字幕样式差异大</li>
+</ul>
+<p>后来我直接放弃了“程序内嵌字幕”。</p>
+<p>改成：</p>
+<ul>
+<li>只生成音频和视频</li>
+<li>最后用剪映之类的软件自动识别字幕</li>
+</ul>
+<p>反而效率更高。</p>
+<hr>
+<h2>3. 文本、字幕、MP3 无法同步</h2>
+<p>这是 n8n 工作流里最头疼的问题之一。</p>
+<p>经常会出现：</p>
+<ul>
+<li>原文长度变了</li>
+<li>TTS 语速变化</li>
+<li>字幕时间轴漂移</li>
+<li>MP3 与字幕对不上</li>
+</ul>
+<p>后来我意识到：</p>
+<blockquote>
+<p>自动化链路越长，误差累积越严重。</p>
+</blockquote>
+<p>所以最后我直接绕过字幕系统。</p>
+<hr>
+<h2>4. 无法指定稳定女声</h2>
+<p>很多 TTS 平台虽然能生成语音，但：</p>
+<ul>
+<li>声音不稳定</li>
+<li>情绪机械</li>
+<li>无法固定角色音色</li>
+</ul>
+<p>最后我使用了 Minimax 的音频 API。</p>
+<p>通过指定新闻类女声作为音源，最终生成的 MP3 稳定了很多。</p>
+<hr>
+<h2>5. 场景一致性问题</h2>
+<p>这是目前依然没有彻底解决的问题。</p>
+<p>AI 视频生成最大的难点之一就是：</p>
+<blockquote>
+<p>前后镜头的人物、服装、环境，很难保持一致。</p>
+</blockquote>
+<p>我现在的做法是：</p>
+<ol>
+<li>先把文本或图片丢给 NotebookLM</li>
+<li>生成一个基础视频</li>
+<li>从视频中抽取关键帧</li>
+<li>让 AI 分析这些关键帧的风格</li>
+<li>自动生成统一的场景描述词</li>
+<li>再使用 <a href="https://seko.sensetime.com" rel="nofollow">SenseTime 秒画（Seko）</a> 生成分镜和视频</li>
+</ol>
+<p>这个方案虽然不完美，但能一定程度提升风格统一性。</p>
+<hr>
+<h1>图片版权与水印问题</h1>
+<p>做矩阵内容时，图片版权是绕不开的问题。</p>
+<p>目前我的处理方式比较粗暴：</p>
+<ul>
+<li>去水印</li>
+<li>二次生成</li>
+<li>风格重绘</li>
+</ul>
+<p>常用工具：</p>
+<ul>
+<li><a href="https://online-video-cutter.com" rel="nofollow">Online Video Cutter</a></li>
+<li><a href="https://turboscribe.ai/zh-CN/dashboard" rel="nofollow">TurboScribe</a></li>
+</ul>
+<p>其中：</p>
+<ul>
+<li>Online Video Cutter 用于简单去水印和视频裁剪</li>
+<li>TurboScribe 用于提取音频与转录</li>
+</ul>
+<p>不过这里还是建议：</p>
+<blockquote>
+<p>尽量使用可商用素材，避免后期版权风险。</p>
+</blockquote>
+<hr>
+<h1>关于 Video Model 成本</h1>
+<p>最开始最大的顾虑其实是：</p>
+<blockquote>
+<p>Text-to-Video 模型实在太贵了。</p>
+</blockquote>
+<p>尤其是批量生成时，成本会被迅速放大。</p>
+<p>但后来找到了一些免费方案后，这部分压力就小很多了。</p>
+<p>当然：</p>
+<ul>
+<li>免费方案通常有限速</li>
+<li>有积分限制</li>
+<li>生成质量也不一定稳定</li>
+</ul>
+<p>所以本质上是在：</p>
+<blockquote>
+<p>成本、质量、速度之间做平衡。</p>
+</blockquote>
+<hr>
+<h1>这套手动工作流的优缺点</h1>
+<h2>优点</h2>
+<h3>1. 定制化程度高</h3>
+<p>因为是纯手动：</p>
+<ul>
+<li>每个镜头都能调整</li>
+<li>Prompt 可以单独优化</li>
+<li>更容易做差异化内容</li>
+</ul>
+<hr>
+<h3>2. 成本很低</h3>
+<p>除了时间成本之外：</p>
+<ul>
+<li>API 消耗很少</li>
+<li>基本不需要高额 GPU 开销</li>
+</ul>
+<p>对于个人玩家来说比较友好。</p>
+<hr>
+<h3>3. 后期有机会固化成工作流</h3>
+<p>虽然现在还是偏手工。</p>
+<p>但长期来看：</p>
+<p>结合 OpenClaw 之类的工具，完全有机会沉淀成固定流程。</p>
+<p>比如：</p>
+<ul>
+<li>自动拆分脚本</li>
+<li>自动生成镜头描述</li>
+<li>自动 TTS</li>
+<li>自动拼接视频</li>
+</ul>
+<p>最终形成半自动内容工厂。</p>
+<hr>
+<h1>缺点</h1>
+<h2>1. 对新手非常痛苦</h2>
+<p>因为涉及：</p>
+<ul>
+<li>Prompt</li>
+<li>FFmpeg</li>
+<li>TTS</li>
+<li>视频拼接</li>
+<li>分镜</li>
+<li>AI 视频模型</li>
+</ul>
+<p>学习成本并不低。</p>
+<hr>
+<h2>2. 时间成本极高</h2>
+<p>虽然人民币成本低。</p>
+<p>但会消耗大量时间。</p>
+<p>尤其是：</p>
+<ul>
+<li>调 Prompt</li>
+<li>修镜头</li>
+<li>统一风格</li>
+</ul>
+<p>这些步骤非常耗精力。</p>
+<hr>
+<h2>3. 平台限制很多</h2>
+<p>目前大多数 AI 平台都有：</p>
+<ul>
+<li>次数限制</li>
+<li>积分限制</li>
+<li>排队机制</li>
+<li>分辨率限制</li>
+</ul>
+<p>工作流稳定性其实并不高。</p>
+<hr>
+<h2>4. 内容方向容易单一</h2>
+<p>这种工作流目前更适合：</p>
+<ul>
+<li>情绪类内容</li>
+<li>解说类内容</li>
+<li>AI 幻灯片视频</li>
+</ul>
+<p>但在：</p>
+<ul>
+<li>真人剧情</li>
+<li>强叙事</li>
+<li>高互动内容</li>
+</ul>
+<p>上，扩展性依然有限。</p>
+<hr>
+<h1>最后的思考</h1>
+<p>做完这一轮之后，我最大的感受是：</p>
+<blockquote>
+<p>AI 视频生成，目前还远远没有到“一键自动化”的阶段。</p>
+</blockquote>
+<p>真正耗时间的不是生成本身。</p>
+<p>而是：</p>
+<ul>
+<li>风格控制</li>
+<li>场景统一</li>
+<li>镜头语言</li>
+<li>节奏感</li>
+<li>内容结构</li>
+</ul>
+<p>所以现阶段更现实的方向可能是：</p>
+<blockquote>
+<p>“AI 辅助创作”，而不是“AI 完全替代创作”。</p>
+</blockquote>
+<p>至少在短视频领域，依然如此。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

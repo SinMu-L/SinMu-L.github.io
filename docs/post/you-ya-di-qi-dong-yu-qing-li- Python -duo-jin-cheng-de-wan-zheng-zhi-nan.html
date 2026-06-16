@@ -10,31 +10,17 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="将 `php -i` 输出的结果复制粘贴到 [Xdebug Wizard](https://xdebug.org/wizard)中，自动分析出适配的版本
+<meta name="description" content="## 背景
 
+我希望一个脚本新增数据到数据表中，再启动另一个脚本更新数据表的字段，但是每次启动两个脚本太麻烦了，我就想能不能一个启动一个脚本同时执行两个任务。">
+<meta property="og:title" content="优雅地启动与清理 Python 多进程的完整指南">
+<meta property="og:description" content="## 背景
 
-
-下面是详细的安装步骤：
-
-### 第一步：放置 Xdebug 文件
-
-1.  **找到 PHP 扩展目录 (ext)**
-    这个目录是你存放所有 PHP 扩展（.dll 文件）的地方。">
-<meta property="og:title" content="PHP安装Xdebug">
-<meta property="og:description" content="将 `php -i` 输出的结果复制粘贴到 [Xdebug Wizard](https://xdebug.org/wizard)中，自动分析出适配的版本
-
-
-
-下面是详细的安装步骤：
-
-### 第一步：放置 Xdebug 文件
-
-1.  **找到 PHP 扩展目录 (ext)**
-    这个目录是你存放所有 PHP 扩展（.dll 文件）的地方。">
+我希望一个脚本新增数据到数据表中，再启动另一个脚本更新数据表的字段，但是每次启动两个脚本太麻烦了，我就想能不能一个启动一个脚本同时执行两个任务。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://SinMu-L.github.io/post/PHP%E5%AE%89%E8%A3%85Xdebug.html">
+<meta property="og:url" content="https://SinMu-L.github.io/post/you-ya-di-qi-dong-yu-qing-li-%20Python%20-duo-jin-cheng-de-wan-zheng-zhi-nan.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
-<title>PHP安装Xdebug</title>
+<title>优雅地启动与清理 Python 多进程的完整指南</title>
 <link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
@@ -77,7 +63,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">PHP安装Xdebug</h1>
+<h1 class="postTitle">优雅地启动与清理 Python 多进程的完整指南</h1>
 <div class="title-right">
     <a href="https://SinMu-L.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -85,7 +71,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/9" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/1" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -101,95 +87,61 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>将 <code class="notranslate">php -i</code> 输出的结果复制粘贴到 <a href="https://xdebug.org/wizard" rel="nofollow">Xdebug Wizard</a>中，自动分析出适配的版本</p>
-<p>下面是详细的安装步骤：</p>
-<h3>第一步：放置 Xdebug 文件</h3>
-<ol>
-<li>
-<p><strong>找到 PHP 扩展目录 (ext)</strong><br>
-这个目录是你存放所有 PHP 扩展（.dll 文件）的地方。最准确的查找方法是再次查看 <code class="notranslate">phpinfo()</code> 页面：</p>
-<ul>
-<li>在 <code class="notranslate">phpinfo()</code> 页面中，按 <code class="notranslate">Ctrl + F</code> 搜索 <code class="notranslate">extension_dir</code>。</li>
-<li>它会告诉你一个路径，例如 <code class="notranslate">C:\php\ext</code> 或者 <code class="notranslate">D:\xampp\php\ext</code>。这就是你的目标文件夹。</li>
-</ul>
-</li>
-<li>
-<p><strong>复制并重命名文件</strong></p>
-<ul>
-<li>将你刚刚下载的 Xdebug 的 <code class="notranslate">.dll</code> 文件（文件名可能很长，像 <code class="notranslate">php_xdebug-3.1.6-7.4-vc15-ts-x64.dll</code>）复制到上面找到的 <code class="notranslate">ext</code> 文件夹里。</li>
-<li><strong>强烈建议：</strong> 将这个长文件名重命名为一个更简洁的名字，例如：<code class="notranslate">php_xdebug.dll</code>。这样配置起来更方便，以后升级也只需要替换这个文件。</li>
-</ul>
-</li>
-</ol>
-<h3>第二步：修改 php.ini 配置文件</h3>
-<ol>
-<li>
-<p><strong>找到并打开 php.ini 文件</strong><br>
-同样，<code class="notranslate">phpinfo()</code> 页面会告诉你当前加载的是哪个 <code class="notranslate">php.ini</code> 文件。</p>
-<ul>
-<li>在 <code class="notranslate">phpinfo()</code> 页面顶部找到 <strong>Loaded Configuration File</strong> 这一行。</li>
-<li>这里显示的路径就是你需要编辑的 <code class="notranslate">php.ini</code> 文件。用记事本或任何代码编辑器（如 VS Code）打开它。</li>
-</ul>
-</li>
-<li>
-<p><strong>添加 Xdebug 配置</strong><br>
-在 <code class="notranslate">php.ini</code> 文件的 <strong>最末尾</strong>，添加以下配置代码。这是 Xdebug 3 的标准配置，适用于大多数开发环境。</p>
-<div class="highlight highlight-source-ini"><pre class="notranslate"><span class="pl-en">[xdebug]</span>
-<span class="pl-c"><span class="pl-c">;</span> 下面这行的路径一定要是上一步你放置的dll文件的绝对路径</span>
-<span class="pl-k">zend_extension</span>=<span class="pl-s"><span class="pl-pds">"</span>C:\php\ext\php_xdebug.dll<span class="pl-pds">"</span></span>
+<div class="markdown-body" id="postBody"><h2>背景</h2>
+<p>我希望一个脚本新增数据到数据表中，再启动另一个脚本更新数据表的字段，但是每次启动两个脚本太麻烦了，我就想能不能一个启动一个脚本同时执行两个任务。</p>
+<p>通过AI的帮助，写了下面的启动和清理多进程的代码块。感觉后续还会用到，做下记录。</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">multiprocessing</span>
+<span class="pl-k">import</span> <span class="pl-s1">time</span>
+<span class="pl-k">from</span> <span class="pl-s1">loguru</span> <span class="pl-k">import</span> <span class="pl-s1">logger</span>
+<span class="pl-k">import</span> <span class="pl-s1">signal</span>
 
-<span class="pl-c"><span class="pl-c">;</span> Xdebug 3 的核心配置</span>
-<span class="pl-k">xdebug.mode</span>=debug
-<span class="pl-k">xdebug.start_with_request</span>=trigger
-<span class="pl-k">xdebug.client_port</span>=9003
-<span class="pl-k">xdebug.client_host</span>=<span class="pl-s"><span class="pl-pds">"</span>127.0.0.1<span class="pl-pds">"</span></span>
-<span class="pl-k">xdebug.log</span>=<span class="pl-s"><span class="pl-pds">"</span>C:\xampp\tmp\xdebug.log<span class="pl-pds">"</span></span> <span class="pl-c"><span class="pl-c">;</span> (可选) 记录日志，方便排查问题，请确保路径存在且可写</span></pre></div>
-<p><strong>配置解释:</strong></p>
-<ul>
-<li><code class="notranslate">zend_extension</code>: <strong>这是最重要的一行！</strong> 它的值必须是你刚刚放置的 <code class="notranslate">php_xdebug.dll</code> 文件的 <strong>绝对路径</strong>。请务必根据你的实际情况修改 <code class="notranslate">C:\php\ext\php_xdebug.dll</code> 这个路径。</li>
-<li><code class="notranslate">xdebug.mode=debug</code>: 开启调试模式。</li>
-<li><code class="notranslate">xdebug.start_with_request=trigger</code>: 这是一个非常好的设置。它意味着 Xdebug 不会尝试连接每个请求，只有在你通过浏览器插件等方式发出“触发”信号时，它才会启动调试，这样不会影响网站的正常浏览速度。</li>
-<li><code class="notranslate">xdebug.client_port=9003</code>: 这是 Xdebug 3 默认监听的端口。注意，它和旧版 Xdebug 2 的 <code class="notranslate">9000</code> 不同。请确保你的 IDE (如 VS Code, PhpStorm) 也是监听 <strong>9003</strong> 端口。</li>
-<li><code class="notranslate">xdebug.client_host="127.0.0.1"</code>: 你的 IDE (代码编辑器) 所在的 IP 地址，通常就是本机。</li>
-<li><code class="notranslate">xdebug.log</code>: 这一行是可选的，但在初次配置时强烈推荐加上。如果 Xdebug 连接不上，你可以查看这个日志文件来找到问题原因。</li>
-</ul>
-</li>
-</ol>
-<h3>第三步：重启并验证</h3>
-<ol>
-<li>
-<p><strong>重启你的 Web 服务器</strong></p>
-<ul>
-<li>如果你用的是 XAMPP, WampServer 等集成环境，请通过它们的控制面板<strong>重启 Apache</strong> 服务。</li>
-<li>如果你是自己搭建的环境，请重启对应的 Apache 或 Nginx 服务。</li>
-<li><strong>这一步是必须的！</strong> 否则 <code class="notranslate">php.ini</code> 的修改不会生效。</li>
-</ul>
-</li>
-<li>
-<p><strong>验证安装</strong></p>
-<ul>
-<li>再次刷新你的 <code class="notranslate">phpinfo()</code> 页面。</li>
-<li>如果你能看到一个大大的 <strong>Xdebug</strong> 的 logo 和相关的配置信息，那就说明 Xdebug 已经成功加载了！</li>
-<li>你可以滚动页面查看，或者直接按 <code class="notranslate">Ctrl + F</code> 搜索 <code class="notranslate">xdebug</code>。</li>
-</ul>
-</li>
-</ol>
-<p>Vscode的launch.json配置如下</p>
-<div class="highlight highlight-source-json"><pre class="notranslate">{
-    <span class="pl-ii">// Use IntelliSense to learn about possible attributes.</span>
-    <span class="pl-ii">// Hover to view descriptions of existing attributes.</span>
-    <span class="pl-ii">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span>
-    <span class="pl-ent">"version"</span>: <span class="pl-s"><span class="pl-pds">"</span>0.2.0<span class="pl-pds">"</span></span>,
-    <span class="pl-ent">"configurations"</span>: [
-    
-        {
-            <span class="pl-ent">"name"</span>: <span class="pl-s"><span class="pl-pds">"</span>Listen for Xdebug<span class="pl-pds">"</span></span>,
-            <span class="pl-ent">"type"</span>: <span class="pl-s"><span class="pl-pds">"</span>php<span class="pl-pds">"</span></span>,
-            <span class="pl-ent">"request"</span>: <span class="pl-s"><span class="pl-pds">"</span>launch<span class="pl-pds">"</span></span>,
-            <span class="pl-ent">"port"</span>: <span class="pl-c1">9003</span>
-        }
-    ]
-}</pre></div></div>
+<span class="pl-c"># 子进程任务</span>
+<span class="pl-k">def</span> <span class="pl-en">function_a</span>(<span class="pl-s1">stop_event</span>):
+    <span class="pl-k">while</span> <span class="pl-c1">not</span> <span class="pl-s1">stop_event</span>.<span class="pl-c1">is_set</span>():
+        <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"正在新增数据到数据库..."</span>)
+        <span class="pl-s1">time</span>.<span class="pl-c1">sleep</span>(<span class="pl-c1">2</span>)
+    <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"function_a 已停止"</span>)
+
+<span class="pl-k">def</span> <span class="pl-en">function_b</span>(<span class="pl-s1">stop_event</span>):
+    <span class="pl-k">while</span> <span class="pl-c1">not</span> <span class="pl-s1">stop_event</span>.<span class="pl-c1">is_set</span>():
+        <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"正在更新数据库字段..."</span>)
+        <span class="pl-s1">time</span>.<span class="pl-c1">sleep</span>(<span class="pl-c1">3</span>)
+    <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"function_b 已停止"</span>)
+
+<span class="pl-k">def</span> <span class="pl-en">handle_exit</span>(<span class="pl-s1">signum</span>, <span class="pl-s1">frame</span>):
+    <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"<span class="pl-cce">\n</span>收到中断信号，正在准备退出程序..."</span>)
+    <span class="pl-s1">stop_event_a</span>.<span class="pl-c1">set</span>()
+    <span class="pl-s1">stop_event_b</span>.<span class="pl-c1">set</span>()
+
+<span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
+    <span class="pl-c"># 创建停止信号</span>
+    <span class="pl-s1">stop_event_a</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Event</span>()
+    <span class="pl-s1">stop_event_b</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Event</span>()
+
+    <span class="pl-c"># 注册信号处理器</span>
+    <span class="pl-s1">signal</span>.<span class="pl-c1">signal</span>(<span class="pl-s1">signal</span>.<span class="pl-c1">SIGINT</span>, <span class="pl-s1">handle_exit</span>)
+
+    <span class="pl-c"># 创建进程</span>
+    <span class="pl-s1">process_a</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Process</span>(<span class="pl-s1">target</span><span class="pl-c1">=</span><span class="pl-s1">function_a</span>, <span class="pl-s1">args</span><span class="pl-c1">=</span>(<span class="pl-s1">stop_event_a</span> ,))
+    <span class="pl-s1">process_b</span> <span class="pl-c1">=</span> <span class="pl-s1">multiprocessing</span>.<span class="pl-c1">Process</span>(<span class="pl-s1">target</span><span class="pl-c1">=</span><span class="pl-s1">function_b</span>, <span class="pl-s1">args</span><span class="pl-c1">=</span>(<span class="pl-s1">stop_event_b</span> ,))
+
+    <span class="pl-c"># 启动进程</span>
+    <span class="pl-s1">process_a</span>.<span class="pl-c1">start</span>()
+    <span class="pl-s1">process_b</span>.<span class="pl-c1">start</span>()
+
+    <span class="pl-k">try</span>:
+        <span class="pl-c"># 主进程保持运行</span>
+        <span class="pl-s1">process_a</span>.<span class="pl-c1">join</span>()
+        <span class="pl-s1">process_b</span>.<span class="pl-c1">join</span>()
+    <span class="pl-k">except</span> <span class="pl-v">KeyboardInterrupt</span>:
+        <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"程序手动中断"</span>)
+    <span class="pl-k">finally</span>:
+        <span class="pl-c"># 设置停止信号并等待子进程退出</span>
+        <span class="pl-s1">stop_event_a</span>.<span class="pl-c1">set</span>()
+        <span class="pl-s1">stop_event_b</span>.<span class="pl-c1">set</span>()
+        <span class="pl-s1">process_a</span>.<span class="pl-c1">join</span>()
+        <span class="pl-s1">process_b</span>.<span class="pl-c1">join</span>()
+        <span class="pl-s1">logger</span>.<span class="pl-c1">info</span>(<span class="pl-s">"已清理所有子进程并退出程序。"</span>)</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -248,7 +200,11 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
 
 
 function openComments(){

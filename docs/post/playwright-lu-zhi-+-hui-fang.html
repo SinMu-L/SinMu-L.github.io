@@ -10,14 +10,32 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="一个“完整脚本”不只是写几句台词，而是一个能直接指导拍摄和剪辑的**执行文档**。">
-<meta property="og:title" content="导演拍视频基础概念">
-<meta property="og:description" content="一个“完整脚本”不只是写几句台词，而是一个能直接指导拍摄和剪辑的**执行文档**。">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://SinMu-L.github.io/post/%E5%AF%BC%E6%BC%94%E6%8B%8D%E8%A7%86%E9%A2%91%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5.html">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
-<title>导演拍视频基础概念</title>
+<meta name="description" content="## 背景
+需要模拟一个网站上用户的操作，并且希望记录下来用户的点击步骤和html、css、js、api等
 
+
+## 调研
+
+playwright 存在 [codegen](https://playwright.dev/python/docs/codegen) 功能和 [trace viewer](https://playwright.dev/python/docs/trace-viewer-intro) 功能
+> codegen功能：类似屏幕录制功能，会按照你在屏幕上的动作，自动转为可执行的python代码
+
+> trace viewer功能：Playwright Trace Viewer 是一个 GUI 工具，可让您探索测试的记录的 Playwright 跟踪，这意味着您可以前后移动测试的每个操作，并直观地查看每个操作期间发生的情况。">
+<meta property="og:title" content="playwright录制+回放">
+<meta property="og:description" content="## 背景
+需要模拟一个网站上用户的操作，并且希望记录下来用户的点击步骤和html、css、js、api等
+
+
+## 调研
+
+playwright 存在 [codegen](https://playwright.dev/python/docs/codegen) 功能和 [trace viewer](https://playwright.dev/python/docs/trace-viewer-intro) 功能
+> codegen功能：类似屏幕录制功能，会按照你在屏幕上的动作，自动转为可执行的python代码
+
+> trace viewer功能：Playwright Trace Viewer 是一个 GUI 工具，可让您探索测试的记录的 Playwright 跟踪，这意味着您可以前后移动测试的每个操作，并直观地查看每个操作期间发生的情况。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://SinMu-L.github.io/post/playwright-lu-zhi-%2B-hui-fang.html">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
+<title>playwright录制+回放</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -59,7 +77,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">导演拍视频基础概念</h1>
+<h1 class="postTitle">playwright录制+回放</h1>
 <div class="title-right">
     <a href="https://SinMu-L.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -67,7 +85,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/10" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/8" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -83,255 +101,98 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>一个“完整脚本”不只是写几句台词，而是一个能直接指导拍摄和剪辑的<strong>执行文档</strong>。你可以把它理解为：别人拿到你的脚本，不需要再问你，就能把视频拍出来。</p>
-<p>接下来从<strong>结构 + 内容 + 专业版本</strong>三个层级讲清楚。</p>
-<hr>
-<h1>一、最基础结构（必须有的 6 个部分）</h1>
-<p>一个完整脚本，至少包含：</p>
-<h2>1. 基本信息（项目层）</h2>
-<p>说明这条视频是什么：</p>
-<ul>
-<li>标题 / 主题</li>
-<li>时长（比如30秒 / 3分钟）</li>
-<li>风格（搞笑 / 高级 / 真实）</li>
-<li>平台（抖音 / B站 / YouTube）</li>
-</ul>
-<p>👉 作用：统一方向，避免拍偏</p>
-<hr>
-<h2>2. 故事结构（内容骨架）</h2>
-<p>也就是视频的“起承转合”：</p>
-<p>常见结构：</p>
-<ul>
-<li>开头（Hook）：吸引注意</li>
-<li>中间（内容展开）</li>
-<li>结尾（总结 / 反转 / 引导）</li>
-</ul>
-<p>👉 作用：决定观众会不会看完</p>
-<hr>
-<h2>3. 场景划分（Scene）</h2>
-<p>把内容按时间/地点拆开：</p>
-<p>例子：</p>
-<ul>
-<li>场景1：办公室</li>
-<li>场景2：地铁</li>
-<li>场景3：家</li>
-</ul>
-<p>👉 每个场景通常包含多个镜头</p>
-<hr>
-<h2>4. 镜头设计（Shot List）</h2>
-<p>每个场景里要写清楚：</p>
-<ul>
-<li>景别（远景 / 中景 / 特写）</li>
-<li>运镜（推 / 拉 / 跟 / 手持）</li>
-<li>画面内容（人物在干嘛）</li>
-</ul>
-<p>👉 作用：让摄影知道怎么拍</p>
-<hr>
-<h2>5. 语言内容（话术 + 旁白）</h2>
-<p>包括：</p>
-<h3>话术（人物说的话）</h3>
-<ul>
-<li>对话</li>
-<li>口播</li>
-</ul>
-<h3>旁白（画外音）</h3>
-<ul>
-<li>解释信息</li>
-<li>情绪表达</li>
-</ul>
-<p>👉 作用：传递信息 + 情绪</p>
-<hr>
-<h2>6. 后期提示（剪辑/音效/字幕）</h2>
-<p>很多人会忽略，但其实很关键：</p>
-<ul>
-<li>哪段要快剪 / 慢放</li>
-<li>是否加音乐</li>
-<li>字幕重点</li>
-<li>转场方式</li>
-</ul>
-<p>👉 作用：决定“成片好不好看”</p>
-<hr>
-<h1>二、标准脚本格式（最常用）</h1>
-<p>实际工作中，常见是这种“表格型脚本”：</p>
-<markdown-accessiblity-table><table role="table">
-<thead>
-<tr>
-<th>场景</th>
-<th>镜头</th>
-<th>画面</th>
-<th>话术</th>
-<th>旁白</th>
-<th>时长</th>
-<th>备注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>办公室</td>
-<td>特写</td>
-<td>打卡下班</td>
-<td>“终于下班了”</td>
-<td>无</td>
-<td>3s</td>
-<td>音乐起</td>
-</tr>
-<tr>
-<td>地铁</td>
-<td>中景</td>
-<td>人群拥挤</td>
-<td>无</td>
-<td>“城市开始降温”</td>
-<td>5s</td>
-<td>慢镜头</td>
-</tr>
-<tr>
-<td>家里</td>
-<td>近景</td>
-<td>吃饭</td>
-<td>“还是家最舒服”</td>
-<td>无</td>
-<td>4s</td>
-<td>暖色调</td>
-</tr>
-</tbody>
-</table></markdown-accessiblity-table>
-<p>👉 这个就是“导演 + 摄影 + 剪辑”都能用的版本</p>
-<hr>
-<h1>三、进阶：专业脚本会多哪些东西</h1>
-<p>如果更专业一点（广告 / 剧情 /团队拍摄），还会增加：</p>
-<h2>1. 分镜编号（Shot ID）</h2>
-<ul>
-<li>镜头1 / 镜头2<br>
-👉 方便沟通和修改</li>
-</ul>
-<hr>
-<h2>2. 构图说明</h2>
-<ul>
-<li>人物在左 / 居中 / 对称<br>
-👉 提高画面美感</li>
-</ul>
-<hr>
-<h2>3. 情绪 / 表演提示</h2>
-<ul>
-<li>开心 / 疲惫 / 压抑<br>
-👉 指导演员</li>
-</ul>
-<hr>
-<h2>4. 道具 / 服装</h2>
-<ul>
-<li>咖啡杯 / 西装 / 手机<br>
-👉 避免现场混乱</li>
-</ul>
-<hr>
-<h2>5. 音乐 / 音效（BGM / SFX）</h2>
-<ul>
-<li>哪一秒进入<br>
-👉 强化节奏和情绪</li>
-</ul>
-<hr>
-<h2>6. 转场设计</h2>
-<ul>
-<li>切换 / 淡入 / match cut<br>
-👉 让视频更流畅</li>
-</ul>
-<hr>
-<h1>四、不同类型视频的“脚本侧重点”</h1>
-<h2>1. 短视频（抖音/小红书）</h2>
-<p>重点：</p>
-<ul>
-<li>开头3秒（极重要）</li>
-<li>话术（抓人）</li>
-<li>节奏（快）</li>
-</ul>
-<p>👉 镜头可以简单，但结构必须强</p>
-<hr>
-<h2>2. Vlog</h2>
-<p>重点：</p>
-<ul>
-<li>场景真实</li>
-<li>旁白自然</li>
-</ul>
-<p>👉 脚本可以“半结构化”</p>
-<hr>
-<h2>3. 广告 / 品牌片</h2>
-<p>重点：</p>
-<ul>
-<li>分镜精细</li>
-<li>风格统一</li>
-</ul>
-<p>👉 脚本非常详细</p>
-<hr>
-<h2>4. 剧情片</h2>
-<p>重点：</p>
-<ul>
-<li>人物关系</li>
-<li>情节推进</li>
-</ul>
-<p>👉 更像“电影剧本”</p>
-<hr>
-<h1>五、一句话总结</h1>
-<p>👉 <strong>完整脚本 = 内容结构 + 画面设计 + 语言表达 + 执行说明</strong></p>
-<p>或者更直白一点：</p>
-<p>👉 <strong>它要同时回答四个问题：</strong></p>
-<ul>
-<li>拍什么（脚本/场景）</li>
-<li>怎么拍（镜头）</li>
-<li>说什么（话术/旁白）</li>
-<li>怎么变好看（剪辑/音乐/节奏）</li>
-</ul>
-<hr>
-<p>脚本提示词通用版</p>
-<pre class="notranslate"><code class="notranslate">你是一名专业视频导演和编剧，请根据用户输入，生成一个“可直接拍摄执行”的完整视频脚本。
+<div class="markdown-body" id="postBody"><h2>背景</h2>
+<p>需要模拟一个网站上用户的操作，并且希望记录下来用户的点击步骤和html、css、js、api等</p>
+<h2>调研</h2>
+<p>playwright 存在 <a href="https://playwright.dev/python/docs/codegen" rel="nofollow">codegen</a> 功能和 <a href="https://playwright.dev/python/docs/trace-viewer-intro" rel="nofollow">trace viewer</a> 功能</p>
+<blockquote>
+<p>codegen功能：类似屏幕录制功能，会按照你在屏幕上的动作，自动转为可执行的python代码</p>
+</blockquote>
+<blockquote>
+<p>trace viewer功能：Playwright Trace Viewer 是一个 GUI 工具，可让您探索测试的记录的 Playwright 跟踪，这意味着您可以前后移动测试的每个操作，并直观地查看每个操作期间发生的情况。</p>
+</blockquote>
+<blockquote>
+<p>这里是的介绍： <a href="https://playwright.dev/python/docs/trace-viewer#introduction" rel="nofollow">https://playwright.dev/python/docs/trace-viewer#introduction</a></p>
+</blockquote>
+<h2>思路</h2>
+<p>无论是  <a href="https://playwright.dev/python/docs/codegen" rel="nofollow">codegen</a>  还是 <a href="https://playwright.dev/python/docs/trace-viewer-intro" rel="nofollow">trace viewer</a> 他们都有两种调用方式</p>
+<ol>
+<li>命令行</li>
+<li>代码调用</li>
+</ol>
+<p>这里主要介绍用代码的方式实现结合</p>
+<p>首先官方没有将两个合并的步骤，但是 <a href="https://playwright.dev/python/docs/codegen" rel="nofollow">codegen</a> 支持自定义功能。<a href="https://playwright.dev/python/docs/codegen#record-using-custom-setup" rel="nofollow">异步代码</a>如下</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">asyncio</span>
+<span class="pl-k">from</span> <span class="pl-s1">playwright</span>.<span class="pl-s1">async_api</span> <span class="pl-k">import</span> <span class="pl-s1">async_playwright</span>
 
-【用户输入】
-主题：{主题}
-类型：{短视频 / vlog / 广告 / 剧情}
-时长：{例如30秒 / 1分钟}
-风格：{搞笑 / 高级感 / 真实 / 情绪 / 种草等}
-目标平台：{抖音 / 小红书 / B站 / YouTube}
-目标受众：{可选}
-核心目的：{涨粉 / 带货 / 表达观点 / 品牌传播等}
+<span class="pl-k">async</span> <span class="pl-k">def</span> <span class="pl-en">main</span>():
+    <span class="pl-k">async</span> <span class="pl-k">with</span> <span class="pl-en">async_playwright</span>() <span class="pl-k">as</span> <span class="pl-s1">p</span>:
+        <span class="pl-c"># Make sure to run headed.</span>
+        <span class="pl-s1">browser</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">p</span>.<span class="pl-c1">chromium</span>.<span class="pl-c1">launch</span>(<span class="pl-s1">headless</span><span class="pl-c1">=</span><span class="pl-c1">False</span>)
 
-【要求】
+        <span class="pl-c"># Setup context however you like.</span>
+        <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">browser</span>.<span class="pl-c1">new_context</span>() <span class="pl-c"># Pass any options</span>
+        <span class="pl-k">await</span> <span class="pl-s1">context</span>.<span class="pl-c1">route</span>(<span class="pl-s">'**/*'</span>, <span class="pl-k">lambda</span> <span class="pl-s1">route</span>: <span class="pl-s1">route</span>.<span class="pl-c1">continue_</span>())
 
-1. 输出必须结构清晰，包含以下部分：
+        <span class="pl-c"># Pause the page, and start recording manually.</span>
+        <span class="pl-s1">page</span> <span class="pl-c1">=</span> <span class="pl-k">await</span> <span class="pl-s1">context</span>.<span class="pl-c1">new_page</span>()
+        <span class="pl-k">await</span> <span class="pl-s1">page</span>.<span class="pl-c1">pause</span>()
 
-【一、整体创意】
-- 一句话概念（这个视频的核心亮点）
-- 情绪基调
-- 节奏（快 / 中 / 慢）
+<span class="pl-s1">asyncio</span>.<span class="pl-c1">run</span>(<span class="pl-en">main</span>())</pre></div>
+<p>和AI对话后得知可以同时进行，只是不能用命令行的形式操作。 整体代码如下</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">from</span> <span class="pl-s1">playwright</span>.<span class="pl-s1">sync_api</span> <span class="pl-k">import</span> <span class="pl-s1">sync_playwright</span>
 
-【二、故事结构】
-- 开头（Hook：3秒内吸引人）
-- 中间（内容展开）
-- 结尾（反转 / 升华 / 引导互动）
+<span class="pl-k">def</span> <span class="pl-en">run_codegen_with_tracing</span>():
+    <span class="pl-s">"""</span>
+<span class="pl-s">    启动一个类似 Codegen 的会话，并同时记录 Trace。</span>
+<span class="pl-s">    """</span>
+    <span class="pl-k">with</span> <span class="pl-en">sync_playwright</span>() <span class="pl-k">as</span> <span class="pl-s1">p</span>:
+        <span class="pl-c"># 你可以指定浏览器，例如 p.firefox 或 p.webkit</span>
+        <span class="pl-s1">browser</span> <span class="pl-c1">=</span> <span class="pl-s1">p</span>.<span class="pl-c1">chromium</span>.<span class="pl-c1">launch</span>(<span class="pl-s1">headless</span><span class="pl-c1">=</span><span class="pl-c1">False</span>)
+        <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-s1">browser</span>.<span class="pl-c1">new_context</span>()
 
-【三、分场景脚本（重点）】
-请用表格形式输出，每一行包含：
+        <span class="pl-c"># --- 核心步骤 1: 在所有操作开始前，启动 Tracing ---</span>
+        <span class="pl-en">print</span>(<span class="pl-s">"🚀 Tracing 已启动... 将在会话结束后保存。"</span>)
+        <span class="pl-s1">context</span>.<span class="pl-c1">tracing</span>.<span class="pl-c1">start</span>(
+            <span class="pl-s1">name</span><span class="pl-c1">=</span><span class="pl-s">"codegen-trace"</span>,  <span class="pl-c"># Trace 文件名的前缀</span>
+            <span class="pl-s1">screenshots</span><span class="pl-c1">=</span><span class="pl-c1">True</span>,     <span class="pl-c"># 捕获截图</span>
+            <span class="pl-s1">snapshots</span><span class="pl-c1">=</span><span class="pl-c1">True</span>,       <span class="pl-c"># 捕获 DOM 快照 (非常重要!)</span>
+            <span class="pl-s1">sources</span><span class="pl-c1">=</span><span class="pl-c1">True</span>          <span class="pl-c"># 包含源代码</span>
+        )
 
-| 场景 | 镜头 | 画面描述 | 话术 | 旁白 | 时长 | 拍摄/剪辑备注 |
+        <span class="pl-c"># 创建一个新页面作为起点</span>
+        <span class="pl-s1">page</span> <span class="pl-c1">=</span> <span class="pl-s1">context</span>.<span class="pl-c1">new_page</span>()
 
-要求：
-- 镜头要具体（如：特写 / 跟拍 / 手持）
-- 画面要可执行（人物在做什么）
-- 话术要自然、有传播力
-- 旁白要有情绪或信息增量
+        <span class="pl-k">try</span>:
+            <span class="pl-c"># --- 核心步骤 2: 启动 Playwright Inspector (Codegen 的核心) ---</span>
+            <span class="pl-en">print</span>(<span class="pl-s">"▶️ 启动 Playwright Inspector (Codegen)..."</span>)
+            <span class="pl-en">print</span>(<span class="pl-s">"👉 请在弹出的浏览器窗口中进行操作，Inspector 会为你生成代码。"</span>)
+            <span class="pl-en">print</span>(<span class="pl-s">"🛑 操作完成后，请直接关闭【浏览器窗口】或【Inspector 窗口】来结束录制。"</span>)
 
-【四、风格与执行建议】
-- 画面风格（色调 / 构图）
-- 剪辑节奏
-- 音乐建议
-- 字幕建议
+            <span class="pl-c"># page.pause() 会暂停脚本，并打开 Inspector 工具。</span>
+            <span class="pl-c"># 这就是 codegen 的魔法所在！</span>
+            <span class="pl-s1">page</span>.<span class="pl-c1">pause</span>()
+            
+            <span class="pl-c"># 当用户关闭浏览器或 Inspector 时，pause() 会结束，代码会继续向下执行。</span>
 
-【五、可优化方向（改写建议）】
-- 如何增强前3秒吸引力
-- 是否有更强的情绪点或传播点
+        <span class="pl-k">finally</span>:
+            <span class="pl-c"># --- 核心步骤 3: 在会话结束后，停止并保存 Trace 文件 ---</span>
+            <span class="pl-en">print</span>(<span class="pl-s">"<span class="pl-cce">\n</span>💾 会话结束，正在保存 Trace 文件..."</span>)
+            <span class="pl-s1">trace_path</span> <span class="pl-c1">=</span> <span class="pl-s">"my_codegen_session.zip"</span>
+            <span class="pl-s1">context</span>.<span class="pl-c1">tracing</span>.<span class="pl-c1">stop</span>(<span class="pl-s1">path</span><span class="pl-c1">=</span><span class="pl-s1">trace_path</span>)
 
-【额外要求】
-- 输出要具体，不要抽象描述
-- 避免空话（如“很好看”“很有趣”）
-- 让一个没有经验的人也能照着拍
-</code></pre></div>
+            <span class="pl-en">print</span>(<span class="pl-s">f"✅ Trace 文件已成功保存到: <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">trace_path</span><span class="pl-kos">}</span></span>"</span>)
+            <span class="pl-en">print</span>(<span class="pl-s">f"👉 你可以使用命令 'playwright show-trace <span class="pl-s1"><span class="pl-kos">{</span><span class="pl-s1">trace_path</span><span class="pl-kos">}</span></span>' 来查看它。"</span>)
+
+            <span class="pl-c"># 清理资源</span>
+            <span class="pl-s1">context</span>.<span class="pl-c1">close</span>()
+            <span class="pl-s1">browser</span>.<span class="pl-c1">close</span>()
+
+
+<span class="pl-k">if</span> <span class="pl-s1">__name__</span> <span class="pl-c1">==</span> <span class="pl-s">"__main__"</span>:
+    <span class="pl-en">run_codegen_with_tracing</span>()</pre></div>
+<h2>补充</h2>
+<p>playwright官网没有提到 trace 的代码功能。具体的代码参考：<a href="https://github.com/microsoft/playwright-python/blob/3cbe13e58a4a20b4b3aaa1afbdc69747a7c37933/playwright/sync_api/_generated.py#L12729">https://github.com/microsoft/playwright-python/blob/3cbe13e58a4a20b4b3aaa1afbdc69747a7c37933/playwright/sync_api/_generated.py#L12729</a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>

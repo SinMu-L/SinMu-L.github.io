@@ -10,13 +10,17 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="最近在尝试做一个“文本生成视频”的工作流。">
-<meta property="og:title" content="我是如何低成本搭建 AI 批量视频生成工作流的">
-<meta property="og:description" content="最近在尝试做一个“文本生成视频”的工作流。">
+<meta name="description" content="## 一、 项目背景与初心：为什么我要做 seojeck.com？
+
+在技术领域摸索多年后，我一直在思考如何将技术能力、产品运营与长期被动收入结合起来。">
+<meta property="og:title" content="从零打造 SEO 工具站：我的独立开发与搜索引擎优化（SEO）实战指南">
+<meta property="og:description" content="## 一、 项目背景与初心：为什么我要做 seojeck.com？
+
+在技术领域摸索多年后，我一直在思考如何将技术能力、产品运营与长期被动收入结合起来。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://SinMu-L.github.io/post/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E4%BD%8E%E6%88%90%E6%9C%AC%E6%90%AD%E5%BB%BA-AI-%E6%89%B9%E9%87%8F%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9A%84.html">
+<meta property="og:url" content="https://SinMu-L.github.io/post/cong-ling-da-zao-%20SEO%20-gong-ju-zhan-%EF%BC%9A-wo-de-du-li-kai-fa-yu-sou-suo-yin-qing-you-hua-%EF%BC%88SEO%EF%BC%89-shi-zhan-zhi-nan.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
-<title>我是如何低成本搭建 AI 批量视频生成工作流的</title>
+<title>从零打造 SEO 工具站：我的独立开发与搜索引擎优化（SEO）实战指南</title>
 
 
 
@@ -49,7 +53,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">我是如何低成本搭建 AI 批量视频生成工作流的</h1>
+<h1 class="postTitle">从零打造 SEO 工具站：我的独立开发与搜索引擎优化（SEO）实战指南</h1>
 <div class="title-right">
     <a href="https://SinMu-L.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -57,7 +61,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/11" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/14" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -73,269 +77,53 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>最近在尝试做一个“文本生成视频”的工作流。</p>
-<p>核心目标很简单：</p>
-<blockquote>
-<p>输入一段文本，自动生成适合账号矩阵发布的视频内容。</p>
-</blockquote>
-<p>最终效果类似：</p>
+<div class="markdown-body" id="postBody"><h2>一、 项目背景与初心：为什么我要做 seojeck.com？</h2>
+<p>在技术领域摸索多年后，我一直在思考如何将技术能力、产品运营与长期被动收入结合起来。为了验证自己对 Google SEO（搜索引擎优化）底层逻辑的理解，并评估自己的全栈运营能力，我正式立项并上线了我的独立开发产品：<a href="https://seojeck.com" rel="nofollow">seojeck.com</a>。</p>
+<p>作为一名长期深耕于自动化与 AI 应用的开发者，我对这个项目的定位非常清晰：</p>
 <ul>
-<li>幻灯片式镜头切换</li>
-<li>图片动态化</li>
-<li>简单转场</li>
-<li>AI 配音</li>
-<li>自动拼接成长视频</li>
+<li><strong>短期目标</strong>：从 0 到 1 快速搭建并验证一个完全符合 Google 最新 SEO 规范的工具类网站，探索海外工具市场的流量密码。</li>
+<li><strong>长期愿景</strong>：通过该项目进行技术与运营的长期复盘，打造一个能持续带来正向现金流的资产。</li>
 </ul>
-<p>本质上，是一个低成本的 AI 短视频生产流水线。</p>
+<h3>产品定位：出海图片批处理工具</h3>
+<p>为了快速切入海外市场，我将产品功能聚焦于核心痛点：<strong>极致的批量图片压缩</strong>与<strong>批量图片加水印</strong>。产品完全面向海外（全球）用户，通过极致的性能和极简的体验来获取用户信任。</p>
 <hr>
-<h1>第一版：全自动 n8n 工作流</h1>
-<p>一开始，我尝试做的是“全自动方案”。</p>
-<p>整体流程如下：</p>
+<h2>二、 14 项硬核 SEO 技术架构实践</h2>
+<p>为了让网站从上线之初就对 Google 等搜索引擎的爬虫具备最高友好的“体质”，我基于 <strong>Astro（Server 模式） + Vercel Serverless</strong> 进行了全面的服务端渲染（SSR）与 SEO 集中化配置（<code class="notranslate">web/src/config/seo.ts</code>）。</p>
+<p>以下是我在本项目中完整落地的 14 项 SEO 核心技术规范，这也是任何现代 Web 应用出海的必备 Checklist：</p>
 <ol>
-<li>上传一张图片</li>
-<li>通过 n8n 自动生成多个脚本</li>
-<li>使用脚本调用 OpenRouter 的 Video API</li>
-<li>批量生成多个视频片段</li>
-<li>最后通过 FFmpeg 拼接成长视频</li>
+<li><strong>高性能 SSR 服务端渲染</strong>：采用 Astro 框架的 server 模式配合 Vercel 的全球边缘网络，确保首屏加载速度（Core Web Vitals）达到优秀级别，这是 EEAT 中技术信任（Trust）的基石。</li>
+<li><strong>动态 Sitemap 生成</strong>：自动生成最新的 <code class="notranslate">sitemap.xml</code>，动态包含所有静态页面、工具功能页、博客文章和客户案例，确保爬虫无死角抓取。</li>
+<li><strong>规范的 Robots.txt</strong>：明确允许所有主流搜索引擎爬虫，并正确指向动态 Sitemap 路径。</li>
+<li><strong>Meta 标签矩阵</strong>：精细化配置每页的 <code class="notranslate">description</code>、<code class="notranslate">viewport</code> 以及利用 <code class="notranslate">robots（noindex）</code> 精准控制低价值页面的权重分配。</li>
+<li><strong>国际化社交分享（Open Graph / Twitter Cards）</strong>：完整配置 <code class="notranslate">og:title</code>、<code class="notranslate">og:description</code>、<code class="notranslate">og:image</code> 和 <code class="notranslate">twitter:card</code>，提升社交媒体传播时的点击率（CTR）。</li>
+<li><strong>Canonical URL 唯一性</strong>：根据请求路径自动动态生成 <code class="notranslate">&lt;link rel="canonical"&gt;</code>，彻底杜绝因多参数导致的重复内容问题。</li>
+<li><strong>JSON-LD 结构化数据</strong>：针对工具属性，全站部署了标准化的 <strong>SoftwareApplication Schema</strong> 标记，帮助 Google 理解这是一个 Web 应用程序，从而有机会在搜索结果中获得 Rich Snippets（富媒体摘要）展示。</li>
+<li><strong>Hreflang 多语言标签</strong>：由于面向全球市场，配置了 <code class="notranslate">en</code>、<code class="notranslate">en-US</code>、<code class="notranslate">zh-CN</code> 以及 <code class="notranslate">x-default</code>，精准引导不同国家和语言的用户到对应的版本。</li>
+<li><strong>标准化 RSS Feed</strong>：为中英文博客分别构建了独立的 RSS 订阅源，增强内容分发渠道与爬虫抓取频次。</li>
+<li><strong>域名 301 重定向</strong>：全局将 <code class="notranslate">www</code> 统一重定向到非 <code class="notranslate">www</code> 主域名，集中域名权重（Link Juice）。</li>
+<li><strong>Trailing Slash 统一</strong>：严格规范 URL 末尾的斜杠，防止同一页面产生两个 URL 导致内容流失。</li>
+<li><strong>无障碍图片 alt 属性</strong>：包含 Logo 在内的所有全局图片及博客配图，均设置了语义化的 <code class="notranslate">alt</code> 文本，优化图片搜索流量。</li>
+<li><strong>高价值内容营销（Content Marketing）</strong>：围绕产品核心痛点与行业常识，首批高质量撰写并发布了 8 篇深度 SEO/图片优化相关的博客文章。</li>
+<li><strong>配置集中化管理</strong>：通过 <code class="notranslate">web/src/config/seo.ts</code> 统一管理全站的 SEO 变量，确保后期迭代的高效与一致性。</li>
 </ol>
-<p>理论上，这是一套完全自动化的内容生成链路。</p>
-<p>但实际运行后，我很快发现几个问题：</p>
-<ul>
-<li>视频模型调用成本太高</li>
-<li>输出质量不稳定</li>
-<li>对新手不友好</li>
-<li>Prompt 很难精准控制</li>
-<li>场景一致性非常差</li>
-</ul>
-<p>最终，我放弃了“完全自动化”的方向，转而采用“半手动工作流”。</p>
-<p>原因也很简单：</p>
-<blockquote>
-<p>AI 视频生成这件事，目前最大的成本不是算力，而是“可控性”。</p>
-</blockquote>
 <hr>
-<h1>纯手动方案踩过的坑</h1>
-<h2>1. AI 味太重</h2>
-<p>这是最明显的问题。</p>
-<p>早期生成的视频会有一种非常明显的“AI 感”：</p>
-<ul>
-<li>镜头逻辑混乱</li>
-<li>场景缺少真实感</li>
-<li>画面像 PPT</li>
-<li>人物动作不自然</li>
-</ul>
-<p>后来我发现：</p>
-<blockquote>
-<p>Prompt 不能只描述内容，还要描述镜头语言。</p>
-</blockquote>
-<p>例如：</p>
-<ul>
-<li>运镜方式</li>
-<li>镜头焦段</li>
-<li>场景布局</li>
-<li>光线</li>
-<li>情绪</li>
-<li>旁白节奏</li>
-</ul>
-<p>这些细节会明显降低 AI 感。</p>
+<h2>三、 数据复盘：从 0 到 1 的 Google 搜索表现</h2>
+<p>在网站上线后，我第一时间将站点接入了官方的 <strong>Google Analytics 4 (GA4)</strong> 和 <strong>Google Search Console (GSC)</strong>，以此来追踪最真实的搜索引擎反馈。</p>
+<p>以下是最近一段时间 GSC 的官方数据表现：</p>
+<h3>数据分析与正向反馈</h3>
+<p>虽然从绝对数值来看，初期的曝光和点击依然处于起步阶段，但对比刚刚上线时“零数据”的暗淡状态，目前的曲线已经呈现出明显的<strong>稳步上升趋势</strong>。</p>
+<p>目前最重要的一个正向反馈是：<strong>Google 已经开始陆续收录（Index）我撰写的博客内容和工具页面。</strong> 在没有任何外部链接（Backlinks）注入的沙盒期，能做到这一点，充分证明了上述 14 项技术 SEO 优化和首批内容营销的方向是完全正确的。</p>
 <hr>
-<h2>2. 字幕合并问题</h2>
-<p>最开始，我尝试用 FFmpeg 自动合并字幕。</p>
-<p>但后面发现：</p>
-<ul>
-<li>字幕时间轴很难精准对齐</li>
-<li>AI 配音节奏不稳定</li>
-<li>不同平台字幕样式差异大</li>
-</ul>
-<p>后来我直接放弃了“程序内嵌字幕”。</p>
-<p>改成：</p>
-<ul>
-<li>只生成音频和视频</li>
-<li>最后用剪映之类的软件自动识别字幕</li>
-</ul>
-<p>反而效率更高。</p>
-<hr>
-<h2>3. 文本、字幕、MP3 无法同步</h2>
-<p>这是 n8n 工作流里最头疼的问题之一。</p>
-<p>经常会出现：</p>
-<ul>
-<li>原文长度变了</li>
-<li>TTS 语速变化</li>
-<li>字幕时间轴漂移</li>
-<li>MP3 与字幕对不上</li>
-</ul>
-<p>后来我意识到：</p>
-<blockquote>
-<p>自动化链路越长，误差累积越严重。</p>
-</blockquote>
-<p>所以最后我直接绕过字幕系统。</p>
-<hr>
-<h2>4. 无法指定稳定女声</h2>
-<p>很多 TTS 平台虽然能生成语音，但：</p>
-<ul>
-<li>声音不稳定</li>
-<li>情绪机械</li>
-<li>无法固定角色音色</li>
-</ul>
-<p>最后我使用了 Minimax 的音频 API。</p>
-<p>通过指定新闻类女声作为音源，最终生成的 MP3 稳定了很多。</p>
-<hr>
-<h2>5. 场景一致性问题</h2>
-<p>这是目前依然没有彻底解决的问题。</p>
-<p>AI 视频生成最大的难点之一就是：</p>
-<blockquote>
-<p>前后镜头的人物、服装、环境，很难保持一致。</p>
-</blockquote>
-<p>我现在的做法是：</p>
+<h2>四、 如何理解并践行 Google EEAT 规范？</h2>
+<p>Google 对内容质量的审查提出了更高的要求，其核心便是 <strong><a href="https://tr.wikipedia.org/wiki/E.E.A.T" rel="nofollow">E-E-A-T</a>（Experience 经验、Expertise 专业、Authoritativeness 权威、Trustworthiness 信任）</strong> 规范。博客和网站越符合 EEAT 的思路，就越容易被 Google 快速收录并给予好排名。</p>
+<p>在运营 <code class="notranslate">seojeck.com</code> 的过程中，我是这样践行这一规范的：</p>
 <ol>
-<li>先把文本或图片丢给 NotebookLM</li>
-<li>生成一个基础视频</li>
-<li>从视频中抽取关键帧</li>
-<li>让 AI 分析这些关键帧的风格</li>
-<li>自动生成统一的场景描述词</li>
-<li>再使用 <a href="https://seko.sensetime.com" rel="nofollow">SenseTime 秒画（Seko）</a> 生成分镜和视频</li>
+<li><strong>Experience（真实经验）</strong>：拒绝空洞的理论。在博客中，我直接分享我作为开发者的真实改动、后台 GSC 数据截图和遇到的坑。这种“第一人称”的实战记录是 AI 无法凭空捏造的，最受 Google 欢迎。</li>
+<li><strong>Expertise（专业性）</strong>：通过前述的 JSON-LD 结构化数据、完美的 SSR 性能和规范的代码架构，向 Google 的技术爬虫展示我们在 Web 开发和 SEO 技术层面的专业度。</li>
+<li><strong>Trustworthiness（可信度）</strong>：在网站上提供清晰的工具说明、不误导用户的开源/免费策略，以及透明的代码逻辑。技术上的 <code class="notranslate">Canonical</code>、<code class="notranslate">SSL</code>（HTTPS）以及无死链设计，都是在帮网站建立“安全、可信”的数字身份。</li>
 </ol>
-<p>这个方案虽然不完美，但能一定程度提升风格统一性。</p>
 <hr>
-<h1>图片版权与水印问题</h1>
-<p>做矩阵内容时，图片版权是绕不开的问题。</p>
-<p>目前我的处理方式比较粗暴：</p>
-<ul>
-<li>去水印</li>
-<li>二次生成</li>
-<li>风格重绘</li>
-</ul>
-<p>常用工具：</p>
-<ul>
-<li><a href="https://online-video-cutter.com" rel="nofollow">Online Video Cutter</a></li>
-<li><a href="https://turboscribe.ai/zh-CN/dashboard" rel="nofollow">TurboScribe</a></li>
-</ul>
-<p>其中：</p>
-<ul>
-<li>Online Video Cutter 用于简单去水印和视频裁剪</li>
-<li>TurboScribe 用于提取音频与转录</li>
-</ul>
-<p>不过这里还是建议：</p>
-<blockquote>
-<p>尽量使用可商用素材，避免后期版权风险。</p>
-</blockquote>
-<hr>
-<h1>关于 Video Model 成本</h1>
-<p>最开始最大的顾虑其实是：</p>
-<blockquote>
-<p>Text-to-Video 模型实在太贵了。</p>
-</blockquote>
-<p>尤其是批量生成时，成本会被迅速放大。</p>
-<p>但后来找到了一些免费方案后，这部分压力就小很多了。</p>
-<p>当然：</p>
-<ul>
-<li>免费方案通常有限速</li>
-<li>有积分限制</li>
-<li>生成质量也不一定稳定</li>
-</ul>
-<p>所以本质上是在：</p>
-<blockquote>
-<p>成本、质量、速度之间做平衡。</p>
-</blockquote>
-<hr>
-<h1>这套手动工作流的优缺点</h1>
-<h2>优点</h2>
-<h3>1. 定制化程度高</h3>
-<p>因为是纯手动：</p>
-<ul>
-<li>每个镜头都能调整</li>
-<li>Prompt 可以单独优化</li>
-<li>更容易做差异化内容</li>
-</ul>
-<hr>
-<h3>2. 成本很低</h3>
-<p>除了时间成本之外：</p>
-<ul>
-<li>API 消耗很少</li>
-<li>基本不需要高额 GPU 开销</li>
-</ul>
-<p>对于个人玩家来说比较友好。</p>
-<hr>
-<h3>3. 后期有机会固化成工作流</h3>
-<p>虽然现在还是偏手工。</p>
-<p>但长期来看：</p>
-<p>结合 OpenClaw 之类的工具，完全有机会沉淀成固定流程。</p>
-<p>比如：</p>
-<ul>
-<li>自动拆分脚本</li>
-<li>自动生成镜头描述</li>
-<li>自动 TTS</li>
-<li>自动拼接视频</li>
-</ul>
-<p>最终形成半自动内容工厂。</p>
-<hr>
-<h1>缺点</h1>
-<h2>1. 对新手非常痛苦</h2>
-<p>因为涉及：</p>
-<ul>
-<li>Prompt</li>
-<li>FFmpeg</li>
-<li>TTS</li>
-<li>视频拼接</li>
-<li>分镜</li>
-<li>AI 视频模型</li>
-</ul>
-<p>学习成本并不低。</p>
-<hr>
-<h2>2. 时间成本极高</h2>
-<p>虽然人民币成本低。</p>
-<p>但会消耗大量时间。</p>
-<p>尤其是：</p>
-<ul>
-<li>调 Prompt</li>
-<li>修镜头</li>
-<li>统一风格</li>
-</ul>
-<p>这些步骤非常耗精力。</p>
-<hr>
-<h2>3. 平台限制很多</h2>
-<p>目前大多数 AI 平台都有：</p>
-<ul>
-<li>次数限制</li>
-<li>积分限制</li>
-<li>排队机制</li>
-<li>分辨率限制</li>
-</ul>
-<p>工作流稳定性其实并不高。</p>
-<hr>
-<h2>4. 内容方向容易单一</h2>
-<p>这种工作流目前更适合：</p>
-<ul>
-<li>情绪类内容</li>
-<li>解说类内容</li>
-<li>AI 幻灯片视频</li>
-</ul>
-<p>但在：</p>
-<ul>
-<li>真人剧情</li>
-<li>强叙事</li>
-<li>高互动内容</li>
-</ul>
-<p>上，扩展性依然有限。</p>
-<hr>
-<h1>最后的思考</h1>
-<p>做完这一轮之后，我最大的感受是：</p>
-<blockquote>
-<p>AI 视频生成，目前还远远没有到“一键自动化”的阶段。</p>
-</blockquote>
-<p>真正耗时间的不是生成本身。</p>
-<p>而是：</p>
-<ul>
-<li>风格控制</li>
-<li>场景统一</li>
-<li>镜头语言</li>
-<li>节奏感</li>
-<li>内容结构</li>
-</ul>
-<p>所以现阶段更现实的方向可能是：</p>
-<blockquote>
-<p>“AI 辅助创作”，而不是“AI 完全替代创作”。</p>
-</blockquote>
-<p>至少在短视频领域，依然如此。</p></div>
+<p>目前没有发任何的自媒体，后续还是要补充博客，并提交到各个网站进行收录。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
