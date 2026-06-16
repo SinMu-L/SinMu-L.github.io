@@ -15,7 +15,7 @@
     "themeMode":"manual",
     "dayTheme":"light",
     "nightTheme":"dark_colorblind",
-    "urlMode":"ru_translit",
+    "urlMode":"pinyin",
     "style":"",
     "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script></script><script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script>",
     "head":"",
