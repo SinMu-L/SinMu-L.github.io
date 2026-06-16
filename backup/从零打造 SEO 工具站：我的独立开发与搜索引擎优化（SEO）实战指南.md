@@ -52,7 +52,7 @@
 
 ## 四、 如何理解并践行 Google EEAT 规范？
 
-在当今 AI 生成内容（AIGC）泛滥的时代，Google 对内容质量的审查提出了更高的要求，其核心便是 **E-E-A-T（Experience 经验、Expertise 专业、Authoritativeness 权威、Trustworthiness 信任）** 规范。博客和网站越符合 EEAT 的思路，就越容易被 Google 快速收录并给予好排名。
+Google 对内容质量的审查提出了更高的要求，其核心便是 **[E-E-A-T](https://tr.wikipedia.org/wiki/E.E.A.T)（Experience 经验、Expertise 专业、Authoritativeness 权威、Trustworthiness 信任）** 规范。博客和网站越符合 EEAT 的思路，就越容易被 Google 快速收录并给予好排名。
 
 在运营 `seojeck.com` 的过程中，我是这样践行这一规范的：
 
