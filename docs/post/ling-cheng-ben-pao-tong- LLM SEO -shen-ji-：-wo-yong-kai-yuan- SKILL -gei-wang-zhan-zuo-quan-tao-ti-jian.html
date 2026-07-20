@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>
+    <link rel="icon" href="me.png"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="
+> 把 SEO 流程交给大模型去跑，我前后折腾了好几轮，始终卡在两个地方：**评分结果不稳定**，以及**分析总是太浅**。">
+<meta property="og:title" content="零成本跑通 LLM SEO 审计：我用开源 SKILL 给网站做全套体检">
+<meta property="og:description" content="
+> 把 SEO 流程交给大模型去跑，我前后折腾了好几轮，始终卡在两个地方：**评分结果不稳定**，以及**分析总是太浅**。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.sinmu.xyz/post/ling-cheng-ben-pao-tong-%20LLM%20SEO%20-shen-ji-%EF%BC%9A-wo-yong-kai-yuan-%20SKILL%20-gei-wang-zhan-zuo-quan-tao-ti-jian.html">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
+<title>零成本跑通 LLM SEO 审计：我用开源 SKILL 给网站做全套体检</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">零成本跑通 LLM SEO 审计：我用开源 SKILL 给网站做全套体检</h1>
+<div class="title-right">
+    <a href="https://blog.sinmu.xyz" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/15" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><blockquote>
+<p>把 SEO 流程交给大模型去跑，我前后折腾了好几轮，始终卡在两个地方：<strong>评分结果不稳定</strong>，以及<strong>分析总是太浅</strong>。后来发现，问题不在模型，在于流程本身不够完整。<br>
+直到我把一个开源项目里的 11 套 SEO SKILL 挨个跑了一遍，才第一次拿到能真正指导行动、并在 Ahrefs 上看到正向反馈的审计报告。<br>
+这篇文章，把踩过的坑、拼出来的工作流、以及一套<strong>不翻墙、零成本</strong>的使用方案，全部拆给你。</p>
+</blockquote>
+<hr>
+<h2>一、我是怎么一步步走到这套方案的</h2>
+<p>最早，我的想法很朴素：把自己做 SEO 优化的流程总结出来，让大语言模型（LLM）转成 SKILL，然后在评估过程中逐步完善流程。</p>
+<p>但实际用起来发现两个问题：</p>
+<ol>
+<li><strong>自己的评估维度不够全</strong>。我只能看到自己认知范围内的东西，换个网站类型，评估就漏项严重。</li>
+<li><strong>让 LLM 打分不靠谱</strong>。同一个网站前后跑两次，分数能差不少，幻觉和不确定性太强。我很快意识到，<strong>LLM 给出的分数只能当“参考信号”，绝不能当“决定元素”</strong>。参考的意思是：“看到这个分，心里有个数，可能这里有大问题”；决定元素的意思是：“看到这个提醒，我必须改”。</li>
+</ol>
+<p>后来看到有前辈分享 SEO 的 SOP，用 LLM 做了一批总结也转成了 SKILL，但我试用下来，分析还是不够全面。直到我在 GitHub 上找到了 <a href="https://github.com/coreyhaines31/marketingskills"><strong>coreyhaines31/marketingskills</strong></a> 这个项目，才第一次有了“这事真能落地”的感觉。</p>
+<p>这个项目里内置了十几套专业营销技能 SKILL，几乎覆盖了 SEO 的所有核心方向。我逐项测完，效果可以，直接拿它给自己网站做了次全面审计和优化，<strong>在 Ahrefs 上拿到了可验证的正向反馈</strong>。这才有了今天这篇完整的复盘。</p>
+<hr>
+<h2>二、我的 LLM SEO 工作流</h2>
+<p>整个流程其实不复杂，我把步骤简化成下面这样：</p>
+<ol>
+<li><strong>加载 SKILL</strong>：将 marketingskills 中的 SEO 相关 SKILL 加载到工具中（我用的是 openclaw）</li>
+<li><strong>输入目标网址</strong>：告诉 LLM 我要分析哪个网站</li>
+<li><strong>自动审计/优化</strong>：LLM 按照 SKILL 里写好的专业流程，执行技术审查、内容分析、竞品扫描等</li>
+<li><strong>输出报告 + 行动清单</strong>：拿到一份按优先级排序的修复列表</li>
+<li><strong>人工复核 + 落地修改</strong>：对高风险项做人工确认，然后实际改站</li>
+<li><strong>用 Ahrefs/GSC 验证效果</strong></li>
+</ol>
+<blockquote>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0feeefee-18ff-438d-8901-1a5ac801ca2b"><img width="1651" height="700" alt="Image" src="https://github.com/user-attachments/assets/0feeefee-18ff-438d-8901-1a5ac801ca2b" style="max-width: 100%; height: auto; max-height: 700px;; aspect-ratio: 1651 / 700; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/c7889cc0-ca8f-4f90-af0c-84cd759f4cc5"><img width="702" height="319" alt="Image" src="https://github.com/user-attachments/assets/c7889cc0-ca8f-4f90-af0c-84cd759f4cc5" style="max-width: 100%; height: auto; max-height: 319px;; aspect-ratio: 702 / 319; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/985c9dd9-4066-4bcb-b64e-fb8f63d1867b"><img width="741" height="497" alt="Image" src="https://github.com/user-attachments/assets/985c9dd9-4066-4bcb-b64e-fb8f63d1867b" style="max-width: 100%; height: auto; max-height: 497px;; aspect-ratio: 741 / 497; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/3c1c91d5-02ae-4fe8-9097-edbd12f98a59"><img width="734" height="464" alt="Image" src="https://github.com/user-attachments/assets/3c1c91d5-02ae-4fe8-9097-edbd12f98a59" style="max-width: 100%; height: auto; max-height: 464px;; aspect-ratio: 734 / 464; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/47994377-cfd7-4dde-9486-879a1b870799"><img width="701" height="454" alt="Image" src="https://github.com/user-attachments/assets/47994377-cfd7-4dde-9486-879a1b870799" style="max-width: 100%; height: auto; max-height: 454px;; aspect-ratio: 701 / 454; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/d7529a00-f4fd-4c3c-825c-098c63149fdc"><img width="734" height="679" alt="Image" src="https://github.com/user-attachments/assets/d7529a00-f4fd-4c3c-825c-098c63149fdc" style="max-width: 100%; height: auto; max-height: 679px;; aspect-ratio: 734 / 679; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7842d7e3-100f-414d-96b5-f175e9314bd4"><img width="727" height="781" alt="Image" src="https://github.com/user-attachments/assets/7842d7e3-100f-414d-96b5-f175e9314bd4" style="max-width: 100%; height: auto; max-height: 781px;; aspect-ratio: 727 / 781; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/9c766279-185a-463d-bf11-e080ca32af48"><img width="739" height="728" alt="Image" src="https://github.com/user-attachments/assets/9c766279-185a-463d-bf11-e080ca32af48" style="max-width: 100%; height: auto; max-height: 728px;; aspect-ratio: 739 / 728; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+</blockquote>
+<p>整个过程的核心，是把“专业 SEO 的经验流程”固化成 LLM 能严格执行的脚本。你自己不需要是每个细分领域的专家，但 SKILL 里已经封装了专家的检查逻辑。</p>
+<hr>
+<h2>三、核心武器：marketingskills 到底能做什么</h2>
+<p>这个项目里 SEO 相关的 SKILL，我分成了<strong>直接优化</strong>和<strong>间接助力</strong>两类，它们各自解决的问题和给我的实际帮助如下：</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>技能</th>
+<th>解决什么问题</th>
+<th>给我的网站带来的直接帮助</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>seo-audit</strong></td>
+<td>技术SEO、爬取/索引、页面Meta、速度、结构化数据等全面审计</td>
+<td>输出完整审计报告 + 优先级行动清单，一下子把问题全暴露了</td>
+</tr>
+<tr>
+<td><strong>schema</strong></td>
+<td>添加 JSON-LD 结构化数据，让 Google 出富媒体结果</td>
+<td>给博客文章补上了 Article Schema，搜索展示更丰富</td>
+</tr>
+<tr>
+<td><strong>ai-seo</strong></td>
+<td>针对 ChatGPT、Perplexity、Google AI Overviews 做优化</td>
+<td>让我的工具站在 AI 推荐场景下被引用，特别是“推荐图片压缩工具”类问题</td>
+</tr>
+<tr>
+<td><strong>content-strategy</strong></td>
+<td>规划博客话题集群、选题矩阵、编辑日历</td>
+<td>解决了我博客中英文内容重复、主题分散的老毛病，梳理出围绕核心关键词的内容地图</td>
+</tr>
+<tr>
+<td><strong>copywriting</strong></td>
+<td>优化首页、下载页、功能页文案，聚焦价值主张和 CTA</td>
+<td>把首页“三步搞定压缩”改得更戳海外用户痛点，转化意向明显提升</td>
+</tr>
+<tr>
+<td><strong>competitor-profiling</strong></td>
+<td>输入竞品 URL，输出完整竞品档案</td>
+<td>快速摸清了 TinyPNG、Compressor.io 等产品的流量来源和内容策略</td>
+</tr>
+<tr>
+<td><strong>competitors</strong></td>
+<td>生成“我们 vs 竞品”的对比SEO页面</td>
+<td>抓住 “TinyPNG alternative” 这类高意图搜索词，直接上量</td>
+</tr>
+<tr>
+<td><strong>programmatic-seo</strong></td>
+<td>用模板批量生成 SEO 页面</td>
+<td>后期打算做“图片压缩工具对比”系列，一个模板能出几十个页面的框架</td>
+</tr>
+<tr>
+<td><strong>site-architecture</strong></td>
+<td>规划网站结构、导航、URL层级、内部链接</td>
+<td>为后续加功能页和教程页提前打好信息架构地基</td>
+</tr>
+<tr>
+<td><strong>analytics</strong></td>
+<td>配置 GA4、事件追踪、转化漏斗</td>
+<td>虽然已接 GA 和 Ahrefs Analytics，但优化了下载点击和注册的事件追踪</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p><strong>对 SEO 有间接帮助的技能：</strong></p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>技能</th>
+<th>怎么帮到 SEO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>cro</strong>（转化率优化）</td>
+<td>把 SEO 流量转化成实际下载，自然提升站内行为和排名信号</td>
+</tr>
+<tr>
+<td><strong>offers</strong>（优惠/价值塑造）</td>
+<td>强化下载页“为什么要下载”的说服逻辑</td>
+</tr>
+<tr>
+<td><strong>copy-editing</strong>（文案编辑）</td>
+<td>提升博客和页面文案可读性，降低跳出率</td>
+</tr>
+<tr>
+<td><strong>marketing-loops</strong>（增长循环）</td>
+<td>设计“用户下载 → 推荐给别人”的闭环，产生自然外链</td>
+</tr>
+<tr>
+<td><strong>public-relations</strong>（公关）</td>
+<td>在技术博客、工具合集站点争取外链机会</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p>这些 SKILL 我都是一个一个跑过来的，测试结果比较稳定。尤其是 <strong>seo-audit + ai-seo + competitors</strong> 这三板斧下来，网站的自然搜索表现变化肉眼可见。</p>
+<hr>
+<h2>四、工具链怎么搭（国内网络免翻版）</h2>
+<p>很多人会问，这些 SKILL 能不能直接用 Claude Code 或 Codex 跑？当然可以，但我自己<strong>懒得折腾代理和网络</strong>，所以全部选择了国内能直连的方案。</p>
+<h3>我用的方案二</h3>
+<ul>
+<li><strong>tbox.cn</strong>：<a href="https://tbox.cn" rel="nofollow">https://tbox.cn</a></li>
+<li><strong>交互框架</strong>：openclaw（类似一个可以加载 SKILL 的 LLM 代理客户端）</li>
+<li><strong>模型</strong>：DeepSeek V4 Pro</li>
+</ul>
+<h3>两种性价比方案</h3>
+<ol>
+<li><strong>直接使用 DeepSeek V4 Pro</strong>：能力足够跑通全部 SKILL，直接调用即可。</li>
+<li><strong>免费白嫖方案</strong>：用 <a href="https://www.tbox.cn/" rel="nofollow"><strong>tbox.cn</strong></a> 提供的 openclaw 免费额度。它虽然不能直接操作浏览器，但提供免费的 DeepSeek V4 Pro 模型接口，而且可以直接对接到微信上使用，对于纯审计和分析类工作完全够用。</li>
+</ol>
+<blockquote>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/7b6a5345-e9f9-4050-bba1-1ebeba604bfd"><img width="1274" height="813" alt="Image" src="https://github.com/user-attachments/assets/7b6a5345-e9f9-4050-bba1-1ebeba604bfd" style="max-width: 100%; height: auto; max-height: 813px;; aspect-ratio: 1274 / 813; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a>
+</blockquote>
+<p>对多数个人站长和独立开发者来说，方案二等于<strong>零成本拥有一套 24 小时待命的 SEO 审计助手</strong>，非常划算。</p>
+<hr>
+<h2>五、两个不得不说的避坑经验</h2>
+<h3>1. LLM 评分只能参考，不能做决策</h3>
+<p>这是我最想强调的一点。同一个网站，同一套 SKILL，不同时间跑出来的分数可能不一致。所以我现在把 LLM 的输出分为两档看待：</p>
+<ul>
+<li><strong>参考信号</strong>：“这里分数异常低/高，我需要人工看一眼”</li>
+<li><strong>决定项</strong>：“报告中明确指出了某条具体问题（比如 3 个页面缺 meta description），我一定要改”</li>
+</ul>
+<p>不要把分数当成 KPI，把它当成一个提醒你去看细节的闹钟。</p>
+<h3>2. SKILL 再完整，也不能替代人工判断</h3>
+<p>marketingskills 的审计覆盖面已经很广了，但遇到特别小众的行业站，某些深层页面逻辑还是需要人工补充。工具负责 80% 的初筛和标准化检查，剩下的 20% 靠经验兜底，这个组合我用下来最舒服。</p>
+<hr>
+<h2>六、给你的极简启动清单</h2>
+<p>如果你也想照着来一遍，直接按这个清单操作：</p>
+<ol>
+<li><strong>复制项目链接</strong>：<a href="https://github.com/coreyhaines31/marketingskills">https://github.com/coreyhaines31/marketingskills</a></li>
+<li><strong>领取免费额度</strong>：访问 tbox.cn，获取 openclaw 免费使用资格（内置 DeepSeek V4 Pro）</li>
+<li><strong>绑定微信并安装 seo-audit SKILL</strong>：如下图</li>
+<li><strong>跑出审计报告</strong>：重点关注 “High Priority” 条目</li>
+<li><strong>按优先级修复</strong>：先改技术 SEO（索引、速度、结构化数据），再动内容和竞品页</li>
+<li><strong>验证效果</strong>：在 Ahrefs 或 Google Search Console 观察索引量、点击和排名的变化</li>
+</ol>
+<p>整个过程跑通，顶多半天时间。但后续持续优化带来的自然流量回报，会长尾地作用很久。</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/be5bbd3c-c38f-4b75-90a2-bc61e8ad5ad1"><img width="1683" height="835" alt="Image" src="https://github.com/user-attachments/assets/be5bbd3c-c38f-4b75-90a2-bc61e8ad5ad1" style="max-width: 100%; height: auto; max-height: 835px;; aspect-ratio: 1683 / 835; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a></p>
+<hr>
+<p><strong>最后想说</strong>，这套方案的精髓不在于某个模型有多强，而在于把“专业营销经验”通过 SKILL 的形式复用了。我们普通开发者不用成为每个细分领域的 SEO 专家，也能做出接近专家水平的审计和优化——而且，不用折腾网络，还不用花钱。这一点，在当下的国内环境里，很难得。</p>
+<p>有需要的朋友可以直接抄作业。后续我也会在博客更新更多 SKILL 的详细测试结果，欢迎保持关注。</p>
+<hr>
+<blockquote>
+<p>如果这篇文章对你有帮助，欢迎分享给同样在折腾独立站 SEO 的朋友。有任何踩坑经验，也欢迎留言交流。</p>
+</blockquote></div>
+<div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://blog.sinmu.xyz">极目</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("05/16/2025"!=""){
+    var startSite=new Date("05/16/2025");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","SinMu-L/SinMu-L.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script></script><script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script>
+
+</html>
