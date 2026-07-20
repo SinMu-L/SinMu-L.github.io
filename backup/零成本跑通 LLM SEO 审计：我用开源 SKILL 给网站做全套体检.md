@@ -123,6 +123,8 @@ marketingskills 的审计覆盖面已经很广了，但遇到特别小众的行�
 
 <img width="1683" height="835" alt="Image" src="https://github.com/user-attachments/assets/be5bbd3c-c38f-4b75-90a2-bc61e8ad5ad1" />
 
+<img width="1620" height="154" alt="Image" src="https://github.com/user-attachments/assets/deab4c71-b7a7-486c-a17b-b490f8f482cf" />
+
 ---
 
 **最后想说**，这套方案的精髓不在于某个模型有多强，而在于把“专业营销经验”通过 SKILL 的形式复用了。我们普通开发者不用成为每个细分领域的 SEO 专家，也能做出接近专家水平的审计和优化——而且，不用折腾网络，还不用花钱。这一点，在当下的国内环境里，很难得。
