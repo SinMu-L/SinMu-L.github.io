@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark_colorblind" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    <script src='https://blog.meekdai.com/Gmeek/plugins/GmeekVercount.js'></script>
+    <link rel="icon" href="me.png"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="
+> **问题类型：** Docker 容器间网络连接超时
+> **环境：** Ubuntu + Docker 29.6.1（Snap 安装）+ iptables-nft + nftables + iptables-persistent
+> **典型现象：** 容器 A 无法访问容器 B 的端口，但容器 B 本身正常、宿主机通过域名访问也正常
+> **最终原因：** Docker 网络重建后，系统中残留了一套针对旧 Docker bridge `br-8b52009aaf0d` 的 `raw/PREROUTING DROP` 和 NAT 规则，而当前网络已经变成 `br-7c31020cfc24`。">
+<meta property="og:title" content="Docker 容器之间访问超时：一次由“残留 nftables / iptables 规则”导致的排障全过程">
+<meta property="og:description" content="
+> **问题类型：** Docker 容器间网络连接超时
+> **环境：** Ubuntu + Docker 29.6.1（Snap 安装）+ iptables-nft + nftables + iptables-persistent
+> **典型现象：** 容器 A 无法访问容器 B 的端口，但容器 B 本身正常、宿主机通过域名访问也正常
+> **最终原因：** Docker 网络重建后，系统中残留了一套针对旧 Docker bridge `br-8b52009aaf0d` 的 `raw/PREROUTING DROP` 和 NAT 规则，而当前网络已经变成 `br-7c31020cfc24`。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://blog.sinmu.xyz/post/Docker%20-rong-qi-zhi-jian-fang-wen-chao-shi-%EF%BC%9A-yi-ci-you-%E2%80%9C-can-liu-%20nftables%20-%20iptables%20-gui-ze-%E2%80%9D-dao-zhi-de-pai-zhang-quan-guo-cheng.html">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
+<title>Docker 容器之间访问超时：一次由“残留 nftables / iptables 规则”导致的排障全过程</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Docker 容器之间访问超时：一次由“残留 nftables / iptables 规则”导致的排障全过程</h1>
+<div class="title-right">
+    <a href="https://blog.sinmu.xyz" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/SinMu-L/SinMu-L.github.io/issues/18" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><blockquote>
+<p><strong>问题类型：</strong> Docker 容器间网络连接超时<br>
+<strong>环境：</strong> Ubuntu + Docker 29.6.1（Snap 安装）+ iptables-nft + nftables + iptables-persistent<br>
+<strong>典型现象：</strong> 容器 A 无法访问容器 B 的端口，但容器 B 本身正常、宿主机通过域名访问也正常<br>
+<strong>最终原因：</strong> Docker 网络重建后，系统中残留了一套针对旧 Docker bridge <code class="notranslate">br-8b52009aaf0d</code> 的 <code class="notranslate">raw/PREROUTING DROP</code> 和 NAT 规则，而当前网络已经变成 <code class="notranslate">br-7c31020cfc24</code>。这些旧规则通过 iptables-nft 映射到了 nftables，并继续参与实际数据包处理。</p>
+</blockquote>
+<hr>
+<h1>一、问题背景</h1>
+<p>这次故障的应用拓扑比较简单：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Internet
+   │
+   ▼
+Cloudflare
+   │
+   ▼
+Nginx Proxy Manager
+   │
+   │ Docker network: nginxproxymanager_default
+   │ subnet: 172.18.0.0/16
+   │
+   ├── 172.18.0.2  Nginx Proxy Manager
+   │
+   └── 172.18.0.3  New API
+                     │
+                     └── TCP/3000
+</code></pre>
+<p>正常情况下：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">nginxproxymanager-app-1
+        │
+        │ http://172.18.0.3:3000
+        ▼
+      new-api
+</code></pre>
+<p>应该直接建立 TCP 连接。</p>
+<p>但是最开始实际情况是：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> nginxproxymanager-app-1 \
+  sh -c <span class="pl-s"><span class="pl-pds">'</span>curl -v --connect-timeout 5 http://172.18.0.3:3000/<span class="pl-pds">'</span></span></pre></div>
+<p>结果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">* Trying 172.18.0.3:3000...
+* Connection timed out after 5002 milliseconds
+curl: (28) Connection timed out after 5002 milliseconds
+</code></pre>
+<p>也就是说：</p>
+<p><strong>DNS、HTTP、应用层都还没有进入讨论范围，TCP 三次握手就已经失败了。</strong></p>
+<hr>
+<h1>二、第一阶段：确认 New API 本身没有挂</h1>
+<p>首先需要排除“应用没监听 3000”。</p>
+<p>通过容器内部访问：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> nginxproxymanager-app-1 \
+  sh -c <span class="pl-s"><span class="pl-pds">'</span>curl -v --connect-timeout 5 http://172.18.0.3:3000/<span class="pl-pds">'</span></span></pre></div>
+<p>最初是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Trying 172.18.0.3:3000...
+Connection timed out
+</code></pre>
+<p>所以我们开始怀疑：</p>
+<ul>
+<li>New API 没有监听 3000</li>
+<li>Docker bridge 有问题</li>
+<li>veth 有问题</li>
+<li>Docker firewall 有问题</li>
+<li>nftables / iptables 丢包</li>
+<li>Docker 网络重建后遗留旧规则</li>
+</ul>
+<hr>
+<h1>三、检查 Docker Bridge</h1>
+<p>当前 Docker 网络：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker network inspect nginxproxymanager_default \
+  --format <span class="pl-s"><span class="pl-pds">'</span>{{.Name}} {{.Id}} {{json .IPAM.Config}}<span class="pl-pds">'</span></span></pre></div>
+<p>后来确认：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">nginxproxymanager_default
+7c31020cfc24...
+[
+  {
+    "Gateway":"172.18.0.1",
+    "Subnet":"172.18.0.0/16"
+  }
+]
+</code></pre>
+<p>对应 Linux bridge：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">ip link show br-7c31020cfc24</pre></div>
+<p>结果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-7c31020cfc24:
+    UP
+    LOWER_UP
+    state UP
+</code></pre>
+<p>说明当前 bridge 本身是正常存在的。</p>
+<hr>
+<h1>四、检查 bridge 上的 veth</h1>
+<p>执行：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">bridge link</pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">veth71b014f@eth0 ... master br-7c31020cfc24 state forwarding
+veth3e229d4@eth0 ... master br-7c31020cfc24 state forwarding
+</code></pre>
+<p>这非常重要。</p>
+<p>说明：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">container
+   │
+   ▼
+veth
+   │
+   ▼
+br-7c31020cfc24
+</code></pre>
+<p>链路本身是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">UP + LOWER_UP + forwarding
+</code></pre>
+<p>并不是典型的 bridge/veth 掉线。</p>
+<hr>
+<h1>五、检查 FDB</h1>
+<p>继续：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">bridge fdb show br br-7c31020cfc24</pre></div>
+<p>可以看到两个 veth 的 MAC：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">ae:79:a1:32:14:48 dev veth71b014f master br-7c31020cfc24
+62:0d:4a:dd:44:1d dev veth3e229d4 master br-7c31020cfc24
+</code></pre>
+<p>这说明 bridge 的 forwarding database 也正常学习到了端口。</p>
+<p>所以基本可以排除：</p>
+<blockquote>
+<p>“Docker bridge 没有把两个容器接起来”。</p>
+</blockquote>
+<hr>
+<h1>六、最关键的一步：抓包</h1>
+<p>为了判断数据包到底有没有到达 bridge，我们开始抓包。</p>
+<h2>6.1 在容器对应 veth 上抓包</h2>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo tcpdump -ni veth3e229d4 \
+  <span class="pl-s"><span class="pl-pds">'</span>host 172.18.0.2 and port 3000<span class="pl-pds">'</span></span></pre></div>
+<p>然后从 NPM：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> nginxproxymanager-app-1 \
+  sh -c <span class="pl-s"><span class="pl-pds">'</span>curl -v --connect-timeout 5 http://172.18.0.3:3000/<span class="pl-pds">'</span></span></pre></div>
+<p>没有看到预期的 TCP 流量。</p>
+<hr>
+<h2>6.2 在 Docker bridge 上抓包</h2>
+<p>进一步：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo tcpdump -ni br-7c31020cfc24 \
+  <span class="pl-s"><span class="pl-pds">'</span>host 172.18.0.2 and host 172.18.0.3 and port 3000<span class="pl-pds">'</span></span></pre></div>
+<p>然后再次：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">curl http://172.18.0.3:3000</pre></div>
+<p>仍然没有看到正常的 SYN → SYN/ACK。</p>
+<p>这说明问题非常可能发生在：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">进入 Docker bridge / 容器网络之前
+</code></pre>
+<p>或者：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables / nftables
+</code></pre>
+<hr>
+<h1>七、检查 Docker Firewall</h1>
+<p>这时候查看：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list table ip filter</pre></div>
+<p>发现 Docker 创建了类似：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">chain DOCKER-FORWARD
+chain DOCKER-USER
+chain DOCKER-BRIDGE
+chain DOCKER-CT
+chain DOCKER
+</code></pre>
+<p>其中当前 bridge：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-7c31020cfc24
+</code></pre>
+<p>是正常的。</p>
+<p>例如：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iifname "br-7c31020cfc24" counter ... accept
+</code></pre>
+<p>以及：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">oifname "br-7c31020cfc24" ...
+</code></pre>
+<p>所以一开始看起来：</p>
+<blockquote>
+<p>Docker 当前生成的 firewall 规则没有明显问题。</p>
+</blockquote>
+<hr>
+<h1>八、真正的突破：检查 raw 表</h1>
+<p>后来检查：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list table ip raw</pre></div>
+<p>出现了非常关键的规则：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">table ip raw {
+    chain PREROUTING {
+        type filter hook prerouting priority raw;
+        policy accept;
+
+        iifname != "br-8b52009aaf0d" \
+            ip daddr 172.18.0.2 \
+            counter ... drop
+
+        iifname != "br-8b52009aaf0d" \
+            ip daddr 172.18.0.3 \
+            counter ... drop
+
+        iifname != "br-8b52009aaf0d" \
+            ip daddr 172.18.0.4 \
+            counter ... drop
+    }
+}
+</code></pre>
+<p>这里出现了一个非常可疑的地方：</p>
+<p><strong>当前 Docker bridge 是：</strong></p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-7c31020cfc24
+</code></pre>
+<p>但是规则检查的却是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-8b52009aaf0d
+</code></pre>
+<p>而且后者已经不是当前 Docker 网络。</p>
+<hr>
+<h1>九、为什么这个规则非常危险？</h1>
+<p>规则：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iifname != "br-8b52009aaf0d"
+ip daddr 172.18.0.3
+drop
+</code></pre>
+<p>含义是：</p>
+<blockquote>
+<p>任何进入主机、目标地址为 <code class="notranslate">172.18.0.3</code>，并且入口接口不是 <code class="notranslate">br-8b52009aaf0d</code> 的数据包，全部 DROP。</p>
+</blockquote>
+<p>问题在于：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-8b52009aaf0d
+</code></pre>
+<p>已经不存在。</p>
+<p>后来确认：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">ip link show br-8b52009aaf0d</pre></div>
+<p>返回：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Device "br-8b52009aaf0d" does not exist.
+</code></pre>
+<p>而当前网络是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-7c31020cfc24
+</code></pre>
+<p>所以这实际上变成了：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">目标 172.18.0.3
+        │
+        ▼
+入口接口不是一个已经不存在的 bridge
+        │
+        ▼
+DROP
+</code></pre>
+<p>这就是为什么：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">NPM → New API
+</code></pre>
+<p>会出现：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">TCP connection timeout
+</code></pre>
+<p>而不是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Connection refused
+</code></pre>
+<hr>
+<h1>十、为什么之前 Docker 网络明明已经换了，旧规则还在？</h1>
+<p>这才是这次问题最值得记录的地方。</p>
+<p>我们进一步搜索：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo grep -R <span class="pl-s"><span class="pl-pds">"</span>br-8b52009aaf0d<span class="pl-pds">"</span></span> \
+  /etc /usr/local /opt /root <span class="pl-k">2&gt;</span>/dev/null</pre></div>
+<p>发现：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/etc/iptables/rules.v4
+</code></pre>
+<p>里面存在：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">-A PREROUTING -d 172.18.0.2/32 ! -i br-8b52009aaf0d -j DROP
+-A PREROUTING -d 172.18.0.3/32 ! -i br-8b52009aaf0d -j DROP
+-A PREROUTING -d 172.18.0.4/32 ! -i br-8b52009aaf0d -j DROP
+</code></pre>
+<p>同时还有：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">-A POSTROUTING -s 172.18.0.0/16 ! -o br-8b52009aaf0d -j MASQUERADE
+</code></pre>
+<p>以及：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">-A DOCKER ! -i br-8b52009aaf0d \
+  -p tcp \
+  -j DNAT \
+  --to-destination 172.18.0.4:3000
+</code></pre>
+<p>这基本把整个问题串起来了。</p>
+<hr>
+<h1>十一、系统中还安装了 iptables-persistent</h1>
+<p>继续检查：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo systemctl status netfilter-persistent --no-pager</pre></div>
+<p>结果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Active: active (exited)
+</code></pre>
+<p>并且：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo systemctl is-enabled netfilter-persistent</pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">enabled
+</code></pre>
+<p>同时：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">dpkg -l <span class="pl-k">|</span> grep -E <span class="pl-s"><span class="pl-pds">'</span>iptables-persistent|netfilter-persistent<span class="pl-pds">'</span></span></pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables-persistent
+netfilter-persistent
+</code></pre>
+<p>所以这里存在一个非常重要的机制：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/etc/iptables/rules.v4
+        │
+        ▼
+netfilter-persistent
+        │
+        ▼
+系统启动 / 服务加载
+        │
+        ▼
+iptables rules
+</code></pre>
+<hr>
+<h1>十二、为什么 nftables 也能看到这些规则？</h1>
+<p>这台机器使用的是：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">iptables -V</pre></div>
+<p>结果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables v1.8.7 (nf_tables)
+</code></pre>
+<p>进一步：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">update-alternatives --display iptables</pre></div>
+<p>确认：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables -&gt; /usr/sbin/iptables-nft
+</code></pre>
+<p>也就是说：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables
+   │
+   ▼
+iptables-nft
+   │
+   ▼
+nftables
+</code></pre>
+<p>所以：</p>
+<blockquote>
+<p><code class="notranslate">/etc/iptables/rules.v4</code> 虽然看起来是 iptables 配置，但加载后实际进入的是 nftables backend。</p>
+</blockquote>
+<p>因此你看到：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">iptables-save</pre></div>
+<p>里面有旧规则，</p>
+<p>同时：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">nft list ruleset</pre></div>
+<p>里面也有旧规则，</p>
+<p><strong>并不矛盾。</strong></p>
+<p>实际上它们是同一个 netfilter backend 的不同观察入口。</p>
+<hr>
+<h1>十三、为什么 nftables.service 没有运行？</h1>
+<p>这里还有一个容易误判的地方。</p>
+<p>检查：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo systemctl status nftables --no-pager</pre></div>
+<p>结果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">nftables.service
+Active: inactive (dead)
+</code></pre>
+<p>很容易产生一个错误判断：</p>
+<blockquote>
+<p>“nftables 服务没运行，所以 nftables 规则不可能是它造成的。”</p>
+</blockquote>
+<p>实际上不是这样。</p>
+<p>因为：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables-nft
+</code></pre>
+<p>本身就可以直接向 kernel 的 nftables subsystem 写入规则。</p>
+<p>所以：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">nftables.service inactive
+</code></pre>
+<p>并不能证明：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">kernel nftables ruleset 是空的
+</code></pre>
+<p>这是本次排障非常重要的经验。</p>
+<hr>
+<h1>十四、另一个关键点：Docker 是 Snap 安装</h1>
+<p>后来检查：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker info <span class="pl-k">|</span> grep -E <span class="pl-s"><span class="pl-pds">'</span>Server Version|Docker Root Dir<span class="pl-pds">'</span></span></pre></div>
+<p>发现：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Server Version: 29.6.1
+Docker Root Dir: /var/snap/docker/common/var-lib-docker
+</code></pre>
+<p>再：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">which docker</pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/snap/bin/docker
+</code></pre>
+<p>查看 dockerd：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">ps -ef <span class="pl-k">|</span> grep <span class="pl-s"><span class="pl-pds">'</span>[d]ockerd<span class="pl-pds">'</span></span></pre></div>
+<p>发现：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">dockerd \
+  --group docker \
+  --exec-root=/run/snap.docker \
+  --data-root=/var/snap/docker/common/var-lib-docker \
+  --pidfile=/run/snap.docker/docker.pid \
+  --config-file=/var/snap/docker/3579/config/daemon.json
+</code></pre>
+<p>所以这不是传统 apt 安装的：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">systemctl restart docker</pre></div>
+<p>而是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Snap Docker
+</code></pre>
+<p>正确重启方式：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo snap restart docker.dockerd</pre></div>
+<p>之前执行：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo systemctl restart docker</pre></div>
+<p>会得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Failed to restart docker.service: Unit docker.service not found.
+</code></pre>
+<p>这不是 Docker 出问题，而是：</p>
+<blockquote>
+<p>Docker daemon 根本不是由 <code class="notranslate">docker.service</code> 管理。</p>
+</blockquote>
+<hr>
+<h1>十五、重启 Docker 后，网络重新生成</h1>
+<p>执行：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo snap restart docker.dockerd</pre></div>
+<p>之后重新检查：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker network inspect nginxproxymanager_default \
+  --format <span class="pl-s"><span class="pl-pds">'</span>{{.Name}} {{.Id}} {{json .IPAM.Config}}<span class="pl-pds">'</span></span></pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">nginxproxymanager_default
+7c31020cfc24...
+172.18.0.0/16
+</code></pre>
+<p>容器：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker inspect nginxproxymanager-app-1 new-api \
+  --format <span class="pl-s"><span class="pl-pds">'</span>{{.Name}} {{range $n,$v := .NetworkSettings.Networks}}{{$n}}={{$v.IPAddress}} {{end}}<span class="pl-pds">'</span></span></pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/nginxproxymanager-app-1 nginxproxymanager_default=172.18.0.3
+/new-api nginxproxymanager_default=172.18.0.2
+</code></pre>
+<p>也就是说当前拓扑已经稳定：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-7c31020cfc24
+       │
+       ├── 172.18.0.2
+       │
+       └── 172.18.0.3
+</code></pre>
+<hr>
+<h1>十六、先做备份，再修改持久化规则</h1>
+<p>这一步非常重要。</p>
+<p>在修改 <code class="notranslate">/etc/iptables/rules.v4</code> 前，先：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo cp /etc/iptables/rules.v4 \
+  /etc/iptables/rules.v4.backup-before-cleanup-<span class="pl-s"><span class="pl-pds">$(</span>date +%Y%m%d-%H%M%S<span class="pl-pds">)</span></span></pre></div>
+<p>这样即使清理错误，也可以恢复。</p>
+<p>之后检查：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo grep -nE <span class="pl-s"><span class="pl-pds">'</span>br-8b52009aaf0d|172.18.0.4<span class="pl-pds">'</span></span> \
+  /etc/iptables/rules.v4</pre></div>
+<p>确认旧 Docker 网络规则存在。</p>
+<p>随后从：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/etc/iptables/rules.v4
+</code></pre>
+<p>删除旧网络相关配置。</p>
+<p>最终文件中不再存在：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-8b52009aaf0d
+172.18.0.4
+</code></pre>
+<p>而保留正常 Docker 规则。</p>
+<hr>
+<h1>十七、但是仅仅修改 rules.v4 还不够</h1>
+<p>这是本次排障第二个非常重要的经验。</p>
+<p>我们已经修改：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/etc/iptables/rules.v4
+</code></pre>
+<p>但内核当前已经加载的 nftables 规则不会因为你修改文件而自动消失。</p>
+<p>所以还需要检查：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list ruleset <span class="pl-k">|</span> grep <span class="pl-s"><span class="pl-pds">'</span>br-8b52009aaf0d<span class="pl-pds">'</span></span></pre></div>
+<p>当时仍然能看到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iifname != "br-8b52009aaf0d" ...
+</code></pre>
+<p>说明：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">磁盘上的配置
+</code></pre>
+<p>和：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">kernel 当前运行中的规则
+</code></pre>
+<p>是两个不同层面的东西。</p>
+<hr>
+<h1>十八、删除运行中的旧规则</h1>
+<p>先删除旧 NAT：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft delete rule ip nat POSTROUTING handle 8</pre></div>
+<p>然后删除 raw PREROUTING：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft delete rule ip raw PREROUTING handle 5
+sudo nft delete rule ip raw PREROUTING handle 3</pre></div>
+<p>注意：</p>
+<blockquote>
+<p><code class="notranslate">handle</code> 是根据当时 <code class="notranslate">nft -a list ruleset</code> 输出得到的，不能照抄到另一台机器。</p>
+</blockquote>
+<p>正确流程永远是：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list ruleset</pre></div>
+<p>找到目标规则的：</p>
+<pre lang="text" class="notranslate"><code class="notranslate"># handle N
+</code></pre>
+<p>然后：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft delete rule <span class="pl-k">&lt;</span>family<span class="pl-k">&gt;</span> <span class="pl-k">&lt;</span>table<span class="pl-k">&gt;</span> <span class="pl-k">&lt;</span>chain<span class="pl-k">&gt;</span> handle N</pre></div>
+<p>例如：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft delete rule ip raw PREROUTING handle 3</pre></div>
+<hr>
+<h1>十九、清理后验证</h1>
+<p>再次：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list ruleset <span class="pl-k">|</span> grep <span class="pl-s"><span class="pl-pds">'</span>br-8b52009aaf0d<span class="pl-pds">'</span></span></pre></div>
+<p>最终：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">OK: 旧 bridge 规则已全部清除
+</code></pre>
+<p>同时：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">ip link show br-8b52009aaf0d</pre></div>
+<p>结果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Device "br-8b52009aaf0d" does not exist.
+</code></pre>
+<p>这时候：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">旧 bridge：不存在
+旧 nft 规则：不存在
+旧持久化规则：不存在
+当前 Docker bridge：br-7c31020cfc24
+</code></pre>
+<p>状态终于一致了。</p>
+<hr>
+<h1>二十、最终验证：NPM → New API</h1>
+<p>执行：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> nginxproxymanager-app-1 \
+  sh -c <span class="pl-s"><span class="pl-pds">'</span>curl -fsS --connect-timeout 5 \</span>
+<span class="pl-s">  http://172.18.0.3:3000/ &gt;/dev/null &amp;&amp; echo "NPM -&gt; NewAPI OK"<span class="pl-pds">'</span></span></pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">NPM -&gt; NewAPI OK
+</code></pre>
+<p>之前：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Connection timed out
+</code></pre>
+<p>现在：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">HTTP 200
+</code></pre>
+<p>问题彻底解决。</p>
+<hr>
+<h1>二十一、为什么公网访问一直正常？</h1>
+<p>这是这次故障最容易让人误判的地方。</p>
+<p>公网：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">https://newapi.sinmu.xyz
+</code></pre>
+<p>一直可以：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">HTTP/2 200
+x-new-api-version: v1.0.0-rc.24
+</code></pre>
+<p>甚至 Cloudflare：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">server: cloudflare
+</code></pre>
+<p>也正常。</p>
+<p>这并不能证明：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Docker 内部网络正常
+</code></pre>
+<p>因为公网请求走的是另一条路径：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Internet
+   ↓
+Cloudflare
+   ↓
+宿主机 443
+   ↓
+Docker NAT
+   ↓
+NPM
+   ↓
+New API
+</code></pre>
+<p>而容器内部请求：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">NPM
+ ↓
+172.18.0.3:3000
+ ↓
+Docker bridge
+ ↓
+New API
+</code></pre>
+<p>两条路径经过的 netfilter hook、接口、DNAT/SNAT 都可能不同。</p>
+<p>因此：</p>
+<blockquote>
+<p><strong>公网正常 ≠ Docker 容器间网络正常。</strong></p>
+</blockquote>
+<hr>
+<h1>二十二、为什么 curl 是 timeout，而不是 connection refused？</h1>
+<p>这个现象也非常有诊断价值。</p>
+<p>如果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">172.18.0.3:3000
+</code></pre>
+<p>没有程序监听，通常更容易看到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Connection refused
+</code></pre>
+<p>而这次：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Connection timed out
+</code></pre>
+<p>更符合：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">SYN
+ ↓
+某个 firewall rule DROP
+ ↓
+没有 SYN/ACK
+ ↓
+curl 等待重传
+ ↓
+timeout
+</code></pre>
+<p>因此遇到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Docker container A
+   ↓
+container B:PORT
+   ↓
+Connection timed out
+</code></pre>
+<p>应该优先考虑：</p>
+<ul>
+<li>nftables</li>
+<li>iptables</li>
+<li>Docker FORWARD</li>
+<li>raw PREROUTING</li>
+<li>bridge filtering</li>
+<li>policy routing</li>
+<li>安全软件</li>
+<li>conntrack</li>
+</ul>
+<p>而不是第一时间重启应用。</p>
+<hr>
+<h1>二十三、最终根因链条</h1>
+<p>整个事故可以浓缩成下面这条链：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">旧 Docker 网络
+    │
+    └── br-8b52009aaf0d
+             │
+             ├── 172.18.0.2
+             ├── 172.18.0.3
+             └── 172.18.0.4
+             │
+             ▼
+    被删除 / 重建 Docker 网络
+             │
+             ▼
+新 Docker 网络
+    │
+    └── br-7c31020cfc24
+             │
+             ├── 172.18.0.2
+             └── 172.18.0.3
+
+但是旧的 firewall 配置没有同步清理
+             │
+             ▼
+/etc/iptables/rules.v4
+             │
+             ▼
+netfilter-persistent
+             │
+             ▼
+iptables-nft
+             │
+             ▼
+nftables kernel ruleset
+             │
+             ▼
+raw PREROUTING
+             │
+             │ 目标 172.18.0.3
+             │
+             │ iif != br-8b52009aaf0d
+             ▼
+            DROP
+             │
+             ▼
+NPM → New API
+             │
+             ▼
+TCP SYN 无响应
+             │
+             ▼
+Connection timed out
+</code></pre>
+<hr>
+<h1>二十四、这次故障真正的根因</h1>
+<p>可以明确写成：</p>
+<blockquote>
+<p><strong>Docker 网络重建后，旧 Docker bridge <code class="notranslate">br-8b52009aaf0d</code> 对应的 iptables/nftables 规则没有被清理。由于系统使用 <code class="notranslate">iptables-nft</code> backend，这些持久化 iptables 规则实际存在于 nftables ruleset 中。旧规则位于 <code class="notranslate">raw/PREROUTING</code>，针对 <code class="notranslate">172.18.0.2/3/4</code> 做了基于旧 bridge 名称的 DROP；当前 Docker 网络已经切换到 <code class="notranslate">br-7c31020cfc24</code>，导致容器间访问 <code class="notranslate">172.18.0.3:3000</code> 的 TCP SYN 被提前丢弃，最终表现为连接超时。</strong></p>
+</blockquote>
+<hr>
+<h1>二十五、以后遇到同类问题，推荐按照这个顺序排查</h1>
+<p>这是最值得保存的一部分。</p>
+<hr>
+<h2>Step 1：确认目标容器 IP</h2>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker inspect <span class="pl-k">&lt;</span>container<span class="pl-k">&gt;</span> \
+  --format <span class="pl-s"><span class="pl-pds">'</span>{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}<span class="pl-pds">'</span></span></pre></div>
+<p>例如：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">172.18.0.3
+</code></pre>
+<hr>
+<h2>Step 2：确认应用是否监听</h2>
+<p>进入目标容器：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> -it <span class="pl-k">&lt;</span>container<span class="pl-k">&gt;</span> sh</pre></div>
+<p>然后：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">ss -lntp</pre></div>
+<p>或者：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">netstat -lntp</pre></div>
+<p>确认：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">0.0.0.0:3000
+</code></pre>
+<p>或者：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">172.18.0.3:3000
+</code></pre>
+<hr>
+<h2>Step 3：从另一个容器直接测试</h2>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> <span class="pl-k">&lt;</span>source-container<span class="pl-k">&gt;</span> \
+  curl -v --connect-timeout 5 http://172.18.0.3:3000/</pre></div>
+<p>判断：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Connection refused
+</code></pre>
+<p>还是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Connection timed out
+</code></pre>
+<hr>
+<h2>Step 4：确认 Docker network</h2>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker network inspect <span class="pl-k">&lt;</span>network<span class="pl-k">&gt;</span></pre></div>
+<p>重点看：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Subnet
+Gateway
+Containers
+</code></pre>
+<hr>
+<h2>Step 5：确认 Linux bridge</h2>
+<div class="highlight highlight-source-shell"><pre class="notranslate">ip link</pre></div>
+<p>找：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-xxxxxxxxxxxx
+</code></pre>
+<p>然后：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">ip -d link show br-xxxxxxxxxxxx</pre></div>
+<hr>
+<h2>Step 6：检查 veth</h2>
+<div class="highlight highlight-source-shell"><pre class="notranslate">bridge link</pre></div>
+<p>以及：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">bridge fdb show br br-xxxxxxxxxxxx</pre></div>
+<p>确认：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">veth
+   ↓
+bridge
+   ↓
+forwarding
+</code></pre>
+<hr>
+<h1>二十六、Step 7：抓包</h1>
+<p>这是最重要的定位手段。</p>
+<p>先：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">tcpdump -ni <span class="pl-k">&lt;</span>bridge<span class="pl-k">&gt;</span> \
+  <span class="pl-s"><span class="pl-pds">'</span>host &lt;source-ip&gt; and host &lt;destination-ip&gt; and port &lt;port&gt;<span class="pl-pds">'</span></span></pre></div>
+<p>再：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> <span class="pl-k">&lt;</span>source<span class="pl-k">&gt;</span> \
+  curl -v --connect-timeout 5 http://<span class="pl-k">&lt;</span>destination-ip<span class="pl-k">&gt;</span>:<span class="pl-k">&lt;</span>port<span class="pl-k">&gt;</span>/</pre></div>
+<p>如果完全看不到 SYN：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">应用
+ ↓
+？？？
+ ↓
+bridge
+</code></pre>
+<p>说明包可能在更早阶段被过滤。</p>
+<hr>
+<h1>二十七、Step 8：检查 nftables</h1>
+<p>不要只看：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">nft list table ip filter</pre></div>
+<p>一定要看：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list ruleset</pre></div>
+<p>特别关注：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">raw
+filter
+nat
+</code></pre>
+<p>重点搜索：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list ruleset <span class="pl-k">|</span> grep -E \
+<span class="pl-s"><span class="pl-pds">'</span>172\.18\.|br-[0-9a-f]+<span class="pl-pds">'</span></span></pre></div>
+<hr>
+<h1>二十八、Step 9：检查旧 bridge</h1>
+<p>这是本次事故最关键的检查。</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker network ls</pre></div>
+<p>找到当前网络：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">7c31020cfc24
+</code></pre>
+<p>然后：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">ip link show br-7c31020cfc24</pre></div>
+<p>再搜索所有规则：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list ruleset <span class="pl-k">|</span> grep <span class="pl-s"><span class="pl-pds">'</span>br-<span class="pl-pds">'</span></span></pre></div>
+<p>如果发现：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">当前：
+br-7c31020cfc24
+
+规则：
+br-8b52009aaf0d
+</code></pre>
+<p>立即重点调查。</p>
+<hr>
+<h1>二十九、Step 10：检查 iptables-persistent</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">systemctl status netfilter-persistent</pre></div>
+<p>以及：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">systemctl is-enabled netfilter-persistent</pre></div>
+<p>检查：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo grep -nE <span class="pl-s"><span class="pl-pds">'</span>172\.18\.|br-<span class="pl-pds">'</span></span> \
+  /etc/iptables/rules.v4</pre></div>
+<p>如果这里存在已经不存在的 Docker bridge：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-xxxxxxxxxxxx
+</code></pre>
+<p>就非常可疑。</p>
+<hr>
+<h1>三十、Step 11：确认 iptables backend</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">iptables -V</pre></div>
+<p>如果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">(nf_tables)
+</code></pre>
+<p>再：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">update-alternatives --display iptables</pre></div>
+<p>确认：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables-nft
+</code></pre>
+<p>那么：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables-save
+</code></pre>
+<p>和：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">nft list ruleset
+</code></pre>
+<p>需要结合起来看。</p>
+<hr>
+<h1>三十一、Step 12：修改前一定备份</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo cp /etc/iptables/rules.v4 \
+  /etc/iptables/rules.v4.backup-<span class="pl-s"><span class="pl-pds">$(</span>date +%Y%m%d-%H%M%S<span class="pl-pds">)</span></span></pre></div>
+<p>然后才修改：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo vim /etc/iptables/rules.v4</pre></div>
+<hr>
+<h1>三十二、Step 13：清理运行时规则</h1>
+<p>修改配置文件之后：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft -a list ruleset</pre></div>
+<p>找到旧规则的 handle：</p>
+<pre lang="text" class="notranslate"><code class="notranslate"># handle 123
+</code></pre>
+<p>然后：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft delete rule ...</pre></div>
+<p>最后：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft list ruleset <span class="pl-k">|</span> grep <span class="pl-s"><span class="pl-pds">'</span>旧bridge<span class="pl-pds">'</span></span></pre></div>
+<p>必须确认没有残留。</p>
+<hr>
+<h1>三十三、Step 14：重新验证 Docker</h1>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker network inspect <span class="pl-k">&lt;</span>network<span class="pl-k">&gt;</span></pre></div>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker inspect <span class="pl-k">&lt;</span>container<span class="pl-k">&gt;</span></pre></div>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> <span class="pl-k">&lt;</span>source<span class="pl-k">&gt;</span> \
+  curl -fsS --connect-timeout 5 \
+  http://<span class="pl-k">&lt;</span>destination<span class="pl-k">&gt;</span>:<span class="pl-k">&lt;</span>port<span class="pl-k">&gt;</span>/</pre></div>
+<p>最后再验证公网：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">curl -I https://your-domain.example</pre></div>
+<p>这样可以确认：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">容器内部网络
++
+Docker NAT
++
+反向代理
++
+公网入口
+</code></pre>
+<p>全部正常。</p>
+<hr>
+<h1>三十四、几个非常值得记住的经验</h1>
+<h2>经验 1：Docker 网络问题不要只看 Docker</h2>
+<p>很多人看到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Docker container → container timeout
+</code></pre>
+<p>第一反应是：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker restart</pre></div>
+<p>但实际上：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Docker
+ ↓
+Linux bridge
+ ↓
+veth
+ ↓
+netfilter
+ ↓
+nftables
+ ↓
+iptables
+</code></pre>
+<p>任何一层都可能出问题。</p>
+<hr>
+<h2>经验 2：<code class="notranslate">nftables.service inactive</code> 不代表 nftables 没规则</h2>
+<p>尤其是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">iptables v1.8.x (nf_tables)
+</code></pre>
+<p>情况下。</p>
+<p>一定直接：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">sudo nft list ruleset</pre></div>
+<hr>
+<h2>经验 3：Docker bridge ID 变化非常重要</h2>
+<p>例如：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">旧：
+br-8b52009aaf0d
+
+新：
+br-7c31020cfc24
+</code></pre>
+<p>如果 firewall 里还存在：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-8b52009aaf0d
+</code></pre>
+<p>这就是非常强的异常信号。</p>
+<hr>
+<h2>经验 4：<code class="notranslate">Connection timed out</code> 和 <code class="notranslate">Connection refused</code> 意义完全不同</h2>
+<pre lang="text" class="notranslate"><code class="notranslate">refused
+</code></pre>
+<p>通常优先检查：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">服务是否监听
+</code></pre>
+<p>而：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">timeout
+</code></pre>
+<p>优先检查：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">DROP
+firewall
+routing
+network path
+</code></pre>
+<hr>
+<h2>经验 5：配置文件和运行时规则必须同时检查</h2>
+<p>不能只修改：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/etc/iptables/rules.v4
+</code></pre>
+<p>然后认为已经解决。</p>
+<p>必须同时确认：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/etc/iptables/rules.v4
+        +
+kernel nftables ruleset
+</code></pre>
+<p>都干净。</p>
+<hr>
+<h1>三十五、最终状态</h1>
+<p>最终服务器状态已经恢复到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Docker
+  │
+  ├── nginxproxymanager_default
+  │       │
+  │       ├── br-7c31020cfc24
+  │       │
+  │       ├── 172.18.0.2
+  │       │     └── Nginx Proxy Manager
+  │       │
+  │       └── 172.18.0.3
+  │             └── New API :3000
+  │
+  └── new-api_new-api-network
+</code></pre>
+<p>旧网络：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-8b52009aaf0d
+</code></pre>
+<p>已经不存在。</p>
+<p>旧 nftables 规则：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">br-8b52009aaf0d
+</code></pre>
+<p>已经全部删除。</p>
+<p>持久化：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">/etc/iptables/rules.v4
+</code></pre>
+<p>也已经清理。</p>
+<p>最终：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker <span class="pl-c1">exec</span> nginxproxymanager-app-1 \
+  sh -c <span class="pl-s"><span class="pl-pds">'</span>curl -fsS --connect-timeout 5 \</span>
+<span class="pl-s">  http://172.18.0.3:3000/ &gt;/dev/null &amp;&amp; echo OK<span class="pl-pds">'</span></span></pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">OK
+</code></pre>
+<p>公网：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">curl -I https://newapi.sinmu.xyz/</pre></div>
+<p>得到：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">HTTP/2 200
+x-new-api-version: v1.0.0-rc.24
+x-served-by: newapi.sinmu.xyz
+</code></pre>
+<p>因此可以确认：</p>
+<blockquote>
+<p><strong>Docker 内部网络、New API、Nginx Proxy Manager、Docker NAT、Cloudflare 公网入口均已经恢复正常。</strong></p>
+</blockquote>
+<hr>
+<h1>三十六、以后可以直接复制的“快速诊断脚本”</h1>
+<p>如果下次再次遇到：</p>
+<blockquote>
+<p><strong>Docker 容器 A 无法访问容器 B，表现为 Connection timeout</strong></p>
+</blockquote>
+<p>可以先执行下面这一组：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== Docker Networks ===<span class="pl-pds">'</span></span>
+docker network ls
+
+<span class="pl-c1">echo</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== Containers ===<span class="pl-pds">'</span></span>
+docker ps --format <span class="pl-s"><span class="pl-pds">'</span>table {{.Names}}\t{{.Networks}}\t{{.Ports}}<span class="pl-pds">'</span></span>
+
+<span class="pl-c1">echo</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== Bridges ===<span class="pl-pds">'</span></span>
+ip -br link <span class="pl-k">|</span> grep -E <span class="pl-s"><span class="pl-pds">'</span>br-|docker<span class="pl-pds">'</span></span>
+
+<span class="pl-c1">echo</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== Docker iptables backend ===<span class="pl-pds">'</span></span>
+iptables -V
+
+<span class="pl-c1">echo</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== iptables rules ===<span class="pl-pds">'</span></span>
+sudo iptables-save <span class="pl-k">|</span> grep -E <span class="pl-s"><span class="pl-pds">'</span>DOCKER|172\.1[789]\.|br-<span class="pl-pds">'</span></span> <span class="pl-k">||</span> <span class="pl-c1">true</span>
+
+<span class="pl-c1">echo</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== nftables rules ===<span class="pl-pds">'</span></span>
+sudo nft -a list ruleset <span class="pl-k">|</span> grep -E <span class="pl-s"><span class="pl-pds">'</span>DOCKER|172\.1[789]\.|br-<span class="pl-pds">'</span></span> <span class="pl-k">||</span> <span class="pl-c1">true</span>
+
+<span class="pl-c1">echo</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== Persistent iptables ===<span class="pl-pds">'</span></span>
+sudo grep -nE <span class="pl-s"><span class="pl-pds">'</span>172\.1[789]\.|br-<span class="pl-pds">'</span></span> \
+  /etc/iptables/rules.v4 <span class="pl-k">2&gt;</span>/dev/null <span class="pl-k">||</span> <span class="pl-c1">true</span>
+
+<span class="pl-c1">echo</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== netfilter-persistent ===<span class="pl-pds">'</span></span>
+systemctl is-enabled netfilter-persistent <span class="pl-k">2&gt;</span>/dev/null <span class="pl-k">||</span> <span class="pl-c1">true</span>
+systemctl is-active netfilter-persistent <span class="pl-k">2&gt;</span>/dev/null <span class="pl-k">||</span> <span class="pl-c1">true</span>
+
+<span class="pl-c1">echo</span>
+<span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">'</span>=== Docker service ===<span class="pl-pds">'</span></span>
+systemctl status docker --no-pager <span class="pl-k">2&gt;</span>/dev/null <span class="pl-k">||</span> <span class="pl-c1">true</span>
+snap services docker <span class="pl-k">2&gt;</span>/dev/null <span class="pl-k">||</span> <span class="pl-c1">true</span></pre></div>
+<p>然后重点观察一个原则：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">当前 Docker bridge
+        VS
+iptables/nftables 中的 bridge
+        VS
+/etc/iptables/rules.v4 中的 bridge
+</code></pre>
+<p><strong>三者必须一致。</strong></p>
+<p>如果：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Docker：
+br-7c31020cfc24
+
+nft：
+br-8b52009aaf0d
+
+rules.v4：
+br-8b52009aaf0d
+</code></pre>
+<p>那么基本就可以沿着这次事故的方向排查了。</p>
+<hr>
+<h1>最后总结</h1>
+<p>这次问题表面上看是：</p>
+<blockquote>
+<p><strong>Nginx Proxy Manager 无法访问 New API 的 3000 端口。</strong></p>
+</blockquote>
+<p>但真正的故障链实际上是：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">Docker 网络发生变化
+        ↓
+旧 bridge 被删除
+        ↓
+旧 iptables-persistent 配置没有清理
+        ↓
+iptables 使用 nf_tables backend
+        ↓
+旧规则进入 nftables
+        ↓
+raw/PREROUTING 对 172.18.0.3 执行 DROP
+        ↓
+Docker 当前 bridge 已经变成 br-7c31020cfc24
+        ↓
+容器 TCP SYN 被丢弃
+        ↓
+curl Connection timed out
+</code></pre>
+<p>最终解决方案也不是简单的：</p>
+<div class="highlight highlight-source-shell"><pre class="notranslate">docker restart</pre></div>
+<p>而是完成了三个层面的清理：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">① 清理持久化配置
+/etc/iptables/rules.v4
+
+② 清理当前 kernel 中的 nftables 运行时规则
+nft delete rule ...
+
+③ 确认 Docker 当前网络重新建立
+br-7c31020cfc24
+</code></pre>
+<p>这次最值得记住的一句话就是：</p>
+<blockquote>
+<p><strong>Docker 网络重建以后，如果出现容器间 TCP timeout，除了检查 Docker 自己的规则，一定要检查 nftables/iptables 里有没有残留的旧 <code class="notranslate">br-*</code>、旧容器 IP，以及 <code class="notranslate">raw/PREROUTING</code> 中的 DROP 规则。尤其是使用 <code class="notranslate">iptables-nft</code> + <code class="notranslate">iptables-persistent</code> 的机器。</strong></p>
+</blockquote>
+<p>这套排障思路基本可以原样复用于下一次类似事故。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;">转载请注明出处</div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://blog.sinmu.xyz">极目</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if("05/16/2025"!=""){
+    var startSite=new Date("05/16/2025");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","SinMu-L/SinMu-L.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/lightbox.js'></script></script><script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script>
+
+</html>
