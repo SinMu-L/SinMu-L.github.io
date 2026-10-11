@@ -21,7 +21,7 @@
 <meta property="og:url" content="https://blog.sinmu.xyz/post/pyinstaller-da-bao-ti-shi-%20No%20module%20found%20%E2%80%98azure%E2%80%99.html">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Meekdai/meekdai.github.io/logo64.jpg">
 <title>pyinstaller打包提示 No module found ‘azure’</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -134,8 +134,9 @@ python -c "import sys; print(sys.executable)" 的执行结果是：D:\sinmu\code
 使用的 site-packages 路径: C:\Users\xxx\AppData\Local\Programs\Python\Python312\Lib\site-packages
 </code></pre>
 <p>重新激活虚拟环境。并使用<code class="notranslate"> python -c "import sys; print(sys.executable)"</code> 来确保 python编译器的路径</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">$ python -c <span class="pl-s"><span class="pl-pds">"</span>import sys; print(sys.executable)<span class="pl-pds">"</span></span>
-D:<span class="pl-cce">\s</span>inmu<span class="pl-cce">\c</span>ode<span class="pl-cce">\p</span>ython_code<span class="pl-cce">\c</span>hat_mcp_sync<span class="pl-cce">\v</span>env<span class="pl-cce">\S</span>cripts<span class="pl-cce">\p</span>ython.exe</pre></div>
+<pre lang="shell" class="notranslate"><code class="notranslate">$ python -c "import sys; print(sys.executable)"
+D:\sinmu\code\python_code\chat_mcp_sync\venv\Scripts\python.exe
+</code></pre>
 <p>然后重新执行<code class="notranslate">pyinstaller sync2cloud.spec</code> 就解决了 【No module found ‘azure’】问题</p>
 <hr>
 <p>spec文件放到最后</p>
