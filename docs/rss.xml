@@ -1,5 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>极目</title><link>https://blog.sinmu.xyz</link><description>无他，唯手熟尔。</description><copyright>极目</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>me.png</url><title>avatar</title><link>https://blog.sinmu.xyz</link></image><lastBuildDate>Fri, 16 Oct 2026 06:33:35 +0000</lastBuildDate><managingEditor>极目</managingEditor><ttl>60</ttl><webMaster>极目</webMaster><item><title>整理些免费模型的渠道吧</title><link>https://blog.sinmu.xyz/post/zheng-li-xie-mian-fei-mo-xing-de-qu-dao-ba.html</link><description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>极目</title><link>https://blog.sinmu.xyz</link><description>无他，唯手熟尔。</description><copyright>极目</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>me.png</url><title>avatar</title><link>https://blog.sinmu.xyz</link></image><lastBuildDate>Fri, 16 Oct 2026 06:39:56 +0000</lastBuildDate><managingEditor>极目</managingEditor><ttl>60</ttl><webMaster>极目</webMaster><item><title>整理些免费模型的渠道吧</title><link>https://blog.sinmu.xyz/post/zheng-li-xie-mian-fei-mo-xing-de-qu-dao-ba.html</link><description>
+## Google AI studio
+更新时间：2026年10月16号
+网址：https://aistudio.google.com/
+
+可以使用 `gemini-3-8-falsh` 、 `gemini-3-6-falsh`
+
+
+------
+
 ## 商汤日日新
 
 更新时间：2026年10月16号
