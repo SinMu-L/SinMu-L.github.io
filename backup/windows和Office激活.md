@@ -1,0 +1,1 @@
+https://massgrave.dev/ 可以用来做windows和Office的激活
